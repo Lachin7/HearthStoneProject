@@ -10,6 +10,8 @@ public class  Hero {
 
    @Expose protected int HP;
    @Expose protected String name;
+   @Expose private String heroPower;
+   @Expose private String specialPower;
    public int getHP() {
       return HP;
    }
