@@ -81,22 +81,9 @@ public class MyAudioPlayer {
         if(mainClip!=null)mainClip.start();
     }
 
-//    public void loopAudio(){
-//        mainClip.loop(Clip.LOOP_CONTINUOUSLY);
-//    }
-//    public void loopTimes(int i){
-//        mainClip.loop(i);
-//    }
-//    public void Play(){
-//        if (looping) mainClip.loop(1);
-//        else {
-//            mainClip.start();
-//            looping = true;
-//        }
-//    }
 
     public  void decreaseSound() {
-        if (soundVolume > 1) {
+        if (soundVolume > 0.07) {
             soundVolume -= 0.06;
 
             FloatControl floatControl = (FloatControl) mainClip.getControl(FloatControl.Type.MASTER_GAIN);

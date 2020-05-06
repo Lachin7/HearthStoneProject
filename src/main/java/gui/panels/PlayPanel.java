@@ -125,10 +125,10 @@ public class PlayPanel extends MyPanel implements ActionListener {
        g2d.drawImage(resLoader.imageLoader("heroHealth.png").getScaledInstance(30,42,Image.SCALE_SMOOTH),657,170,null);
        g2d.drawImage(resLoader.imageLoader("weapons.png").getScaledInstance(35,35,Image.SCALE_SMOOTH),500,570,null);
        g2d.drawImage(resLoader.imageLoader("weapons.png").getScaledInstance(35,35,Image.SCALE_SMOOTH),500,170,null);
-       g2d.drawString(boardController.setHeroHealth()+"",664,600);
+       g2d.drawString(boardController.setHeroHealth()+"",664,605);
        g2d.drawString(heroHP2+"",662,200);
        g2d.setColor(Color.WHITE);
-       g2d.setFont(new Font("Areil",Font.BOLD,13));
+       g2d.setFont(new Font("Areil",Font.BOLD,14));
        g2d.drawString(Controller.getInstance().getCurrentPlayer().getCurrentMana()+"/10",780,654);
        g2d.drawString(Controller.getInstance().getCurrentPlayer().getDeckCardsInGame().size()+"",1020,500);
    }
