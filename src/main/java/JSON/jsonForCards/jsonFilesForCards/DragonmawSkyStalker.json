@@ -1,0 +1,11 @@
+{
+  "HP": 6,
+  "Attack": 5,
+  "manaCost": 6,
+  "name": "DragonmawSkyStalker",
+  "description": "Deathrattle: Summon a 3/4 Dragonrider.",
+  "rarity": "COMMON",
+  "type": "MINION",
+  "heroClass": "NEUTRAL",
+  "price": 5
+}

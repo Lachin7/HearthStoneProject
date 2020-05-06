@@ -1,0 +1,15 @@
+May 06, 2020 10:22:36 PM controller.PlayerController SignUp
+INFO: USER  : hhhh
+CREATED AT : 2020/05/06 22:22:36
+PASSWORD : f416168b5eb1a5be010bbbc327eabee876de8b05
+
+May 06, 2020 10:22:38 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 10:22:46 PM gui.GameFrame goToPanel
+INFO: Panel changed to statusPanel
+May 06, 2020 10:22:46 PM gui.panels.MainMenu actionPerformed
+INFO: status button clicked - MainMenu
+May 06, 2020 10:22:48 PM gui.panels.StatusPanel$2 actionPerformed
+INFO:  button clicked - Status - to show information of deck optional Mage deck
+May 06, 2020 10:23:10 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu

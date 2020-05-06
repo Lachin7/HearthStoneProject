@@ -1,0 +1,11 @@
+{
+  "Quest": "",
+  "Reward": "",
+  "manaCost": 1,
+  "name": "MalygossNova",
+  "description": "Freeze all enemy minions.",
+  "rarity": "RARE",
+  "type": "SPELL",
+  "heroClass": "NEUTRAL",
+  "price": 10
+}

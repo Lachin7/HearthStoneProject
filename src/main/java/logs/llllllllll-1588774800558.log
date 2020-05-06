@@ -1,0 +1,52 @@
+May 06, 2020 6:50:00 PM controller.PlayerController SignUp
+INFO: USER  : llllllllll
+CREATED AT : 2020/05/06 18:50:00
+PASSWORD : e80b2d2608711cbb3312db7c4727a46fbad9601a
+
+May 06, 2020 6:50:04 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 6:50:09 PM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 06, 2020 6:50:10 PM gui.GameFrame goToPanel
+INFO: Panel changed to playPanel
+May 06, 2020 6:50:10 PM gui.panels.MainMenu actionPerformed
+INFO: play button clicked - MainMenu
+May 06, 2020 6:50:34 PM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 06, 2020 6:50:34 PM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 06, 2020 6:50:38 PM gui.panels.PlayPanel actionPerformed
+INFO: PlayCard button clicked - Collection
+May 06, 2020 6:50:38 PM controller.BoardController playCard
+INFO: played card - PlayPanel
+May 06, 2020 6:51:21 PM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 06, 2020 6:51:21 PM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 06, 2020 6:51:35 PM gui.panels.PlayPanel actionPerformed
+INFO: PlayCard button clicked - Collection
+May 06, 2020 6:51:35 PM controller.BoardController playCard
+INFO: played card - PlayPanel
+May 06, 2020 6:51:41 PM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 06, 2020 6:51:41 PM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 06, 2020 6:51:47 PM gui.panels.PlayPanel actionPerformed
+INFO: PlayCard button clicked - Collection
+May 06, 2020 6:51:47 PM controller.BoardController playCard
+INFO: played card - PlayPanel
+May 06, 2020 6:51:50 PM gui.panels.PlayPanel actionPerformed
+INFO: PlayCard button clicked - Collection
+May 06, 2020 6:51:50 PM controller.BoardController playCard
+INFO: played card - PlayPanel
+May 06, 2020 6:51:52 PM gui.panels.PlayPanel actionPerformed
+INFO: new Game button clicked - Collection
+May 06, 2020 6:51:54 PM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 06, 2020 6:51:54 PM gui.GameFrame goToPanel
+INFO: Panel changed to playPanel

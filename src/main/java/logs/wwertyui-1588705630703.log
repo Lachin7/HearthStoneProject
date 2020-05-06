@@ -1,0 +1,25 @@
+May 05, 2020 11:37:10 PM controller.PlayerController SignUp
+INFO: USER  : wwertyui
+CREATED AT : 2020/05/05 23:37:10
+PASSWORD : 12d1fe0b84f0c55d0493097577cf5a626a374073
+
+May 05, 2020 11:37:12 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 05, 2020 11:37:17 PM gui.GameFrame goToPanel
+INFO: Panel changed to settingsPanel
+May 05, 2020 11:37:17 PM gui.panels.MainMenu actionPerformed
+INFO: settings button clicked - MainMenu
+May 05, 2020 11:37:28 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 05, 2020 11:37:32 PM gui.GameFrame goToPanel
+INFO: Panel changed to shopPanel
+May 05, 2020 11:37:32 PM gui.panels.MainMenu actionPerformed
+INFO: shop button clicked - MainMenu
+May 05, 2020 11:37:35 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 05, 2020 11:37:37 PM gui.GameFrame goToPanel
+INFO: Panel changed to collectionPanel
+May 05, 2020 11:37:37 PM gui.panels.MainMenu actionPerformed
+INFO: collection button clicked - MainMenu
+May 05, 2020 11:37:41 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu

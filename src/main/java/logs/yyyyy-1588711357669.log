@@ -1,0 +1,33 @@
+May 06, 2020 1:12:37 AM controller.PlayerController SignUp
+INFO: USER  : yyyyy
+CREATED AT : 2020/05/06 01:12:37
+PASSWORD : d13150fd106676133ad3bd816c2c7a57a3638029
+
+May 06, 2020 1:12:39 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 1:12:41 AM gui.GameFrame goToPanel
+INFO: Panel changed to settingsPanel
+May 06, 2020 1:12:41 AM gui.panels.MainMenu actionPerformed
+INFO: settings button clicked - MainMenu
+May 06, 2020 1:12:48 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 1:12:50 AM gui.GameFrame goToPanel
+INFO: Panel changed to collectionPanel
+May 06, 2020 1:12:50 AM gui.panels.MainMenu actionPerformed
+INFO: collection button clicked - MainMenu
+May 06, 2020 1:12:59 AM gui.panels.CollectionPanel actionPerformed
+INFO: Creat Deck button clicked - Collection
+May 06, 2020 1:13:04 AM gui.panels.CollectionPanel actionPerformed
+INFO: created deckuuuu - Collection
+May 06, 2020 1:13:08 AM gui.panels.CollectionPanel actionPerformed
+INFO: Neutral Cards button clicked - Collection
+May 06, 2020 1:13:13 AM gui.panels.CollectionPanel actionPerformed
+INFO: Class Cards button clicked - Collection
+May 06, 2020 1:13:17 AM gui.panels.CollectionPanel actionPerformed
+INFO: Warlock Cards button clicked - Collection
+May 06, 2020 1:13:19 AM gui.panels.CollectionPanel actionPerformed
+INFO: Priest Cards button clicked - Collection
+May 06, 2020 1:13:20 AM gui.panels.CollectionPanel actionPerformed
+INFO: Rouge Cards button clicked - Collection
+May 06, 2020 1:13:24 AM gui.panels.CollectionPanel lambda$updateCardsShowCase$0
+INFO: button clicked for adding a card to deck - Collection - BlinkFox added to deck : uuuu

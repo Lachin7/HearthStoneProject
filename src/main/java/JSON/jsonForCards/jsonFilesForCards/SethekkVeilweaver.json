@@ -1,0 +1,11 @@
+{
+  "HP": 3,
+  "Attack": 2,
+  "manaCost": 2,
+  "name": "SethekkVeilweaver",
+  "description": "After you cast a spell on a minion, add a Priest spell to your hand.",
+  "rarity": "EPIC",
+  "type": "MINION",
+  "heroClass": "PRIEST",
+  "price": 15
+}

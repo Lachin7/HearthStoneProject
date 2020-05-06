@@ -1,0 +1,159 @@
+May 06, 2020 12:51:23 AM controller.PlayerController SignUp
+INFO: USER  : test
+CREATED AT : 2020/05/06 00:51:23
+PASSWORD : a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
+
+May 06, 2020 12:51:25 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 12:51:28 AM gui.GameFrame goToPanel
+INFO: Panel changed to collectionPanel
+May 06, 2020 12:51:28 AM gui.panels.MainMenu actionPerformed
+INFO: collection button clicked - MainMenu
+May 06, 2020 12:51:30 AM gui.panels.CollectionPanel actionPerformed
+INFO: Creat Deck button clicked - Collection
+May 06, 2020 12:51:35 AM gui.panels.CollectionPanel actionPerformed
+INFO: created deckyyy - Collection
+May 06, 2020 12:51:40 AM gui.panels.CollectionPanel actionPerformed
+INFO: Unlocked Cards button clicked - Collection
+May 06, 2020 12:51:49 AM gui.panels.CollectionPanel actionPerformed
+INFO: ChangeHero button clicked - Collection
+May 06, 2020 12:51:52 AM gui.panels.CollectionPanel actionPerformed
+INFO: changed deck hero - Collection
+May 06, 2020 12:51:55 AM gui.panels.CollectionPanel actionPerformed
+INFO: Class Cards button clicked - Collection
+May 06, 2020 12:57:18 AM gui.panels.CollectionPanel actionPerformed
+INFO: Warlock Cards button clicked - Collection
+May 06, 2020 12:57:21 AM gui.panels.CollectionPanel actionPerformed
+INFO: ChangeHero button clicked - Collection
+May 06, 2020 12:57:23 AM gui.panels.CollectionPanel actionPerformed
+INFO: changed deck hero - Collection
+May 06, 2020 12:57:24 AM gui.panels.CollectionPanel actionPerformed
+INFO: ChangeHero button clicked - Collection
+May 06, 2020 12:57:26 AM gui.panels.CollectionPanel actionPerformed
+INFO: changed deck hero - Collection
+May 06, 2020 12:57:28 AM gui.panels.CollectionPanel actionPerformed
+INFO: ChangeHero button clicked - Collection
+May 06, 2020 12:57:32 AM gui.panels.CollectionPanel actionPerformed
+INFO: changed deck hero - Collection
+May 06, 2020 12:57:35 AM gui.panels.CollectionPanel actionPerformed
+INFO: Mage Cards button clicked - Collection
+May 06, 2020 12:57:39 AM gui.panels.CollectionPanel lambda$updateCardsShowCase$0
+INFO: button clicked for adding a card to deck - Collection - Polymorph added to deck : yyy
+May 06, 2020 12:57:42 AM gui.panels.CollectionPanel actionPerformed
+INFO: ChangeHero button clicked - Collection
+May 06, 2020 12:57:49 AM gui.panels.CollectionPanel lambda$updateDeckCards$1
+INFO: card clicked for showing its info - Collection 
+May 06, 2020 12:57:49 AM gui.panels.CollectionPanel lambda$updateDeckCards$1
+INFO: card clicked for showing its info - Collection 
+May 06, 2020 12:57:49 AM gui.panels.CollectionPanel lambda$updateDeckCards$1
+INFO: card clicked for showing its info - Collection 
+May 06, 2020 12:57:50 AM gui.panels.CollectionPanel actionPerformed
+INFO: Delete Card button clicked - Collection
+May 06, 2020 12:57:52 AM gui.panels.CollectionPanel actionPerformed
+INFO: deleted card : Polymorph - Collection
+May 06, 2020 12:57:55 AM gui.panels.CollectionPanel actionPerformed
+INFO: ChangeHero button clicked - Collection
+May 06, 2020 12:57:57 AM gui.panels.CollectionPanel actionPerformed
+INFO: changed deck hero - Collection
+May 06, 2020 12:57:59 AM gui.panels.CollectionPanel actionPerformed
+INFO: ChangeHero button clicked - Collection
+May 06, 2020 12:58:02 AM gui.panels.CollectionPanel actionPerformed
+INFO: changed deck hero - Collection
+May 06, 2020 12:58:05 AM gui.panels.CollectionPanel actionPerformed
+INFO: Warlock Cards button clicked - Collection
+May 06, 2020 12:58:07 AM gui.panels.CollectionPanel actionPerformed
+INFO: Warlock Cards button clicked - Collection
+May 06, 2020 12:58:08 AM gui.panels.CollectionPanel actionPerformed
+INFO: Rouge Cards button clicked - Collection
+May 06, 2020 12:58:12 AM gui.panels.CollectionPanel actionPerformed
+INFO: Rouge Cards button clicked - Collection
+May 06, 2020 12:58:12 AM gui.panels.CollectionPanel actionPerformed
+INFO: Rouge Cards button clicked - Collection
+May 06, 2020 12:58:13 AM gui.panels.CollectionPanel actionPerformed
+INFO: Rouge Cards button clicked - Collection
+May 06, 2020 12:58:14 AM gui.panels.CollectionPanel actionPerformed
+INFO: Warlock Cards button clicked - Collection
+May 06, 2020 1:00:42 AM gui.panels.CollectionPanel actionPerformed
+INFO: Creat Deck button clicked - Collection
+May 06, 2020 1:00:50 AM gui.panels.CollectionPanel actionPerformed
+INFO: Creat Deck button clicked - Collection
+May 06, 2020 1:00:54 AM gui.panels.CollectionPanel actionPerformed
+INFO: created deckuuuuu - Collection
+May 06, 2020 1:01:01 AM gui.panels.CollectionPanel actionPerformed
+INFO: ChangeHero button clicked - Collection
+May 06, 2020 1:01:03 AM gui.panels.CollectionPanel actionPerformed
+INFO: changed deck hero - Collection
+May 06, 2020 1:01:06 AM gui.panels.CollectionPanel actionPerformed
+INFO: Rouge Cards button clicked - Collection
+May 06, 2020 1:01:11 AM gui.panels.CollectionPanel lambda$updateCardsShowCase$0
+INFO: button clicked for adding a card to deck - Collection - BlinkFox added to deck : uuuuu
+May 06, 2020 1:01:18 AM gui.panels.CollectionPanel lambda$updateCardsShowCase$0
+INFO: button clicked for adding a card to deck - Collection - BlinkFox added to deck : uuuuu
+May 06, 2020 1:01:23 AM gui.panels.CollectionPanel actionPerformed
+INFO: Neutral Cards button clicked - Collection
+May 06, 2020 1:01:31 AM gui.panels.CollectionPanel lambda$updateCardsShowCase$0
+INFO: button clicked for adding a card to deck - Collection - MalygossNova added to deck : uuuuu
+May 06, 2020 1:01:42 AM gui.panels.CollectionPanel lambda$updateCardsShowCase$0
+INFO: button clicked for adding a card to deck - Collection - SerratedTooth added to deck : uuuuu
+May 06, 2020 1:01:53 AM gui.panels.CollectionPanel lambda$updateCardsShowCase$0
+INFO: button clicked for adding a card to deck - Collection - SerratedTooth added to deck : uuuuu
+May 06, 2020 1:02:18 AM gui.panels.CollectionPanel lambda$updateCardsShowCase$0
+INFO: button clicked for adding a card to deck - Collection - SerratedTooth added to deck : uuuuu
+May 06, 2020 1:02:24 AM gui.panels.CollectionPanel lambda$updateCardsShowCase$0
+INFO: button clicked for adding a card to deck - Collection - GoblinBomb added to deck : uuuuu
+May 06, 2020 1:03:01 AM gui.panels.CollectionPanel lambda$updateCardsShowCase$0
+INFO: button clicked for adding a card to deck - Collection - TimeRip added to deck : uuuuu
+May 06, 2020 1:03:11 AM gui.panels.CollectionPanel lambda$updateCardsShowCase$0
+INFO: button clicked for adding a card to deck - Collection - Backstab added to deck : uuuuu
+May 06, 2020 1:03:21 AM gui.panels.CollectionPanel lambda$updateCardsShowCase$0
+INFO: button clicked for adding a card to deck - Collection - MurlocRaider added to deck : uuuuu
+May 06, 2020 1:03:31 AM gui.panels.CollectionPanel lambda$updateCardsShowCase$0
+INFO: button clicked for adding a card to deck - Collection - HungryCrab added to deck : uuuuu
+May 06, 2020 1:03:41 AM gui.panels.CollectionPanel lambda$updateCardsShowCase$0
+INFO: button clicked for adding a card to deck - Collection - Backstab added to deck : uuuuu
+May 06, 2020 1:03:46 AM gui.panels.CollectionPanel actionPerformed
+INFO: Class Cards button clicked - Collection
+May 06, 2020 1:03:49 AM gui.panels.CollectionPanel actionPerformed
+INFO: Class Cards button clicked - Collection
+May 06, 2020 1:03:58 AM gui.panels.CollectionPanel actionPerformed
+INFO: Class Cards button clicked - Collection
+May 06, 2020 1:03:58 AM gui.panels.CollectionPanel actionPerformed
+INFO: Class Cards button clicked - Collection
+May 06, 2020 1:03:58 AM gui.panels.CollectionPanel actionPerformed
+INFO: Class Cards button clicked - Collection
+May 06, 2020 1:03:59 AM gui.panels.CollectionPanel actionPerformed
+INFO: Class Cards button clicked - Collection
+May 06, 2020 1:03:59 AM gui.panels.CollectionPanel actionPerformed
+INFO: Class Cards button clicked - Collection
+May 06, 2020 1:03:59 AM gui.panels.CollectionPanel actionPerformed
+INFO: Class Cards button clicked - Collection
+May 06, 2020 1:04:00 AM gui.panels.CollectionPanel actionPerformed
+INFO: Class Cards button clicked - Collection
+May 06, 2020 1:04:02 AM gui.panels.CollectionPanel actionPerformed
+INFO: Neutral Cards button clicked - Collection
+May 06, 2020 1:04:12 AM gui.panels.CollectionPanel lambda$updateCardsShowCase$0
+INFO: button clicked for adding a card to deck - Collection - MalygossExplosion added to deck : uuuuu
+May 06, 2020 1:04:22 AM gui.panels.CollectionPanel lambda$updateCardsShowCase$0
+INFO: button clicked for adding a card to deck - Collection - TimeRip added to deck : uuuuu
+May 06, 2020 1:04:35 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 1:04:38 AM gui.GameFrame goToPanel
+INFO: Panel changed to statusPanel
+May 06, 2020 1:04:38 AM gui.panels.MainMenu actionPerformed
+INFO: status button clicked - MainMenu
+May 06, 2020 1:04:47 AM gui.panels.StatusPanel$2 actionPerformed
+INFO:  button clicked - Status - to show information of deck yyy
+May 06, 2020 1:04:48 AM gui.panels.StatusPanel$2 actionPerformed
+INFO:  button clicked - Status - to show information of deck yyy
+May 06, 2020 1:04:51 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 1:04:53 AM gui.GameFrame goToPanel
+INFO: Panel changed to collectionPanel
+May 06, 2020 1:04:53 AM gui.panels.MainMenu actionPerformed
+INFO: collection button clicked - MainMenu
+May 06, 2020 1:05:02 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 1:05:05 AM gui.GameFrame goToPanel
+INFO: Panel changed to statusPanel
+May 06, 2020 1:05:05 AM gui.panels.MainMenu actionPerformed
+INFO: status button clicked - MainMenu

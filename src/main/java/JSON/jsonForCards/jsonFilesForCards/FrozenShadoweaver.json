@@ -1,0 +1,11 @@
+{
+  "HP": 3,
+  "Attack": 4,
+  "manaCost": 3,
+  "name": "FrozenShadoweaver",
+  "description": "Battlecry: Freeze an enemy.",
+  "rarity": "COMMON",
+  "type": "MINION",
+  "heroClass": "NEUTRAL",
+  "price": 5
+}

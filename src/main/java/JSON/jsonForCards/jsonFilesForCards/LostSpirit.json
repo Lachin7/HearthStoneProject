@@ -1,0 +1,11 @@
+{
+  "HP": 1,
+  "Attack": 1,
+  "manaCost": 2,
+  "name": "LostSpirit",
+  "description": "Deathrattle: Give your minions +1 Attack.",
+  "rarity": "COMMON",
+  "type": "MINION",
+  "heroClass": "NEUTRAL",
+  "price": 5
+}

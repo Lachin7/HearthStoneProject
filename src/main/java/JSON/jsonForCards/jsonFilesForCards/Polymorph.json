@@ -1,0 +1,11 @@
+{
+  "Quest": "",
+  "Reward": "",
+  "manaCost": 4,
+  "name": "Polymorph",
+  "description": "Transform minion in to a 1/1 sheep.",
+  "rarity": "RARE",
+  "type": "SPELL",
+  "heroClass": "MAGE",
+  "price": 10
+}

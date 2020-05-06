@@ -1,0 +1,11 @@
+{
+  "HP": 3,
+  "Attack": 6,
+  "manaCost": 6,
+  "name": "ScavengingShivarra",
+  "description": "Battlecry: Deal 6 damage randomly split among all other minions.",
+  "rarity": "COMMON",
+  "type": "MINION",
+  "heroClass": "NEUTRAL",
+  "price": 5
+}

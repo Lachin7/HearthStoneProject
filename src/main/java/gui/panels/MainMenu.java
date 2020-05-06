@@ -1,0 +1,49 @@
+package gui.panels;
+
+import controller.Controller;
+import gui.Constants.GuiCons;
+import gui.GameFrame;
+import gui.MyAudioPlayer;
+import gui.myComponents.*;
+import models.board.InfoPassive;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.logging.Level;
+
+public class MainMenu extends MyPanel implements ActionListener {
+
+    private JButton play , shop , status , collection , settings ;
+    private MyAudioPlayer audioPlayer;
+
+
+    public MainMenu(){
+        this.backGroundFile = "mainMenuBg.jpg";
+        this.setPreferredSize(new Dimension(GuiCons.getWidth(),GuiCons.getHeight()));
+        this.setLayout(null);
+        audioPlayer = MyAudioPlayer.getInstance();
+
+        play = new MyButton("play","blueCrystal150.png",this,this::actionPerformed);
+        play.setBounds(130,80,150,64);
+        shop = new MyButton("shop","blueCrystal150.png",this,this::actionPerformed);
+        shop.setBounds(310,180,150,64);
+        collection = new MyButton("collection","blueCrystal150.png",this,this::actionPerformed);
+        collection.setBounds(490,280,150,64);
+        status = new MyButton("status","blueCrystal150.png",this,this::actionPerformed);
+        status.setBounds(670,380,150,64);
+        settings = new MyButton("settings","blueCrystal150.png",this,this::actionPerformed);
+        settings.setBounds(850,480,150,64);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        audioPlayer.playQuick("Button_Push.wav");
+        GameFrame.getInstance().goToPanel(((MyButton) actionEvent.getSource()).getText()+"Panel");
+       Controller.getInstance().getPlayerController().getPlayerLOGGER().log(Level.INFO,((MyButton) actionEvent.getSource()).getText()+" button clicked - MainMenu");
+
+    }
+
+
+}

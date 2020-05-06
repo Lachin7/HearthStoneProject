@@ -1,0 +1,11 @@
+{
+  "Quest": "",
+  "Reward": "",
+  "manaCost": 3,
+  "name": "BlinkFox",
+  "description": "Battlecry: Add a random card to your hand (from your opponent\u0027s class).",
+  "rarity": "COMMON",
+  "type": "SPELL",
+  "heroClass": "ROGUE",
+  "price": 5
+}

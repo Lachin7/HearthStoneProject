@@ -1,0 +1,11 @@
+{
+  "Quest": "",
+  "Reward": "",
+  "manaCost": 5,
+  "name": "TimeRip",
+  "description": "Destroy a minion. Invoke Galakrond.",
+  "rarity": "RARE",
+  "type": "SPELL",
+  "heroClass": "NEUTRAL",
+  "price": 10
+}

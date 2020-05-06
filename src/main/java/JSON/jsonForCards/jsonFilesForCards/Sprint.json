@@ -1,0 +1,11 @@
+{
+  "Quest": "",
+  "Reward": "",
+  "manaCost": 7,
+  "name": "Sprint",
+  "description": "Draw 4 cards.\n",
+  "rarity": "COMMON",
+  "type": "SPELL",
+  "heroClass": "NEUTRAL",
+  "price": 5
+}

@@ -1,0 +1,11 @@
+{
+  "HP": 3,
+  "Attack": 3,
+  "manaCost": 4,
+  "name": "RustswornCultist",
+  "description": "Battlecry: Give your other minions \"Deathrattle: Summon a 1/1 Demon.\"",
+  "rarity": "COMMON",
+  "type": "MINION",
+  "heroClass": "NEUTRAL",
+  "price": 5
+}

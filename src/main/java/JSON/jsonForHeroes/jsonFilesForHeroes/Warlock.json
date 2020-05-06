@@ -1,0 +1,16 @@
+{
+  "WarlockDeckCards": [],
+  "name": "Warlock",
+  "WarlockAllCards": [
+    {
+      "manaCost": 3,
+      "name": "Ratcatcher",
+      "description": "Rush   Battlecry: Destroy a friendly minion and gain its Attack and Health.",
+      "rarity": "LEGENDARY",
+      "type": "MINION",
+      "heroClass": "WARLOCK",
+      "price": 20
+    }
+  ],
+  "HP": 35
+}

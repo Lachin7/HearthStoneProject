@@ -1,0 +1,11 @@
+{
+  "Quest": "",
+  "Reward": "",
+  "manaCost": 2,
+  "name": "MalygossExplosion",
+  "description": "Deal 2 damage to all enemy minions.",
+  "rarity": "RARE",
+  "type": "SPELL",
+  "heroClass": "NEUTRAL",
+  "price": 10
+}

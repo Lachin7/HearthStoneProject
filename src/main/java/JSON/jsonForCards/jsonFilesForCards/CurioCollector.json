@@ -1,0 +1,11 @@
+{
+  "HP": 4,
+  "Attack": 4,
+  "manaCost": 5,
+  "name": "CurioCollector",
+  "description": "Whenever you draw a card, gain +1/+1.",
+  "rarity": "RARE",
+  "type": "MINION",
+  "heroClass": "NEUTRAL",
+  "price": 10
+}

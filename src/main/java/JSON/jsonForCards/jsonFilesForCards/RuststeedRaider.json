@@ -1,0 +1,11 @@
+{
+  "HP": 1,
+  "Attack": 2,
+  "manaCost": 5,
+  "name": "RuststeedRaider",
+  "description": "Battlecry: Deal 1 damage to a minion and give it Rush.",
+  "rarity": "COMMON",
+  "type": "MINION",
+  "heroClass": "NEUTRAL",
+  "price": 5
+}

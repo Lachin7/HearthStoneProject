@@ -1,0 +1,11 @@
+{
+  "Quest": "",
+  "Reward": "",
+  "manaCost": 2,
+  "name": "BookOfSpecters",
+  "description": "Draw 3 cards. Discard any spells drawn.",
+  "rarity": "EPIC",
+  "type": "SPELL",
+  "heroClass": "NEUTRAL",
+  "price": 15
+}

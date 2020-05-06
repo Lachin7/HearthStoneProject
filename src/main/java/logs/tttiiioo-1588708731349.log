@@ -1,0 +1,55 @@
+May 06, 2020 12:28:51 AM controller.PlayerController SignUp
+INFO: USER  : tttiiioo
+CREATED AT : 2020/05/06 00:28:51
+PASSWORD : 99ebdbd711b0e1854a6c2e93f759efc2af291fd0
+
+May 06, 2020 12:28:53 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 12:28:54 AM gui.GameFrame goToPanel
+INFO: Panel changed to settingsPanel
+May 06, 2020 12:28:54 AM gui.panels.MainMenu actionPerformed
+INFO: settings button clicked - MainMenu
+May 06, 2020 12:29:26 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 12:29:29 AM gui.GameFrame goToPanel
+INFO: Panel changed to shopPanel
+May 06, 2020 12:29:29 AM gui.panels.MainMenu actionPerformed
+INFO: shop button clicked - MainMenu
+May 06, 2020 12:29:33 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 12:29:38 AM gui.GameFrame goToPanel
+INFO: Panel changed to playPanel
+May 06, 2020 12:29:43 AM gui.panels.MainMenu setPassives
+INFO: passive OffCards selected - PlayPanel
+May 06, 2020 12:29:43 AM gui.panels.MainMenu actionPerformed
+INFO: play button clicked - MainMenu
+May 06, 2020 12:30:35 AM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 06, 2020 12:30:35 AM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 06, 2020 12:30:45 AM gui.panels.PlayPanel actionPerformed
+INFO: start button clicked - Collection
+May 06, 2020 12:30:49 AM gui.panels.PlayPanel actionPerformed
+INFO: start button clicked - Collection
+May 06, 2020 12:30:49 AM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 06, 2020 12:30:50 AM gui.panels.PlayPanel actionPerformed
+INFO: start button clicked - Collection
+May 06, 2020 12:30:50 AM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 06, 2020 12:30:51 AM gui.panels.PlayPanel actionPerformed
+INFO: start button clicked - Collection
+May 06, 2020 12:30:51 AM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 06, 2020 12:30:54 AM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 06, 2020 12:30:57 AM gui.panels.PlayPanel actionPerformed
+INFO: PlayCard button clicked - Collection
+May 06, 2020 12:31:02 AM gui.panels.PlayPanel actionPerformed
+INFO: PlayCard button clicked - Collection
+May 06, 2020 12:31:13 AM gui.panels.PlayPanel actionPerformed
+INFO: PlayCard button clicked - Collection

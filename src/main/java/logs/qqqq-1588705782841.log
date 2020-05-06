@@ -1,0 +1,45 @@
+May 05, 2020 11:39:42 PM controller.PlayerController SignUp
+INFO: USER  : qqqq
+CREATED AT : 2020/05/05 23:39:42
+PASSWORD : c6efae9869218c6d45b92a3090bce129f27c070d
+
+May 05, 2020 11:39:44 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 05, 2020 11:39:48 PM gui.GameFrame goToPanel
+INFO: Panel changed to settingsPanel
+May 05, 2020 11:39:48 PM gui.panels.MainMenu actionPerformed
+INFO: settings button clicked - MainMenu
+May 05, 2020 11:40:17 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 05, 2020 11:40:20 PM gui.GameFrame goToPanel
+INFO: Panel changed to collectionPanel
+May 05, 2020 11:40:20 PM gui.panels.MainMenu actionPerformed
+INFO: collection button clicked - MainMenu
+May 05, 2020 11:40:25 PM gui.panels.CollectionPanel lambda$updateDeckCards$1
+INFO: card clicked for showing its info - Collection 
+May 05, 2020 11:40:28 PM gui.panels.CollectionPanel actionPerformed
+INFO: Unlocked Cards button clicked - Collection
+May 05, 2020 11:40:32 PM gui.panels.CollectionPanel lambda$updateCardsShowCase$0
+INFO: button clicked for adding a card to deck - Collection - RollingFireball added to deck : optional Mage deck
+May 05, 2020 11:40:35 PM gui.panels.CollectionPanel lambda$updateDeckCards$1
+INFO: card clicked for showing its info - Collection 
+May 05, 2020 11:40:35 PM gui.panels.CollectionPanel lambda$updateDeckCards$1
+INFO: card clicked for showing its info - Collection 
+May 05, 2020 11:40:36 PM gui.panels.CollectionPanel lambda$updateDeckCards$1
+INFO: card clicked for showing its info - Collection 
+May 05, 2020 11:40:36 PM gui.panels.CollectionPanel lambda$updateDeckCards$1
+INFO: card clicked for showing its info - Collection 
+May 05, 2020 11:40:40 PM gui.panels.CollectionPanel actionPerformed
+INFO: Delete Card button clicked - Collection
+May 05, 2020 11:40:43 PM gui.panels.CollectionPanel actionPerformed
+INFO: deleted card : LostSpirit - Collection
+May 05, 2020 11:40:46 PM gui.panels.CollectionPanel lambda$updateDeckCards$1
+INFO: card clicked for showing its info - Collection 
+May 05, 2020 11:41:40 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 05, 2020 11:41:43 PM gui.GameFrame goToPanel
+INFO: Panel changed to settingsPanel
+May 05, 2020 11:41:43 PM gui.panels.MainMenu actionPerformed
+INFO: settings button clicked - MainMenu
+May 05, 2020 11:47:24 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu

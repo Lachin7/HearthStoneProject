@@ -1,0 +1,11 @@
+{
+  "HP": 2,
+  "Attack": 1,
+  "manaCost": 1,
+  "name": "BeamingSidekick",
+  "description": "Give a friendly minion +2 Health.",
+  "rarity": "COMMON",
+  "type": "MINION",
+  "heroClass": "NEUTRAL",
+  "price": 5
+}

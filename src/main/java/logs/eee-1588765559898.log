@@ -1,0 +1,71 @@
+May 06, 2020 4:16:00 PM controller.PlayerController SignUp
+INFO: USER  : eee
+CREATED AT : 2020/05/06 16:16:00
+PASSWORD : fffb4979b2ebcbd7fb3fdbfd7ca6b1a30af0ab7d
+
+May 06, 2020 4:16:03 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 4:17:08 PM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 06, 2020 4:17:08 PM gui.GameFrame goToPanel
+INFO: Panel changed to playPanel
+May 06, 2020 4:17:11 PM gui.panels.MainMenu setPassives
+INFO: passive TwiceDraw selected - PlayPanel
+May 06, 2020 4:17:11 PM gui.panels.MainMenu actionPerformed
+INFO: play button clicked - MainMenu
+May 06, 2020 4:17:15 PM gui.panels.PlayPanel actionPerformed
+INFO: PlayCard button clicked - Collection
+May 06, 2020 4:17:22 PM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 06, 2020 4:17:22 PM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 06, 2020 4:17:33 PM gui.panels.PlayPanel actionPerformed
+INFO: PlayCard button clicked - Collection
+May 06, 2020 4:19:32 PM gui.panels.PlayPanel actionPerformed
+INFO: PlayCard button clicked - Collection
+May 06, 2020 4:19:32 PM controller.BoardController playCard
+INFO: played card - PlayPanel
+May 06, 2020 4:19:38 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 4:19:44 PM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 06, 2020 4:19:44 PM gui.GameFrame goToPanel
+INFO: Panel changed to playPanel
+May 06, 2020 4:20:37 PM gui.panels.MainMenu setPassives
+INFO: passive OffCards selected - PlayPanel
+May 06, 2020 4:20:37 PM gui.panels.MainMenu actionPerformed
+INFO: play button clicked - MainMenu
+May 06, 2020 4:20:47 PM gui.panels.PlayPanel actionPerformed
+INFO: PlayCard button clicked - Collection
+May 06, 2020 4:20:47 PM controller.BoardController playCard
+INFO: played card - PlayPanel
+May 06, 2020 4:20:50 PM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 06, 2020 4:20:50 PM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 06, 2020 4:20:57 PM gui.panels.PlayPanel actionPerformed
+INFO: PlayCard button clicked - Collection
+May 06, 2020 4:20:57 PM controller.BoardController playCard
+INFO: played card - PlayPanel
+May 06, 2020 4:21:04 PM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 06, 2020 4:21:04 PM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 06, 2020 4:21:11 PM gui.panels.PlayPanel actionPerformed
+INFO: PlayCard button clicked - Collection
+May 06, 2020 4:21:11 PM controller.BoardController playCard
+INFO: played card - PlayPanel
+May 06, 2020 4:21:18 PM gui.panels.PlayPanel actionPerformed
+INFO: PlayCard button clicked - Collection
+May 06, 2020 4:21:18 PM controller.BoardController playCard
+INFO: played card - PlayPanel
+May 06, 2020 4:21:31 PM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 06, 2020 4:21:31 PM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+

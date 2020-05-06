@@ -1,0 +1,358 @@
+{
+  "PlayerName": "hhhh",
+  "PlayerPassword": "f416168b5eb1a5be010bbbc327eabee876de8b05",
+  "PlayerCoins": 50,
+  "PlayerID": 1588787556576,
+  "PlayersChoosedHero": {
+    "HP": 30,
+    "name": "Mage"
+  },
+  "ALLPlayersCards": [
+    {
+      "manaCost": 4,
+      "name": "Polymorph",
+      "description": "Transform minion in to a 1/1 sheep.",
+      "rarity": "RARE",
+      "type": "SPELL",
+      "heroClass": "MAGE",
+      "price": 10
+    },
+    {
+      "manaCost": 5,
+      "name": "RollingFireball",
+      "description": "Deal 8 damage to a minion. Any excess damage continues to the left or right.1 sheep.",
+      "rarity": "EPIC",
+      "type": "SPELL",
+      "heroClass": "MAGE",
+      "price": 15
+    },
+    {
+      "manaCost": 1,
+      "name": "MurlocRaider",
+      "description": "-",
+      "rarity": "COMMON",
+      "type": "MINION",
+      "heroClass": "NEUTRAL",
+      "price": 5
+    },
+    {
+      "manaCost": 2,
+      "name": "MalygossExplosion",
+      "description": "Deal 2 damage to all enemy minions.",
+      "rarity": "RARE",
+      "type": "SPELL",
+      "heroClass": "NEUTRAL",
+      "price": 10
+    },
+    {
+      "manaCost": 1,
+      "name": "MalygossNova",
+      "description": "Freeze all enemy minions.",
+      "rarity": "RARE",
+      "type": "SPELL",
+      "heroClass": "NEUTRAL",
+      "price": 10
+    },
+    {
+      "manaCost": 0,
+      "name": "Backstab",
+      "description": "Deal 2 damage to an undamaged minion.",
+      "rarity": "COMMON",
+      "type": "SPELL",
+      "heroClass": "NEUTRAL",
+      "price": 5
+    },
+    {
+      "manaCost": 1,
+      "name": "GoblinBomb",
+      "description": "Deal 2 damage to the enemy hero.",
+      "rarity": "COMMON",
+      "type": "MINION",
+      "heroClass": "NEUTRAL",
+      "price": 5
+    },
+    {
+      "manaCost": 2,
+      "name": "LostSpirit",
+      "description": "Deathrattle: Give your minions +1 Attack.",
+      "rarity": "COMMON",
+      "type": "MINION",
+      "heroClass": "NEUTRAL",
+      "price": 5
+    },
+    {
+      "manaCost": 1,
+      "name": "SerratedTooth",
+      "description": "Deathrattle: Give your minions Rush.",
+      "rarity": "COMMON",
+      "type": "WEAPON",
+      "heroClass": "NEUTRAL",
+      "price": 5
+    },
+    {
+      "manaCost": 3,
+      "name": "MagmaRager",
+      "description": "-",
+      "rarity": "COMMON",
+      "type": "MINION",
+      "heroClass": "NEUTRAL",
+      "price": 5
+    },
+    {
+      "manaCost": 5,
+      "name": "TimeRip",
+      "description": "Destroy a minion. Invoke Galakrond.",
+      "rarity": "RARE",
+      "type": "SPELL",
+      "heroClass": "NEUTRAL",
+      "price": 10
+    },
+    {
+      "manaCost": 3,
+      "name": "BlinkFox",
+      "description": "Battlecry: Add a random card to your hand (from your opponent\u0027s class).",
+      "rarity": "COMMON",
+      "type": "SPELL",
+      "heroClass": "ROGUE",
+      "price": 5
+    },
+    {
+      "manaCost": 1,
+      "name": "HungryCrab",
+      "description": "Destroy a Murloc and gain +2/+2.",
+      "rarity": "EPIC",
+      "type": "MINION",
+      "heroClass": "NEUTRAL",
+      "price": 15
+    }
+  ],
+  "playersDeckCards": [],
+  "playersDeck": {
+    "cards": [
+      {
+        "manaCost": 4,
+        "name": "Polymorph",
+        "description": "Transform minion in to a 1/1 sheep.",
+        "rarity": "RARE",
+        "type": "SPELL",
+        "heroClass": "MAGE",
+        "price": 10
+      },
+      {
+        "manaCost": 5,
+        "name": "RollingFireball",
+        "description": "Deal 8 damage to a minion. Any excess damage continues to the left or right.1 sheep.",
+        "rarity": "EPIC",
+        "type": "SPELL",
+        "heroClass": "MAGE",
+        "price": 15
+      },
+      {
+        "manaCost": 1,
+        "name": "MurlocRaider",
+        "description": "-",
+        "rarity": "COMMON",
+        "type": "MINION",
+        "heroClass": "NEUTRAL",
+        "price": 5
+      },
+      {
+        "manaCost": 2,
+        "name": "MalygossExplosion",
+        "description": "Deal 2 damage to all enemy minions.",
+        "rarity": "RARE",
+        "type": "SPELL",
+        "heroClass": "NEUTRAL",
+        "price": 10
+      },
+      {
+        "manaCost": 1,
+        "name": "MalygossNova",
+        "description": "Freeze all enemy minions.",
+        "rarity": "RARE",
+        "type": "SPELL",
+        "heroClass": "NEUTRAL",
+        "price": 10
+      },
+      {
+        "manaCost": 0,
+        "name": "Backstab",
+        "description": "Deal 2 damage to an undamaged minion.",
+        "rarity": "COMMON",
+        "type": "SPELL",
+        "heroClass": "NEUTRAL",
+        "price": 5
+      },
+      {
+        "manaCost": 1,
+        "name": "GoblinBomb",
+        "description": "Deal 2 damage to the enemy hero.",
+        "rarity": "COMMON",
+        "type": "MINION",
+        "heroClass": "NEUTRAL",
+        "price": 5
+      },
+      {
+        "manaCost": 2,
+        "name": "LostSpirit",
+        "description": "Deathrattle: Give your minions +1 Attack.",
+        "rarity": "COMMON",
+        "type": "MINION",
+        "heroClass": "NEUTRAL",
+        "price": 5
+      },
+      {
+        "manaCost": 1,
+        "name": "SerratedTooth",
+        "description": "Deathrattle: Give your minions Rush.",
+        "rarity": "COMMON",
+        "type": "WEAPON",
+        "heroClass": "NEUTRAL",
+        "price": 5
+      },
+      {
+        "manaCost": 3,
+        "name": "MagmaRager",
+        "description": "-",
+        "rarity": "COMMON",
+        "type": "MINION",
+        "heroClass": "NEUTRAL",
+        "price": 5
+      }
+    ],
+    "name": "optional Mage deck",
+    "allGamesPlayed": 0,
+    "winGamesPlayed": 0,
+    "hero": "MAGE",
+    "winToAll": 0.0
+  },
+  "PlayersUnlockedHeroes": [
+    {
+      "HP": 30,
+      "name": "Mage"
+    }
+  ],
+  "PlayersMage": {
+    "HP": 30,
+    "name": "Mage"
+  },
+  "PlayersRogue": {
+    "HP": 30,
+    "name": "Rogue"
+  },
+  "PlayersWarlock": {
+    "HP": 35,
+    "name": "Warlock"
+  },
+  "mageDeckCards": [],
+  "rogueDeckCards": [],
+  "warlockDeckCards": [],
+  "Decks": [
+    {
+      "cards": [
+        {
+          "manaCost": 4,
+          "name": "Polymorph",
+          "description": "Transform minion in to a 1/1 sheep.",
+          "rarity": "RARE",
+          "type": "SPELL",
+          "heroClass": "MAGE",
+          "price": 10
+        },
+        {
+          "manaCost": 5,
+          "name": "RollingFireball",
+          "description": "Deal 8 damage to a minion. Any excess damage continues to the left or right.1 sheep.",
+          "rarity": "EPIC",
+          "type": "SPELL",
+          "heroClass": "MAGE",
+          "price": 15
+        },
+        {
+          "manaCost": 1,
+          "name": "MurlocRaider",
+          "description": "-",
+          "rarity": "COMMON",
+          "type": "MINION",
+          "heroClass": "NEUTRAL",
+          "price": 5
+        },
+        {
+          "manaCost": 2,
+          "name": "MalygossExplosion",
+          "description": "Deal 2 damage to all enemy minions.",
+          "rarity": "RARE",
+          "type": "SPELL",
+          "heroClass": "NEUTRAL",
+          "price": 10
+        },
+        {
+          "manaCost": 1,
+          "name": "MalygossNova",
+          "description": "Freeze all enemy minions.",
+          "rarity": "RARE",
+          "type": "SPELL",
+          "heroClass": "NEUTRAL",
+          "price": 10
+        },
+        {
+          "manaCost": 0,
+          "name": "Backstab",
+          "description": "Deal 2 damage to an undamaged minion.",
+          "rarity": "COMMON",
+          "type": "SPELL",
+          "heroClass": "NEUTRAL",
+          "price": 5
+        },
+        {
+          "manaCost": 1,
+          "name": "GoblinBomb",
+          "description": "Deal 2 damage to the enemy hero.",
+          "rarity": "COMMON",
+          "type": "MINION",
+          "heroClass": "NEUTRAL",
+          "price": 5
+        },
+        {
+          "manaCost": 2,
+          "name": "LostSpirit",
+          "description": "Deathrattle: Give your minions +1 Attack.",
+          "rarity": "COMMON",
+          "type": "MINION",
+          "heroClass": "NEUTRAL",
+          "price": 5
+        },
+        {
+          "manaCost": 1,
+          "name": "SerratedTooth",
+          "description": "Deathrattle: Give your minions Rush.",
+          "rarity": "COMMON",
+          "type": "WEAPON",
+          "heroClass": "NEUTRAL",
+          "price": 5
+        },
+        {
+          "manaCost": 3,
+          "name": "MagmaRager",
+          "description": "-",
+          "rarity": "COMMON",
+          "type": "MINION",
+          "heroClass": "NEUTRAL",
+          "price": 5
+        }
+      ],
+      "name": "optional Mage deck",
+      "allGamesPlayed": 0,
+      "winGamesPlayed": 0,
+      "hero": "MAGE",
+      "winToAll": 0.0
+    }
+  ],
+  "HandsCards": [],
+  "DeckCardsInGame": [],
+  "FieldCardsInGame": [],
+  "cardSkin": "BlushRoomCardBack.png",
+  "playBackGround": "HSplayBoard copy.jpg",
+  "isSignedUp": false,
+  "currentMana": 0
+}

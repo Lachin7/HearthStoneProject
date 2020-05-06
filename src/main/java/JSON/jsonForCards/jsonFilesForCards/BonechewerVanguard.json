@@ -1,0 +1,11 @@
+{
+  "HP": 10,
+  "Attack": 4,
+  "manaCost": 7,
+  "name": "BonechewerVanguard",
+  "description": "Taunt , Whenever this minion takes damage, gain +2 Attack.",
+  "rarity": "COMMON",
+  "type": "MINION",
+  "heroClass": "NEUTRAL",
+  "price": 5
+}

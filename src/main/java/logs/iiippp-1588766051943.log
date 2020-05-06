@@ -1,0 +1,21 @@
+May 06, 2020 4:24:12 PM controller.PlayerController SignUp
+INFO: USER  : iiippp
+CREATED AT : 2020/05/06 16:24:12
+PASSWORD : 425ffc1422dc4f32528bd9fd5af355fdb5c96192
+
+May 06, 2020 4:24:15 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 4:26:29 PM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 06, 2020 4:26:30 PM gui.GameFrame goToPanel
+INFO: Panel changed to playPanel
+May 06, 2020 4:28:00 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 4:28:06 PM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 06, 2020 4:28:06 PM gui.GameFrame goToPanel
+INFO: Panel changed to playPanel
+May 06, 2020 4:30:00 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu

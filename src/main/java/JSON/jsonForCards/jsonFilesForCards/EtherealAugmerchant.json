@@ -1,0 +1,11 @@
+{
+  "HP": 1,
+  "Attack": 4,
+  "manaCost": 1,
+  "name": "EtherealAugmerchant",
+  "description": "Battlecry: Deal 1 damage to a minion and give it Spell Damage +1.",
+  "rarity": "COMMON",
+  "type": "MINION",
+  "heroClass": "NEUTRAL",
+  "price": 5
+}

@@ -1,0 +1,11 @@
+May 05, 2020 8:20:46 PM controller.PlayerController SignUp
+INFO: USER  : eee
+CREATED AT : 2020/05/05 20:20:46
+PASSWORD : 637a81ed8e8217bb01c15c67c39b43b0ab4e20f1
+
+May 05, 2020 8:20:48 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 05, 2020 8:20:50 PM gui.GameFrame goToPanel
+INFO: Panel changed to settingsPanel
+May 05, 2020 8:20:50 PM gui.panels.MainMenu actionPerformed
+INFO: settings button clicked - MainMenu

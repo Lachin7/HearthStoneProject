@@ -1,0 +1,13 @@
+May 05, 2020 10:37:28 PM controller.PlayerController SignUp
+INFO: USER  : pppppppp
+CREATED AT : 2020/05/05 22:37:28
+PASSWORD : 81b06facd90fe7a6e9bbd9cee59736a79105b7be
+
+May 05, 2020 10:37:44 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 05, 2020 10:37:55 PM gui.GameFrame goToPanel
+INFO: Panel changed to collectionPanel
+May 05, 2020 10:37:55 PM gui.panels.MainMenu actionPerformed
+INFO: collection button clicked - MainMenu
+May 05, 2020 10:38:36 PM gui.panels.CollectionPanel actionPerformed
+INFO: All Cards button clicked - Collection

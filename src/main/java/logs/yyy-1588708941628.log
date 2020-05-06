@@ -1,0 +1,36 @@
+May 06, 2020 12:32:21 AM controller.PlayerController SignUp
+INFO: USER  : yyy
+CREATED AT : 2020/05/06 00:32:21
+PASSWORD : c3ae457bb31ea0b0df811cf615e81cb46fefdbe9
+
+May 06, 2020 12:32:22 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 12:32:24 AM gui.GameFrame goToPanel
+INFO: Panel changed to statusPanel
+May 06, 2020 12:32:24 AM gui.panels.MainMenu actionPerformed
+INFO: status button clicked - MainMenu
+May 06, 2020 12:32:27 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 12:32:30 AM gui.GameFrame goToPanel
+INFO: Panel changed to shopPanel
+May 06, 2020 12:32:30 AM gui.panels.MainMenu actionPerformed
+INFO: shop button clicked - MainMenu
+May 06, 2020 12:32:36 AM gui.panels.ShopPanel actionPerformed
+INFO: button clicked to illustrate buy show case - Shop
+May 06, 2020 12:32:39 AM gui.panels.ShopPanel actionPerformed
+INFO: button clicked to illustrate sell show case - Shop
+May 06, 2020 12:32:41 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 12:32:48 AM gui.GameFrame goToPanel
+INFO: Panel changed to playPanel
+May 06, 2020 12:32:49 AM gui.panels.MainMenu setPassives
+INFO: passive TwiceDraw selected - PlayPanel
+May 06, 2020 12:32:49 AM gui.panels.MainMenu actionPerformed
+INFO: play button clicked - MainMenu
+May 06, 2020 12:32:52 AM gui.panels.PlayPanel actionPerformed
+INFO: start button clicked - Collection
+May 06, 2020 12:34:09 AM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 06, 2020 12:34:10 AM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+

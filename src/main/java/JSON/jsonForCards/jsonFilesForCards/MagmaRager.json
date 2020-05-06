@@ -1,0 +1,11 @@
+{
+  "HP": 1,
+  "Attack": 5,
+  "manaCost": 3,
+  "name": "MagmaRager",
+  "description": "-",
+  "rarity": "COMMON",
+  "type": "MINION",
+  "heroClass": "NEUTRAL",
+  "price": 5
+}

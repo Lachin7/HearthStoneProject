@@ -1,0 +1,11 @@
+{
+  "Quest": "Sidequest: Spend 8 Mana on spells.",
+  "Reward": "Reward: Summon a 6/6 Dragon.",
+  "manaCost": 1,
+  "name": "LearnDraconic",
+  "description": "-",
+  "rarity": "COMMON",
+  "type": "SPELL",
+  "heroClass": "NEUTRAL",
+  "price": 5
+}

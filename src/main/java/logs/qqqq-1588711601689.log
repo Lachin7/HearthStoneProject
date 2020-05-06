@@ -1,0 +1,47 @@
+May 06, 2020 1:16:41 AM controller.PlayerController SignUp
+INFO: USER  : qqqq
+CREATED AT : 2020/05/06 01:16:41
+PASSWORD : 33a9e269dd782e92489a8e547b7ed582e0e1d42b
+
+May 06, 2020 1:16:46 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 1:16:48 AM gui.GameFrame goToPanel
+INFO: Panel changed to settingsPanel
+May 06, 2020 1:16:48 AM gui.panels.MainMenu actionPerformed
+INFO: settings button clicked - MainMenu
+May 06, 2020 1:16:51 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 1:16:55 AM gui.GameFrame goToPanel
+INFO: Panel changed to collectionPanel
+May 06, 2020 1:16:55 AM gui.panels.MainMenu actionPerformed
+INFO: collection button clicked - MainMenu
+May 06, 2020 1:16:57 AM gui.panels.CollectionPanel actionPerformed
+INFO: Creat Deck button clicked - Collection
+May 06, 2020 1:17:01 AM gui.panels.CollectionPanel actionPerformed
+INFO: created deckuuuuu - Collection
+May 06, 2020 1:17:06 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 1:17:09 AM gui.GameFrame goToPanel
+INFO: Panel changed to statusPanel
+May 06, 2020 1:17:09 AM gui.panels.MainMenu actionPerformed
+INFO: status button clicked - MainMenu
+May 06, 2020 1:17:55 AM gui.panels.StatusPanel$2 actionPerformed
+INFO:  button clicked - Status - to show information of deck uuuuu
+May 06, 2020 1:17:56 AM gui.panels.StatusPanel$2 actionPerformed
+INFO:  button clicked - Status - to show information of deck uuuuu
+May 06, 2020 1:17:58 AM gui.panels.StatusPanel$2 actionPerformed
+INFO:  button clicked - Status - to show information of deck uuuuu
+May 06, 2020 1:17:58 AM gui.panels.StatusPanel$2 actionPerformed
+INFO:  button clicked - Status - to show information of deck uuuuu
+May 06, 2020 1:17:58 AM gui.panels.StatusPanel$2 actionPerformed
+INFO:  button clicked - Status - to show information of deck uuuuu
+May 06, 2020 1:17:59 AM gui.panels.StatusPanel$2 actionPerformed
+INFO:  button clicked - Status - to show information of deck uuuuu
+May 06, 2020 1:17:59 AM gui.panels.StatusPanel$2 actionPerformed
+INFO:  button clicked - Status - to show information of deck uuuuu
+May 06, 2020 1:18:08 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 1:18:12 AM gui.GameFrame goToPanel
+INFO: Panel changed to collectionPanel
+May 06, 2020 1:18:12 AM gui.panels.MainMenu actionPerformed
+INFO: collection button clicked - MainMenu

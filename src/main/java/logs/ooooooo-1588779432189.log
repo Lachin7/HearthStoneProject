@@ -1,0 +1,41 @@
+May 06, 2020 8:07:12 PM controller.PlayerController SignUp
+INFO: USER  : ooooooo
+CREATED AT : 2020/05/06 20:07:12
+PASSWORD : 4ae9fa0a8299a828a886c0eb30c930c7cf302a72
+
+May 06, 2020 8:07:15 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 8:07:22 PM gui.GameFrame goToPanel
+INFO: Panel changed to settingsPanel
+May 06, 2020 8:07:23 PM gui.panels.MainMenu actionPerformed
+INFO: settings button clicked - MainMenu
+May 06, 2020 8:07:28 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 8:07:33 PM controller.PlayerController setPassives
+INFO: passive ManaJump selected - PlayPanel
+May 06, 2020 8:07:35 PM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 06, 2020 8:07:35 PM gui.GameFrame goToPanel
+INFO: Panel changed to playPanel
+May 06, 2020 8:07:35 PM gui.panels.MainMenu actionPerformed
+INFO: play button clicked - MainMenu
+May 06, 2020 8:09:25 PM gui.panels.PlayPanel actionPerformed
+INFO: PlayCard button clicked - Collection
+May 06, 2020 8:09:25 PM controller.BoardController playCard
+INFO: played card - PlayPanel
+May 06, 2020 8:09:31 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 8:15:36 PM controller.PlayerController setPassives
+INFO: passive ManaJump selected - PlayPanel
+May 06, 2020 8:15:37 PM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 06, 2020 8:15:37 PM gui.GameFrame goToPanel
+INFO: Panel changed to playPanel
+May 06, 2020 8:15:37 PM gui.panels.MainMenu actionPerformed
+INFO: play button clicked - MainMenu
+May 06, 2020 8:15:47 PM gui.panels.PlayPanel actionPerformed
+INFO: PlayCard button clicked - Collection
+May 06, 2020 8:15:47 PM controller.BoardController playCard
+INFO: played card - PlayPanel

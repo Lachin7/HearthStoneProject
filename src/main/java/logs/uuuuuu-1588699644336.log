@@ -1,0 +1,88 @@
+May 05, 2020 9:57:24 PM controller.PlayerController SignUp
+INFO: USER  : uuuuuu
+CREATED AT : 2020/05/05 21:57:24
+PASSWORD : d13150fd106676133ad3bd816c2c7a57a3638029
+
+May 05, 2020 9:57:25 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 05, 2020 9:57:27 PM gui.GameFrame goToPanel
+INFO: Panel changed to settingsPanel
+May 05, 2020 9:57:27 PM gui.panels.MainMenu actionPerformed
+INFO: settings button clicked - MainMenu
+May 05, 2020 9:58:48 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 05, 2020 9:59:26 PM gui.GameFrame goToPanel
+INFO: Panel changed to settingsPanel
+May 05, 2020 9:59:26 PM gui.panels.MainMenu actionPerformed
+INFO: settings button clicked - MainMenu
+May 05, 2020 10:04:16 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 05, 2020 10:04:23 PM gui.panels.PlayPanel setPassives
+INFO: passive TwiceDraw selected - PlayPanel
+May 05, 2020 10:04:23 PM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 05, 2020 10:04:23 PM gui.GameFrame goToPanel
+INFO: Panel changed to playPanel
+May 05, 2020 10:04:23 PM gui.panels.MainMenu actionPerformed
+INFO: play button clicked - MainMenu
+May 05, 2020 10:04:31 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 05, 2020 10:04:36 PM gui.panels.PlayPanel setPassives
+INFO: passive OffCards selected - PlayPanel
+May 05, 2020 10:04:36 PM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 05, 2020 10:04:37 PM gui.GameFrame goToPanel
+INFO: Panel changed to playPanel
+May 05, 2020 10:04:37 PM gui.panels.MainMenu actionPerformed
+INFO: play button clicked - MainMenu
+May 05, 2020 10:04:41 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 05, 2020 10:04:43 PM gui.GameFrame goToPanel
+INFO: Panel changed to collectionPanel
+May 05, 2020 10:04:43 PM gui.panels.MainMenu actionPerformed
+INFO: collection button clicked - MainMenu
+May 05, 2020 10:04:47 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 05, 2020 10:04:49 PM gui.GameFrame goToPanel
+INFO: Panel changed to shopPanel
+May 05, 2020 10:04:49 PM gui.panels.MainMenu actionPerformed
+INFO: shop button clicked - MainMenu
+May 05, 2020 10:04:53 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 05, 2020 10:04:55 PM gui.GameFrame goToPanel
+INFO: Panel changed to shopPanel
+May 05, 2020 10:04:55 PM gui.panels.MainMenu actionPerformed
+INFO: shop button clicked - MainMenu
+May 05, 2020 10:05:00 PM gui.panels.ShopPanel actionPerformed
+INFO: button clicked to illustrate sell show case - Shop
+May 05, 2020 10:06:51 PM gui.panels.ShopPanel actionPerformed
+INFO: button clicked to illustrate sell show case - Shop
+May 05, 2020 10:06:56 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 05, 2020 10:07:01 PM gui.panels.PlayPanel setPassives
+INFO: passive TwiceDraw selected - PlayPanel
+May 05, 2020 10:07:01 PM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 05, 2020 10:07:02 PM gui.GameFrame goToPanel
+INFO: Panel changed to playPanel
+May 05, 2020 10:07:02 PM gui.panels.MainMenu actionPerformed
+INFO: play button clicked - MainMenu
+May 05, 2020 10:07:11 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 05, 2020 10:07:16 PM gui.panels.PlayPanel setPassives
+INFO: passive TwiceDraw selected - PlayPanel
+May 05, 2020 10:07:23 PM gui.panels.PlayPanel setPassives
+INFO: passive OffCards selected - PlayPanel
+May 05, 2020 10:07:27 PM gui.GameFrame goToPanel
+INFO: Panel changed to playPanel
+May 05, 2020 10:07:27 PM gui.panels.MainMenu actionPerformed
+INFO: play button clicked - MainMenu
+May 05, 2020 10:07:29 PM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 05, 2020 10:07:32 PM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 05, 2020 10:07:37 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu

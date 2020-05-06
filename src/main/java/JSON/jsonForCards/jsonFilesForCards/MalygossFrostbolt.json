@@ -1,0 +1,11 @@
+{
+  "Quest": "",
+  "Reward": "",
+  "manaCost": 0,
+  "name": "MalygossFrostbolt",
+  "description": "Deal 3 damage to a character and Freeze it.",
+  "rarity": "COMMON",
+  "type": "SPELL",
+  "heroClass": "NEUTRAL",
+  "price": 5
+}

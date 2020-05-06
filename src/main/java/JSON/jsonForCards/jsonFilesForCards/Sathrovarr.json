@@ -1,0 +1,11 @@
+{
+  "HP": 5,
+  "Attack": 5,
+  "manaCost": 9,
+  "name": "Sathrovarr",
+  "description": "TChoose a friendly minion. Add a copy of it to your hand, deck and battlefield.",
+  "rarity": "LEGENDARY",
+  "type": "MINION",
+  "heroClass": "NEUTRAL",
+  "price": 20
+}

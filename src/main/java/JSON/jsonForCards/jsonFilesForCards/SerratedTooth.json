@@ -1,0 +1,11 @@
+{
+  "durability": 1,
+  "Attack": 1,
+  "manaCost": 1,
+  "name": "SerratedTooth",
+  "description": "Deathrattle: Give your minions Rush.",
+  "rarity": "COMMON",
+  "type": "WEAPON",
+  "heroClass": "NEUTRAL",
+  "price": 5
+}

@@ -1,0 +1,12 @@
+May 06, 2020 8:47:30 PM controller.PlayerController SignUp
+INFO: USER  : sss
+CREATED AT : 2020/05/06 20:47:30
+PASSWORD : bf9661defa3daecacfde5bde0214c4a439351d4d
+
+May 06, 2020 8:47:31 PM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 8:47:38 PM controller.PlayerController setPassives
+INFO: passive ManaJump selected - PlayPanel
+May 06, 2020 8:47:38 PM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+

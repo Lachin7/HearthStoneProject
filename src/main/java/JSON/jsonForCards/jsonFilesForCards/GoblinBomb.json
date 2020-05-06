@@ -1,0 +1,11 @@
+{
+  "HP": 2,
+  "Attack": 0,
+  "manaCost": 1,
+  "name": "GoblinBomb",
+  "description": "Deal 2 damage to the enemy hero.",
+  "rarity": "COMMON",
+  "type": "MINION",
+  "heroClass": "NEUTRAL",
+  "price": 5
+}

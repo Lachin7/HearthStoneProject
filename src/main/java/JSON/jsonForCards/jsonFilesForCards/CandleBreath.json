@@ -1,0 +1,11 @@
+{
+  "Quest": "",
+  "Reward": "",
+  "manaCost": 6,
+  "name": "CandleBreath",
+  "description": "Destroy a minion. Invoke Galakrond.",
+  "rarity": "COMMON",
+  "type": "SPELL",
+  "heroClass": "NEUTRAL",
+  "price": 5
+}

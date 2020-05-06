@@ -1,0 +1,11 @@
+{
+  "HP": 1,
+  "Attack": 2,
+  "manaCost": 1,
+  "name": "MurlocRaider",
+  "description": "-",
+  "rarity": "COMMON",
+  "type": "MINION",
+  "heroClass": "NEUTRAL",
+  "price": 5
+}

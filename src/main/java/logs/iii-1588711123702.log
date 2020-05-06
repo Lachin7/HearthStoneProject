@@ -1,0 +1,21 @@
+May 06, 2020 1:08:43 AM controller.PlayerController SignUp
+INFO: USER  : iii
+CREATED AT : 2020/05/06 01:08:43
+PASSWORD : c3ae457bb31ea0b0df811cf615e81cb46fefdbe9
+
+May 06, 2020 1:08:45 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 1:08:49 AM gui.GameFrame goToPanel
+INFO: Panel changed to collectionPanel
+May 06, 2020 1:08:49 AM gui.panels.MainMenu actionPerformed
+INFO: collection button clicked - MainMenu
+May 06, 2020 1:08:50 AM gui.panels.CollectionPanel actionPerformed
+INFO: Creat Deck button clicked - Collection
+May 06, 2020 1:08:54 AM gui.panels.CollectionPanel actionPerformed
+INFO: created decktttttt - Collection
+May 06, 2020 1:09:01 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 1:09:04 AM gui.GameFrame goToPanel
+INFO: Panel changed to statusPanel
+May 06, 2020 1:09:04 AM gui.panels.MainMenu actionPerformed
+INFO: status button clicked - MainMenu

@@ -1,0 +1,32 @@
+May 06, 2020 12:39:52 AM controller.PlayerController SignUp
+INFO: USER  : iiiii
+CREATED AT : 2020/05/06 00:39:52
+PASSWORD : b3973d807f32bc270544c3d099bc8f325579d33b
+
+May 06, 2020 12:39:54 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 12:40:31 AM gui.GameFrame goToPanel
+INFO: Panel changed to settingsPanel
+May 06, 2020 12:40:31 AM gui.panels.MainMenu actionPerformed
+INFO: settings button clicked - MainMenu
+May 06, 2020 12:40:38 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 12:40:40 AM gui.GameFrame goToPanel
+INFO: Panel changed to collectionPanel
+May 06, 2020 12:40:40 AM gui.panels.MainMenu actionPerformed
+INFO: collection button clicked - MainMenu
+May 06, 2020 12:40:46 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 12:40:48 AM gui.GameFrame goToPanel
+INFO: Panel changed to shopPanel
+May 06, 2020 12:40:48 AM gui.panels.MainMenu actionPerformed
+INFO: shop button clicked - MainMenu
+May 06, 2020 12:41:19 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 06, 2020 12:41:25 AM gui.GameFrame goToPanel
+INFO: Panel changed to playPanel
+May 06, 2020 12:41:29 AM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 06, 2020 12:41:30 AM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+

@@ -1,0 +1,11 @@
+{
+  "HP": 2,
+  "Attack": 2,
+  "manaCost": 3,
+  "name": "Ratcatcher",
+  "description": "Rush   Battlecry: Destroy a friendly minion and gain its Attack and Health.",
+  "rarity": "LEGENDARY",
+  "type": "MINION",
+  "heroClass": "WARLOCK",
+  "price": 20
+}

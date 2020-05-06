@@ -1,0 +1,11 @@
+{
+  "Quest": "Sidequest: Spend 10 Mana on minions.",
+  "Reward": "Reward: Summon a minion from your deck.",
+  "manaCost": 1,
+  "name": "StrengthInNumbers",
+  "description": "-",
+  "rarity": "COMMON",
+  "type": "SPELL",
+  "heroClass": "NEUTRAL",
+  "price": 5
+}

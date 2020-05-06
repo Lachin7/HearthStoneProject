@@ -1,0 +1,11 @@
+{
+  "HP": 6,
+  "Attack": 3,
+  "manaCost": 8,
+  "name": "TombWarden",
+  "description": "Taunt\nBattlecry: Summon a copy of this minion.",
+  "rarity": "RARE",
+  "type": "MINION",
+  "heroClass": "NEUTRAL",
+  "price": 10
+}
