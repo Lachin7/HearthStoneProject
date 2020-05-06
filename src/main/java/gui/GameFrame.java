@@ -55,7 +55,7 @@ public class GameFrame extends JFrame {
         signInPanel = new SignInPanel(); cardPane.add("signInPanel",signInPanel);
         settingsPanel = new SettingsPanel(); cardPane.add("settingsPanel",settingsPanel);
 //        if(panelName.equals("playPanel")&& Controller.getInstance().getCurrentPlayer().getPlayersDeck()==null) goToPanel("collectionPanel");
-        if(panelName.equals("mainMenu")) {
+        if(panelName.equals("signInPanel")) {
             audioPlayer.playMainMusic("melodyloops-light-of-hope.wav");
         }
         if(panelName.equals("playPanel")){

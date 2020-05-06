@@ -134,6 +134,7 @@ public class PlayPanel extends MyPanel implements ActionListener {
    }
 
     public void drawCardToHands(){
+        System.out.println(Controller.getInstance().getCurrentPlayer().getDeckCardsInGame().size());
        if(Controller.getInstance().getCurrentPlayer().getDeckCardsInGame().size()==0) {
            JOptionPane.showMessageDialog(null,"you don't have any cards in your deck\n your hero will lose a health:(");
            Controller.getInstance().getCurrentPlayer().getPlayersChoosedHero().setHP(Controller.getInstance().getCurrentPlayer().getPlayersChoosedHero().getHP()-1);
@@ -188,10 +189,10 @@ public class PlayPanel extends MyPanel implements ActionListener {
         }
         if(actionEvent.getSource()==endTurn){
             firstDraw =false;
+            updateMana();
             drawCardToHands();
             audioPlayer.playQuick("drawCard.wav");
             boardController.endTurn();
-             updateMana();
             audioPlayer.playQuick("poker-chips-daniel_simon.wav");
         }
         if(actionEvent.getSource()==playCard){

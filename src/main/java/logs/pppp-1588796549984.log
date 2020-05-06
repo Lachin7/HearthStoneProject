@@ -1,0 +1,11 @@
+May 07, 2020 12:52:30 AM controller.PlayerController SignUp
+INFO: USER  : pppp
+CREATED AT : 2020/05/07 00:52:30
+PASSWORD : c3ae457bb31ea0b0df811cf615e81cb46fefdbe9
+
+May 07, 2020 12:52:31 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 07, 2020 12:53:34 AM gui.GameFrame goToPanel
+INFO: Panel changed to signInPanel
+May 07, 2020 12:53:34 AM gui.panels.MainMenu actionPerformed
+INFO: signIn button clicked - MainMenu

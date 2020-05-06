@@ -1,0 +1,65 @@
+May 07, 2020 12:36:19 AM controller.PlayerController SignUp
+INFO: USER  : ooooooopppp
+CREATED AT : 2020/05/07 00:36:19
+PASSWORD : be0e9bde1088f3c86aca1a45169cac44021a4e47
+
+May 07, 2020 12:36:21 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 07, 2020 12:36:23 AM gui.GameFrame goToPanel
+INFO: Panel changed to settingsPanel
+May 07, 2020 12:36:23 AM gui.panels.MainMenu actionPerformed
+INFO: settings button clicked - MainMenu
+May 07, 2020 12:36:25 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 07, 2020 12:36:29 AM controller.PlayerController setPassives
+INFO: passive ManaJump selected - PlayPanel
+May 07, 2020 12:36:30 AM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 07, 2020 12:36:30 AM gui.GameFrame goToPanel
+INFO: Panel changed to playPanel
+May 07, 2020 12:36:30 AM gui.panels.MainMenu actionPerformed
+INFO: play button clicked - MainMenu
+May 07, 2020 12:36:32 AM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 07, 2020 12:36:32 AM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 07, 2020 12:36:33 AM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 07, 2020 12:36:33 AM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 07, 2020 12:36:34 AM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 07, 2020 12:36:34 AM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 07, 2020 12:36:35 AM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 07, 2020 12:36:35 AM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 07, 2020 12:36:36 AM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 07, 2020 12:36:36 AM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 07, 2020 12:36:37 AM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 07, 2020 12:36:37 AM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 07, 2020 12:36:37 AM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 07, 2020 12:36:37 AM controller.BoardController drawCard
+INFO: draw card - PlayPanel
+
+May 07, 2020 12:36:39 AM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 07, 2020 12:36:45 AM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 07, 2020 12:36:50 AM gui.panels.PlayPanel actionPerformed
+INFO:  button clicked - Collection
+May 07, 2020 12:38:49 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu

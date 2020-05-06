@@ -83,12 +83,11 @@ public class SettingsPanel extends MyPanel implements ActionListener {
         if(actionEvent.getSource()==mute){
             if(muteUnmute%2==0){
                 audioPlayer.stopSound();
-                muteUnmute++;
             }
-            if(muteUnmute%2!=0){
+            else {
                 audioPlayer.startSound();
-                muteUnmute++;
             }
+            muteUnmute++;
         }
         if(actionEvent.getSource()==increase){
             audioPlayer.increaseSound();

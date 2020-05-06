@@ -5,6 +5,7 @@ import gui.GameFrame;
 import gui.MyAudioPlayer;
 import gui.myComponents.MyCardButton;
 import models.Cards.Card;
+import models.Cards.Spell;
 import models.board.InfoPassive;
 
 import javax.swing.*;
@@ -59,8 +60,9 @@ public class BoardController {
     }
 
     public void drawCard(Boolean firstDraw) throws IOException {
+        System.out.println(DeckCardsInGame.size());
 
-        int i = random.nextInt(DeckCardsInGame.size()-1);
+        int i = random.nextInt(DeckCardsInGame.size());
         if(Controller.getInstance().getCurrentPlayer().getHandsCards().size()!=12) {
             fileWriter.append("draw card "+DeckCardsInGame.get(i).getName()+" from deck to hand cards\n");
             fileWriter.flush();
@@ -68,14 +70,23 @@ public class BoardController {
             DeckCardsInGame.remove(i);
         }
         if(DeckCardsInGame.size()!=0 && (Controller.getInstance().getCurrentPlayer().getInfoPassive()==InfoPassive.TwiceDraw || firstDraw)){
-            i = random.nextInt(DeckCardsInGame.size()-1);
+            i = random.nextInt(DeckCardsInGame.size());
             fileWriter.append("draw card "+DeckCardsInGame.get(i).getName()+" from deck to hand cards\n");
             fileWriter.flush();
             Controller.getInstance().getCurrentPlayer().getHandsCards().add(DeckCardsInGame.get(i));
             DeckCardsInGame.remove(i);
         }
         if(firstDraw){
-            i = random.nextInt(DeckCardsInGame.size()-1);
+//            for (Card card : DeckCardsInGame){
+//                if(card.getType()== Card.type.SPELL&& ((Spell)card).getQuest().length()>6){
+//                    fileWriter.append("draw card "+DeckCardsInGame.get(i).getName()+" from deck to hand cards\n");
+//                    fileWriter.flush();
+//                    Controller.getInstance().getCurrentPlayer().getHandsCards().add(DeckCardsInGame.get(i));
+//                    DeckCardsInGame.remove(i);
+//                    return;
+//                }
+//            }
+            i = random.nextInt(DeckCardsInGame.size());
             fileWriter.append("draw card "+DeckCardsInGame.get(i).getName()+" from deck to hand cards\n");
             fileWriter.flush();
             Controller.getInstance().getCurrentPlayer().getHandsCards().add(DeckCardsInGame.get(i));

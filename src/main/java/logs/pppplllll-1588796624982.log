@@ -1,0 +1,21 @@
+May 07, 2020 12:53:45 AM controller.PlayerController SignUp
+INFO: USER  : pppplllll
+CREATED AT : 2020/05/07 00:53:45
+PASSWORD : c3ae457bb31ea0b0df811cf615e81cb46fefdbe9
+
+May 07, 2020 12:53:46 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 07, 2020 12:53:49 AM gui.GameFrame goToPanel
+INFO: Panel changed to settingsPanel
+May 07, 2020 12:53:49 AM gui.panels.MainMenu actionPerformed
+INFO: settings button clicked - MainMenu
+May 07, 2020 12:53:53 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 07, 2020 12:53:56 AM gui.GameFrame goToPanel
+INFO: Panel changed to settingsPanel
+May 07, 2020 12:53:56 AM gui.panels.MainMenu actionPerformed
+INFO: settings button clicked - MainMenu
+May 07, 2020 12:54:05 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
+May 07, 2020 12:54:23 AM controller.PlayerController setPassives
+INFO: passive TwiceDraw selected - PlayPanel

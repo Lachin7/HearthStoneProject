@@ -10,7 +10,9 @@ public class Spell extends Card {
 
     }
 
-
+    public String getQuest() {
+        return Quest;
+    }
 
 //    @Override
 //    public String toString() {

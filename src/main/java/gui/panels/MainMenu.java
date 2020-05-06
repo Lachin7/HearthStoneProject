@@ -15,7 +15,7 @@ import java.util.logging.Level;
 
 public class MainMenu extends MyPanel implements ActionListener {
 
-    private JButton play , shop , status , collection , settings ;
+    private JButton play , shop , status , collection , settings, signIn ;
     private MyAudioPlayer audioPlayer;
 
 
@@ -35,6 +35,8 @@ public class MainMenu extends MyPanel implements ActionListener {
         status.setBounds(670,380,150,64);
         settings = new MyButton("settings","blueCrystal150.png",this,this::actionPerformed);
         settings.setBounds(850,480,150,64);
+         signIn = new MyButton("signIn","blueCrystal150.png",this,this::actionPerformed);
+        signIn.setBounds(1030,580,150,64);
     }
 
     @Override

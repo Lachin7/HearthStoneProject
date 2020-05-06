@@ -1,0 +1,7 @@
+May 07, 2020 12:57:01 AM controller.PlayerController SignUp
+INFO: USER  : qqqq
+CREATED AT : 2020/05/07 00:57:01
+PASSWORD : 33a9e269dd782e92489a8e547b7ed582e0e1d42b
+
+May 07, 2020 12:57:02 AM gui.GameFrame goToPanel
+INFO: Panel changed to mainMenu
