@@ -1,11 +1,16 @@
 {
-  "Quest": "Sidequest: Spend 10 Mana on minions.",
-  "Reward": "Reward: Summon a minion from your deck.",
+  "quest": "Sidequest: Spend 10 Mana on minions.",
+  "reward": "Reward: Summon a minion from your deck.",
+  "canRestore": false,
+  "restoreAmount": 0,
+  "hasDiscovery": false,
   "manaCost": 1,
   "name": "StrengthInNumbers",
-  "description": "-",
+  "description": "Sidequest: Spend 10 Mana on minions.Reward: Summon a minion from your deck.",
   "rarity": "COMMON",
   "type": "SPELL",
   "heroClass": "NEUTRAL",
-  "price": 5
+  "price": 5,
+  "id": "1594402186081",
+  "hasInitialMoveTarget": false
 }

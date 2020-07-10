@@ -7,5 +7,7 @@
   "rarity": "COMMON",
   "type": "WEAPON",
   "heroClass": "NEUTRAL",
-  "price": 5
+  "price": 5,
+  "id": "1594402186082",
+  "hasInitialMoveTarget": false
 }

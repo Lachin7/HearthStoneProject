@@ -1,11 +1,14 @@
 {
-  "Quest": "",
-  "Reward": "",
+  "canRestore": false,
+  "restoreAmount": 0,
+  "hasDiscovery": false,
   "manaCost": 2,
   "name": "BookOfSpecters",
   "description": "Draw 3 cards. Discard any spells drawn.",
   "rarity": "EPIC",
   "type": "SPELL",
-  "heroClass": "NEUTRAL",
-  "price": 15
+  "heroClass": "MAGE",
+  "price": 5,
+  "id": "1594402186082",
+  "hasInitialMoveTarget": false
 }

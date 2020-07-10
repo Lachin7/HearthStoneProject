@@ -1,11 +1,21 @@
 {
-  "HP": 3,
+  "HP": 4,
   "Attack": 6,
-  "manaCost": 6,
+  "maxHp": 4,
+  "maxAttack": 6,
+  "hasDivineShield": false,
+  "canAttack": false,
+  "isRush": false,
+  "isTaunt": false,
+  "isPoisonous": false,
+  "subType": "DEMON",
+  "manaCost": 7,
   "name": "ScavengingShivarra",
-  "description": "Battlecry: Deal 6 damage randomly split among all other minions.",
+  "description": "Battlecry: Deal 1 damage to all enemy minions",
   "rarity": "COMMON",
   "type": "MINION",
   "heroClass": "NEUTRAL",
-  "price": 5
+  "price": 5,
+  "id": "1594402186082",
+  "hasInitialMoveTarget": false
 }

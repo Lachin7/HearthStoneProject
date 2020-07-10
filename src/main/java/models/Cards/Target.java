@@ -1,4 +1,8 @@
 package models.Cards;
 
-public class Target {
+public enum  Target {
+    FRIENDLY_MINION,
+    FRIENDLY_HERO,
+    ENEMY_MINION,
+    ENEMY_HERO,
 }

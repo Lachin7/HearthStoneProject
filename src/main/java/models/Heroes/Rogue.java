@@ -1,36 +1,29 @@
 package models.Heroes;
 
-import models.Cards.Card;
-import cliAndMenus.gameCLI;
-import com.google.gson.annotations.Expose;
-
 public class Rogue extends Hero {
 
 
     public Rogue() {
         this.HP = 30;
         this.name ="Rogue";
+        this.heroPowerCost = 3;
     }
 
-    public void SpecialPower() {
-        if (gameCLI.getInstance().getCurrentPlayer().getPlayersChoosedHero() == this) {
-            for (Card card : gameCLI.getInstance().getCurrentPlayer().getALLPlayersCards()) {
-//                if ((Rogue) card.getHeroClass()!= Rogue.getInstance()|| card.getHeroClass() != (HeroClass) Neutral.getInstance()) {
-//                    card.setManaCost(card.getManaCost() - 2);
-//                }
-            }
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "ROGUE";
-    }
     public String getName() {
         return "Rogue";
     }
 
 }
+
+//    public void SpecialPower() {
+//        if (gameCLI.getInstance().getCurrentPlayer().getPlayersChoosedHero() == this) {
+//            for (Card card : gameCLI.getInstance().getCurrentPlayer().getALLPlayersCards()) {
+////                if ((Rogue) card.getHeroClass()!= Rogue.getInstance()|| card.getHeroClass() != (HeroClass) Neutral.getInstance()) {
+////                    card.setManaCost(card.getManaCost() - 2);
+////                }
+//            }
+//        }
+//    }
 
 //    @Override
 //    public  ArrayList<card> getHeroAllCards() {

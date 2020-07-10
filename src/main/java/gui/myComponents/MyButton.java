@@ -1,7 +1,6 @@
 package gui.myComponents;
 
-import gui.GameFrame;
-import gui.ResLoader;
+import resLoader.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,15 +9,16 @@ import java.awt.image.BufferedImage;
 
 public class MyButton extends JButton {
 
-    private ResLoader resLoader = new ResLoader();
+    private ImageLoader imageLoader = ImageLoader.getInstance();
     private String IconFile;
     private String name;
+    private long id ;
 
     public MyButton(String name, String IconFile, Container container, ActionListener actionListener){
         this.IconFile = IconFile;
         this.name = name;
         Font font = new Font("",Font.BOLD,12);
-        BufferedImage image = resLoader.imageLoader(IconFile);
+        BufferedImage image = imageLoader.loadImage(IconFile);
         this.setFont(font);
         this.setText(name);
         this.setIcon(new ImageIcon(image));
@@ -37,11 +37,18 @@ public class MyButton extends JButton {
 
     public MyButton(String name, String IconFile, Container container, ActionListener actionListener, int width, int height){
         this(name,IconFile,container,actionListener);
-        this.setIcon(new ImageIcon(resLoader.imageLoader(IconFile).getScaledInstance(width,height,Image.SCALE_SMOOTH)));
+        this.setIcon(new ImageIcon(imageLoader.loadImage(IconFile).getScaledInstance(width,height,Image.SCALE_SMOOTH)));
         this.setSize(width,height);
         this.setPreferredSize(new Dimension(width,height));
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getIconFile() {
         return IconFile;

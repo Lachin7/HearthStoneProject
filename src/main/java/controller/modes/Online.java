@@ -1,4 +1,10 @@
 package controller.modes;
 
-public class Online {
+import controller.BoardController;
+
+public class Online extends BoardController {
+    @Override
+    protected void setPlayers() {
+
+    }
 }

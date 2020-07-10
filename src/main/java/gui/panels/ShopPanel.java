@@ -1,8 +1,8 @@
 package gui.panels;
 
 import gui.Constants.GuiCons;
-import gui.ResLoader;
-import gui.MyAudioPlayer;
+import resLoader.ImageLoader;
+import resLoader.MyAudioPlayer;
 import models.Cards.Card;
 import controller.*;
 import gui.myComponents.*;
@@ -13,18 +13,14 @@ import java.util.logging.Level;
 
 
 public class ShopPanel extends MyPanel implements ActionListener {
-    private ResLoader resLoader ;
     private CardController cardController = new CardController();
     private JPanel itemsPanel , cardsShowCase , cardPanel;
     private JLabel shopLabel, playersCoins, price;
     private MyCardButton selectedCard;
     private JButton CardsYouCanBuyButton, CardsYouCanSellButton, BuyCardButton, SellCardButton;
-    private CustomComponent customComponent;
     private MyAudioPlayer audioPlayer;
 
     public ShopPanel(){
-        resLoader = new ResLoader();
-        customComponent = new CustomComponent();
         this.setPreferredSize(new Dimension(GuiCons.getWidth(),GuiCons.getHeight()));
         this.setLayout(null);
         this.backGroundFile = "rsz_wood_wallpapers_1080p_1.jpg";
@@ -33,7 +29,7 @@ public class ShopPanel extends MyPanel implements ActionListener {
 
         itemsPanel = new MyPanel(null,true,new FlowLayout(FlowLayout.LEFT,5,0),this);
         itemsPanel.setBounds(25,10,1150,80);
-        shopLabel = new JLabel(new ImageIcon(resLoader.imageLoader("rsz_shoplable.png").getScaledInstance(150,64,Image.SCALE_SMOOTH)));
+        shopLabel = new JLabel(new ImageIcon(imageLoader.loadImage("rsz_shoplable.png").getScaledInstance(150,64,Image.SCALE_SMOOTH)));
         itemsPanel.add(shopLabel);
         CardsYouCanBuyButton = new MyButton("Cards You Can Buy","blueCrystal150.png",itemsPanel,this);
         CardsYouCanSellButton = new MyButton("Cards You Can Sell","blueCrystal150.png",itemsPanel,this);
@@ -47,11 +43,11 @@ public class ShopPanel extends MyPanel implements ActionListener {
         cardPanel = new MyPanel(null,true,new FlowLayout(),this);
         cardPanel.setBounds(830,100,350,500);
 
-        playersCoins = new JLabel("you have  ????  coins",new ImageIcon(resLoader.imageLoader("coin.png").getScaledInstance(40,40,Image.SCALE_SMOOTH)),JLabel.HORIZONTAL);
+        playersCoins = new JLabel("you have  ????  coins",new ImageIcon(imageLoader.loadImage("coin.png").getScaledInstance(40,40,Image.SCALE_SMOOTH)),JLabel.HORIZONTAL);
         playersCoins.setFont(new Font("Ariel",Font.BOLD,20));
         cardPanel.add(playersCoins);
-        selectedCard = new MyCardButton(null,200,cardPanel);
-        price = new JLabel("price :  ???        " , new ImageIcon(resLoader.imageLoader("coin.png").getScaledInstance(40,40,Image.SCALE_SMOOTH)),JLabel.HORIZONTAL);
+        selectedCard = new MyCardButton("",200,cardPanel);
+        price = new JLabel("price :  ???        " , new ImageIcon(imageLoader.loadImage("coin.png").getScaledInstance(40,40,Image.SCALE_SMOOTH)),JLabel.HORIZONTAL);
         price.setFont(new Font("Ariel",Font.BOLD,20));
         cardPanel.add(price);
         BuyCardButton = new MyButton("Buy Card","blueCrystal150.png",cardPanel,this);
@@ -59,7 +55,7 @@ public class ShopPanel extends MyPanel implements ActionListener {
         SellCardButton = new MyButton("Sell models.Cards","blueCrystal150.png",cardPanel,this::actionPerformed);
         SellCardButton.setVisible(false);
 
-        customComponent.backToMenuButton(this, 35,620);
+        customComponent.backToMenuButton(this, 35,620,null);
         customComponent.exit(this,150,620);
     }
 
@@ -67,13 +63,13 @@ public class ShopPanel extends MyPanel implements ActionListener {
 
     void setBuyShowCase(){
         cardsShowCase.removeAll();
-        playersCoins.setText("you have "+ Controller.getInstance().getCurrentPlayer().getPlayerCoins()+ " coins");
+        playersCoins.setText("you have "+ Controller.getInstance().getMainPlayer().getPlayerCoins()+ " coins");
         for (Card card : cardController.getLockedCards()){
            MyCardButton myCardButton = new MyCardButton(card.getName(),100,cardsShowCase);
            myCardButton.addActionListener(new ActionListener() {
                @Override
                public void actionPerformed(ActionEvent actionEvent) {
-                   selectedCard.setIcon(new ImageIcon(resLoader.imageLoader("Cards/" + card.getName() + ".png").getScaledInstance(200,276,Image.SCALE_SMOOTH)));
+                   selectedCard.setIcon(new ImageIcon(imageLoader.loadImage("Cards/" + card.getName() + ".png").getScaledInstance(200,276,Image.SCALE_SMOOTH)));
                    selectedCard.setName(card.getName());
                    selectedCard.setContentAreaFilled(false); selectedCard.setBorderPainted(false); selectedCard.setOpaque(false);
                    price.setText("    price        :      "+ card.getPrice());
@@ -87,13 +83,13 @@ public class ShopPanel extends MyPanel implements ActionListener {
 
     void setSellShowCase(){
         cardsShowCase.removeAll();
-        playersCoins.setText("you have "+ Controller.getInstance().getCurrentPlayer().getPlayerCoins()+ " coins");
+        playersCoins.setText("you have "+ Controller.getInstance().getMainPlayer().getPlayerCoins()+ " coins");
         for (Card card : cardController.getCardsForSell()){
             MyCardButton myCardButton = new MyCardButton(card.getName(),100,cardsShowCase);
             myCardButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    selectedCard.setIcon(new ImageIcon(resLoader.imageLoader("Cards/" + card.getName() + ".png").getScaledInstance(200,276,Image.SCALE_SMOOTH)));
+                    selectedCard.setIcon(new ImageIcon(imageLoader.loadImage("Cards/" + card.getName() + ".png").getScaledInstance(200,276,Image.SCALE_SMOOTH)));
                     selectedCard.setContentAreaFilled(false); selectedCard.setBorderPainted(false); selectedCard.setOpaque(false);
                     selectedCard.setName(card.getName());
                     price.setText("    price      :     "+ card.getPrice());
@@ -126,7 +122,7 @@ public class ShopPanel extends MyPanel implements ActionListener {
                 cardController.buyCard(selectedCard.getName());
                 JOptionPane.showMessageDialog(null,"bought card " +selectedCard.getName()+" successfully" ,"",JOptionPane.INFORMATION_MESSAGE);
                 Controller.getInstance().getPlayerController().getPlayerLOGGER().log(Level.INFO, "button clicked to buy a card - Shop - " + " bought card " +selectedCard.getName()+" successfully");
-                selectedCard.setIcon(new ImageIcon(resLoader.imageLoader(Controller.getInstance().getCurrentPlayer().getCardSkin()).getScaledInstance(200,277,Image.SCALE_SMOOTH)));
+                selectedCard.setIcon(new ImageIcon(imageLoader.loadImage(Controller.getInstance().getMainPlayer().getCardSkin()).getScaledInstance(200,277,Image.SCALE_SMOOTH)));
                 price.setText("price :     ???   ");
                 setBuyShowCase();
             }
@@ -135,7 +131,7 @@ public class ShopPanel extends MyPanel implements ActionListener {
             cardController.sellCard(selectedCard.getName());
             JOptionPane.showMessageDialog(null,"sold card " +selectedCard.getName()+" successfully" ,"",JOptionPane.INFORMATION_MESSAGE);
             Controller.getInstance().getPlayerController().getPlayerLOGGER().log(Level.INFO, "button clicked to sell a card - Shop - " + " sold card " +selectedCard.getName()+" successfully");
-            selectedCard.setIcon(new ImageIcon(resLoader.imageLoader("BlushRoomCardBack.png").getScaledInstance(200,277,Image.SCALE_SMOOTH)));
+            selectedCard.setIcon(new ImageIcon(imageLoader.loadImage("BlushRoomCardBack.png").getScaledInstance(200,277,Image.SCALE_SMOOTH)));
             price.setText("price :      ???   ");
             setSellShowCase();
         }
@@ -143,7 +139,7 @@ public class ShopPanel extends MyPanel implements ActionListener {
 
 
     public void setSelectedCard(MyCardButton selectedCard) {
-        playersCoins.setText("you have "+ Controller.getInstance().getCurrentPlayer().getPlayerCoins()+ " coins");
+        playersCoins.setText("you have "+ Controller.getInstance().getMainPlayer().getPlayerCoins()+ " coins");
         this.selectedCard = selectedCard;
         price.setText("    price        :      "+ cardController.creatCard(selectedCard.getName()).getPrice());
     }

@@ -133,7 +133,7 @@ public class Deck {
 
     public void setHero(Card.HeroClass hero) {
         this.hero = hero;
-        if(Controller.getInstance().getCurrentPlayer().getPlayersDeck()==this)Controller.getInstance().getCurrentPlayer().setPlayersChoosedHero(hero);
+        if(Controller.getInstance().getMainPlayer().getPlayersDeck()==this)Controller.getInstance().getMainPlayer().setPlayersChoosedHero(hero);
     }
 
     public Comparator<Deck> getDeckComparator() {

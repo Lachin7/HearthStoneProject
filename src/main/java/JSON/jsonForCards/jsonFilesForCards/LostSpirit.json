@@ -1,11 +1,21 @@
 {
   "HP": 1,
   "Attack": 1,
+  "maxHp": 1,
+  "maxAttack": 1,
+  "hasDivineShield": false,
+  "canAttack": false,
+  "isRush": false,
+  "isTaunt": false,
+  "isPoisonous": false,
+  "subType": "NULL",
   "manaCost": 2,
   "name": "LostSpirit",
-  "description": "Deathrattle: Give your minions +1 Attack.",
+  "description": "Deathrattle: Give your minions +1 Attack",
   "rarity": "COMMON",
   "type": "MINION",
   "heroClass": "NEUTRAL",
-  "price": 5
+  "price": 5,
+  "id": "1594402186082",
+  "hasInitialMoveTarget": false
 }

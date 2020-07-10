@@ -1,11 +1,18 @@
 {
-  "Quest": "",
-  "Reward": "",
+  "canRestore": false,
+  "restoreAmount": 0,
+  "hasDiscovery": false,
   "manaCost": 6,
   "name": "PharaohsBlessing",
   "description": "Give a minion +4/+4, Divine Shield, and Taunt.",
   "rarity": "RARE",
   "type": "SPELL",
   "heroClass": "NEUTRAL",
-  "price": 10
+  "price": 10,
+  "id": "1594402185895",
+  "hasInitialMoveTarget": true,
+  "targets": [
+    "FRIENDLY_MINION",
+    "ENEMY_MINION"
+  ]
 }

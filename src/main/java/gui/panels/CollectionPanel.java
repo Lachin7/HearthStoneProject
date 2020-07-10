@@ -1,8 +1,8 @@
 package gui.panels;
 
 import gui.GameFrame;
-import gui.MyAudioPlayer;
-import gui.ResLoader;
+import resLoader.MyAudioPlayer;
+import resLoader.ImageLoader;
 import models.Cards.Card;
 import controller.*;
 import gui.myComponents.*;
@@ -26,17 +26,14 @@ public class CollectionPanel extends MyPanel implements ChangeListener , ActionL
     private JTextField searchField;
     private CardController cardController;
     private String  selectedCardInDeck;
-    private ResLoader resLoader ;
     private String[] cardOptions , heroOptions;
     private SettingsPanel settings;
     private MyAudioPlayer audioPlayer;
 
     public CollectionPanel(){
         cardController = new CardController();
-        resLoader = new ResLoader();
         settings = new SettingsPanel();
         this.backGroundFile = "CollectionBG.jpg";
-        CustomComponent customComponent = new CustomComponent();
         this.setLayout(null);
         audioPlayer = MyAudioPlayer.getInstance();
 
@@ -45,7 +42,7 @@ public class CollectionPanel extends MyPanel implements ChangeListener , ActionL
         makeDeckBar();
         makeManaFilter();
         updateDecksBar();
-        customComponent.backToMenuButton(this,25,620);
+        customComponent.backToMenuButton(this,25,620,null);
         customComponent.exit(this,130,620);
         heroOptions = new String[]{"Mage","Warlock","Rogue","Hunter","Priest"};
     }
@@ -83,7 +80,7 @@ public class CollectionPanel extends MyPanel implements ChangeListener , ActionL
         changeHero.setBounds(170,500,deleteCard.getWidth(),deleteCard.getHeight());
         rename = new MyButton("Rename","blueCrystal100.png",currentDeckBar,this);
         rename.setBounds(170,450,deleteCard.getWidth(),deleteCard.getHeight());
-        shownCardDeck = new JLabel(new ImageIcon(resLoader.imageLoader(Controller.getInstance().getCurrentPlayer().getCardSkin()).getScaledInstance(140,198,Image.SCALE_SMOOTH)));
+        shownCardDeck = new JLabel(new ImageIcon(imageLoader.loadImage(Controller.getInstance().getMainPlayer().getCardSkin()).getScaledInstance(140,198,Image.SCALE_SMOOTH)));
         shownCardDeck.setBounds(15,350,140,198);
         currentDeckBar.add(shownCardDeck);
     }
@@ -112,7 +109,7 @@ public class CollectionPanel extends MyPanel implements ChangeListener , ActionL
         manaFilter.addChangeListener(this);
         Hashtable<Integer, JLabel> labels = new Hashtable<>();
         for (int i = 1; i <= 10 ; i++) {
-            labels.put(i,new JLabel(new ImageIcon(resLoader.imageLoader("mana.png").getScaledInstance(18,19,Image.SCALE_SMOOTH))));
+            labels.put(i,new JLabel(new ImageIcon(imageLoader.loadImage("mana.png").getScaledInstance(18,19,Image.SCALE_SMOOTH))));
         }
         manaFilter.setLabelTable(labels);
         manaFilter.setBounds(350,620,250,40);
@@ -126,12 +123,12 @@ public class CollectionPanel extends MyPanel implements ChangeListener , ActionL
             MyCardButton myCardButton = new MyCardButton(card.getName(),100,cardsShowCase);
             myCardButton.addClickListener();
             myCardButton.addActionListener(actionEvent -> {
-               int ans = JOptionPane.showOptionDialog(cardsShowCase.getParent(),"what do you want to do with this card?","",JOptionPane.DEFAULT_OPTION,JOptionPane.PLAIN_MESSAGE,
-                       new ImageIcon(resLoader.imageLoader("Cards/" + card.getName() + ".png").getScaledInstance(170,17*138/10,Image.SCALE_SMOOTH)),cardOptions,cardOptions[0]);
+               int ans = JOptionPane.showOptionDialog(null,"what do you want to do with this card?","",JOptionPane.DEFAULT_OPTION,JOptionPane.PLAIN_MESSAGE,
+                       new ImageIcon(imageLoader.loadImage("Cards/" + card.getName() + ".png").getScaledInstance(170,17*138/10,Image.SCALE_SMOOTH)),cardOptions,cardOptions[0]);
                if(ans==0){
-                   if(!cardController.canBuy(card.getName())) JOptionPane.showMessageDialog(cardsShowCase,"you already have this card \n no need to buy it!");
+                   if(!cardController.canBuy(card.getName())) JOptionPane.showMessageDialog(null,"you already have this card \n no need to buy it!");
                    else {
-                       GameFrame.getInstance().getShopPanel().getSelectedCard().setIcon(new ImageIcon(resLoader.imageLoader("Cards/" + card.getName() + ".png").getScaledInstance(200,276,Image.SCALE_SMOOTH)));
+                       GameFrame.getInstance().getShopPanel().getSelectedCard().setIcon(new ImageIcon(imageLoader.loadImage("Cards/" + card.getName() + ".png").getScaledInstance(200,276,Image.SCALE_SMOOTH)));
                        GameFrame.getInstance().getShopPanel().getSelectedCard().setContentAreaFilled(false); GameFrame.getInstance().getShopPanel().getSelectedCard().setBorderPainted(false); GameFrame.getInstance().getShopPanel().getSelectedCard().setOpaque(false);
                        GameFrame.getInstance().getShopPanel().getSelectedCard().setName(card.getName());
                        GameFrame.getInstance().getShopPanel().setSelectedCard(GameFrame.getInstance().getShopPanel().getSelectedCard());
@@ -157,12 +154,12 @@ public class CollectionPanel extends MyPanel implements ChangeListener , ActionL
 
     public void updateDeckCards(ArrayList<Card> cards){
         deckCards.removeAll();
-        if(cardController.getTheDeck(currentDeck).getHero()!=null) deckCards.add(new JLabel(new ImageIcon(resLoader.imageLoader("hero pics/"+ cardController.getTheDeck(currentDeck).getHero().toString().toLowerCase()+".png").getScaledInstance(140,190,Image.SCALE_SMOOTH))));
+        if(cardController.getTheDeck(currentDeck).getHero()!=null) deckCards.add(new JLabel(new ImageIcon(imageLoader.loadImage("hero pics/"+ cardController.getTheDeck(currentDeck).getHero().toString().toLowerCase()+".png").getScaledInstance(140,190,Image.SCALE_SMOOTH))));
         for (Card card : cards){
             MyCardButton myCardButton = new MyCardButton(card.getName(),100,deckCards);
             myCardButton.addActionListener(actionEvent -> {
                 selectedCardInDeck = card.getName();
-                shownCardDeck.setIcon(new ImageIcon(resLoader.imageLoader("Cards/" + card.getName() + ".png").getScaledInstance(140,197,Image.SCALE_SMOOTH)));
+                shownCardDeck.setIcon(new ImageIcon(imageLoader.loadImage("Cards/" + card.getName() + ".png").getScaledInstance(140,197,Image.SCALE_SMOOTH)));
                 Controller.getInstance().getPlayerController().getPlayerLOGGER().log(Level.INFO, "card clicked for showing its info - Collection ");
             });
         }
@@ -172,7 +169,7 @@ public class CollectionPanel extends MyPanel implements ChangeListener , ActionL
 
     public void updateDecksBar(){
         decksBar.removeAll();
-        for (Deck deck : Controller.getInstance().getCurrentPlayer().getDecks()){
+        for (Deck deck : Controller.getInstance().getMainPlayer().getDecks()){
             JButton jButton = new MyButton(deck.getName(),"darkBlueButton.jpg",decksBar,null);
             jButton.addActionListener(actionEvent -> {
                 currentDeck = deck.getName();
@@ -237,7 +234,7 @@ public class CollectionPanel extends MyPanel implements ChangeListener , ActionL
                 cardController.removeFromDeck(selectedCardInDeck,currentDeck);
                 Controller.getInstance().getPlayerController().getPlayerLOGGER().log(Level.INFO,"deleted card : " +selectedCardInDeck+" - Collection");
                 updateDeckCards(cardController.getTheDeck(currentDeck).getCards());
-                shownCardDeck.setIcon(new ImageIcon(resLoader.imageLoader(Controller.getInstance().getCurrentPlayer().getCardSkin()).getScaledInstance(140,198,Image.SCALE_SMOOTH)));
+                shownCardDeck.setIcon(new ImageIcon(imageLoader.loadImage(Controller.getInstance().getMainPlayer().getCardSkin()).getScaledInstance(140,198,Image.SCALE_SMOOTH)));
             }
             else remove(dialogButton);
         }

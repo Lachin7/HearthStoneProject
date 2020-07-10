@@ -1,20 +1,19 @@
-package gui;
+package resLoader;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class ResLoader {
+public class ImageLoader {
 
-    private static ResLoader resLoader = new ResLoader();
-    // TODO make constructor private
-    public static ResLoader getInstance(){
-        return resLoader;
+    private static ImageLoader imageLoader = new ImageLoader();
+    public static ImageLoader getInstance(){
+        return imageLoader;
     }
+    private ImageLoader(){};
 
-    public BufferedImage imageLoader(String imageFileName){
+    public BufferedImage loadImage(String imageFileName){
         BufferedImage image = null;
         try {
             image = ImageIO.read(new File("./src/main/resources/" + imageFileName));

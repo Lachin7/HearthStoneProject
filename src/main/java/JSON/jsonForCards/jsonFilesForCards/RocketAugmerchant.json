@@ -1,11 +1,25 @@
 {
   "HP": 1,
   "Attack": 2,
+  "maxHp": 1,
+  "maxAttack": 2,
+  "hasDivineShield": false,
+  "canAttack": false,
+  "isRush": false,
+  "isTaunt": false,
+  "isPoisonous": false,
+  "subType": "NULL",
   "manaCost": 1,
   "name": "RocketAugmerchant",
-  "description": "Battlecry: Deal 1 damage to a minion and give it Rush.",
+  "description": "Rush\nBattlecry: Destroy a friendly minion and gain its Attack and Health.",
   "rarity": "COMMON",
   "type": "MINION",
   "heroClass": "NEUTRAL",
-  "price": 5
+  "price": 5,
+  "id": "1594402186093",
+  "hasInitialMoveTarget": true,
+  "targets": [
+    "FRIENDLY_MINION",
+    "ENEMY_MINION"
+  ]
 }

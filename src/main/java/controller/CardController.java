@@ -2,11 +2,20 @@ package controller;
 
 import models.Cards.Card;
 import com.google.gson.*;
+
+import models.Cards.minions.*;
+import models.Cards.spells.*;
+
+import models.Cards.spells.questAndReward.LearnDraconic;
+import models.Cards.spells.questAndReward.StrengthInNumbers;
+import models.Cards.weapons.*;
 import models.Deck;
 import models.Player;
 
 import java.io.*;
 import java.util.ArrayList;
+
+import static JSON.jsonForCards.jsonForCards.creatCardFromjson;
 
 public class CardController {
 
@@ -56,8 +65,16 @@ public class CardController {
         return result;
     }
 
+    public ArrayList<Card> getTypeCards(Card.type type){
+        ArrayList<Card> result = new ArrayList<>();
+        for(Card card : AllCardsInGame){
+            if(card.getType()== type) result.add(card);
+        }
+        return result;
+    }
+
     public Boolean isLocked(Card card){
-        if(Controller.getInstance().getCurrentPlayer().getALLPlayersCards().contains(card)) return false;
+        if(Controller.getInstance().getMainPlayer().getALLPlayersCards().contains(card)) return false;
         return true;
     }
 
@@ -70,7 +87,7 @@ public class CardController {
     }
 
     public Boolean isInDecks(Card card){
-        for (Deck deck : Controller.getInstance().getCurrentPlayer().getDecks()){
+        for (Deck deck : Controller.getInstance().getMainPlayer().getDecks()){
                 if(deck.getCards().contains(card)) return true;
         }
         return false;
@@ -78,46 +95,86 @@ public class CardController {
 
     public ArrayList<Card> getCardsForSell(){
         ArrayList<Card> result = new ArrayList<>();
-        for (Card card : Controller.getInstance().getCurrentPlayer().getALLPlayersCards()){
+        for (Card card : Controller.getInstance().getMainPlayer().getALLPlayersCards()){
             if(!isInDecks(card)) result.add(card);
         }
         return result;
     }
 
-    public  Card creatCard(String name) {
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
-        FileReader fileReader = null;
-        try {
-            fileReader = new FileReader("./src/main/java/JSON/jsonForCards/jsonFilesForCards/" + name + ".json");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Card card = gson.fromJson(fileReader, Card.class);
-        try {
-            fileReader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return card;
+    public Card creatCard(String name) {
+       return creatCardFromjson(name);
+//        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
+//        FileReader fileReader = null;
+//        try {
+//            fileReader = new FileReader("./src/main/java/JSON/jsonForCards/jsonFilesForCards/" + name + ".json");
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        Card card = null;
+//        switch (name){
+//            case "Sprint": card = gson.fromJson(fileReader,Sprint.class); break;
+//            case "SwarmOfLocusts": card = gson.fromJson(fileReader, SwarmOfLocusts.class);break;
+//            case "PharaohsBlessing": card = gson.fromJson(fileReader,PharaohsBlessing.class);break;
+//            case "Polymorph": card = gson.fromJson(fileReader,Polymorph.class);break;
+//            case "FriendlySmith": card = gson.fromJson(fileReader,FriendlySmith.class);break;
+//            case "DreadScale": card = gson.fromJson(fileReader,DreadScale.class);break;
+//            case "SwampKingDred": card = gson.fromJson(fileReader,SwampKingDred.class);break;
+//            case "HighPriestAmet": card = gson.fromJson(fileReader, HighPriestAmet.class);break;
+//            case "Sathrovarr": card = gson.fromJson(fileReader, Sathrovarr.class);break;
+//            case "TombWarden": card = gson.fromJson(fileReader,TombWarden.class);break;
+//            case "SecurityRover": card = gson.fromJson(fileReader,SecurityRover.class);break;
+//            case "CurioCollector": card = gson.fromJson(fileReader,CurioCollector.class);break;
+//            case "StrengthInNumbers": card = gson.fromJson(fileReader, StrengthInNumbers.class);break;
+//            case "LearnDraconic": card = gson.fromJson(fileReader, LearnDraconic.class);break;
+//            case "ScrapDeadlyShot": card = gson.fromJson(fileReader,ScrapDeadlyShot.class);break;
+//            case "Locust": card = gson.fromJson(fileReader,Locust.class);break;
+//            case "GoblinBomb": card = gson.fromJson(fileReader,GoblinBomb.class);break;
+//            case "BonechewerVanguard": card = gson.fromJson(fileReader,BonechewerVanguard.class);break;
+//            case "BeamingSidekick": card = gson.fromJson(fileReader,BeamingSidekick.class);break;
+//            case "FrozenShadoweaver": card = gson.fromJson(fileReader,FrozenShadoweaver.class);break;
+//            case "LostSpirit": card = gson.fromJson(fileReader,LostSpirit.class);break;
+//            case "MagmaRager": card = gson.fromJson(fileReader,MagmaRager.class);break;
+//            case "MurlocRaider": card = gson.fromJson(fileReader,MurlocRaider.class);break;
+//            case "Ratcatcher": card = gson.fromJson(fileReader,Ratcatcher.class);break;
+//            case "ScavengingShivarra": card = gson.fromJson(fileReader,ScavengingShivarra.class);break;
+//            case "ConchguardWarlord": card = gson.fromJson(fileReader,ConchguardWarlord.class);break;
+//            case "Dragonrider": card = gson.fromJson(fileReader,Dragonrider.class);break;
+//            case "FungalBruiser": card = gson.fromJson(fileReader,FungalBruiser.class);break;
+//            case "Starscryer": card = gson.fromJson(fileReader,Starscryer.class);break;
+//            case "SerratedTooth": card = gson.fromJson(fileReader,SerratedTooth.class);break;
+//            case "LightsJustice": card = gson.fromJson(fileReader, LightsJustice.class);break;
+//            case "Sheep": card = gson.fromJson(fileReader,Sheep.class);break;
+//            case "FieryWarAxe": card = gson.fromJson(fileReader,FieryWarAxe.class);break;
+//            default: card = gson.fromJson(fileReader,Card.class);
+////            case "Sprint": card = gson.fromJson(fileReader,Sprint.class);
+////            case "Sprint": card = gson.fromJson(fileReader,Sprint.class);
+////            case "Sprint": card = gson.fromJson(fileReader,Sprint.class);
+//        }
+//        try {
+//            fileReader.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return card;
     }
 
     public Boolean canBuy(String cardName){
         Card card = creatCard(cardName);
         if(!isLocked(card)) return false;
-        return card.getPrice() <= Controller.getInstance().getCurrentPlayer().getPlayerCoins();
+        return card.getPrice() <= Controller.getInstance().getMainPlayer().getPlayerCoins();
     }
 
     public void buyCard(String cardName) {
         Card card = creatCard(cardName);
-        Controller.getInstance().getCurrentPlayer().getALLPlayersCards().add(card);
-        Controller.getInstance().getCurrentPlayer().setPlayerCoins(Controller.getInstance().getCurrentPlayer().getPlayerCoins()-card.getPrice());
+        Controller.getInstance().getMainPlayer().getALLPlayersCards().add(card);
+        Controller.getInstance().getMainPlayer().setPlayerCoins(Controller.getInstance().getMainPlayer().getPlayerCoins()-card.getPrice());
     }
 
 
     public void sellCard(String cardName) {
         Card card = creatCard(cardName);
-        Controller.getInstance().getCurrentPlayer().getALLPlayersCards().remove(card);
-        Controller.getInstance().getCurrentPlayer().setPlayerCoins(Controller.getInstance().getCurrentPlayer().getPlayerCoins()+card.getPrice());
+        Controller.getInstance().getMainPlayer().getALLPlayersCards().remove(card);
+        Controller.getInstance().getMainPlayer().setPlayerCoins(Controller.getInstance().getMainPlayer().getPlayerCoins()+card.getPrice());
     }
 
     public ArrayList<Card> searchFilter(String text) {
@@ -130,7 +187,7 @@ public class CardController {
 
     public Boolean validDeckName(String name){
         if(name.equals("")) return false;
-        for(Deck deck : Controller.getInstance().getCurrentPlayer().getDecks()){
+        for(Deck deck : Controller.getInstance().getMainPlayer().getDecks()){
             if(deck.getName().equals(name)) return false;
         }
         return true;
@@ -139,28 +196,10 @@ public class CardController {
     public void creatDeck(String name){
         if(validDeckName(name)) {
             Deck deck = new Deck(name, new ArrayList<>());
-            Controller.getInstance().getCurrentPlayer().getDecks().add(deck);
-            System.out.println(Controller.getInstance().getCurrentPlayer().getDecks());
+            Controller.getInstance().getMainPlayer().getDecks().add(deck);
+            System.out.println(Controller.getInstance().getMainPlayer().getDecks());
         }
     }
-
-
-
-//    public void updateCardsShowCase(JPanel panel, ArrayList<Card> cards, Card shownCard){
-//        panel.removeAll();
-//        for (Card card : cards){
-//            MyCardButton myCardButton = new MyCardButton(card.getName(),100,panel);
-//            myCardButton.addClickListener();
-//            myCardButton.addActionListener(new ActionListener() {
-//                @Override
-//                public void actionPerformed(ActionEvent actionEvent) {
-//                    shownCard = card;
-//                }
-//            });
-//        }
-//        panel.repaint();
-//        panel.revalidate();
-//    }
 
     public ArrayList<Card> getAllCardsInGame() {
         return AllCardsInGame;
@@ -191,11 +230,11 @@ public class CardController {
     }
 
     public Player getCurrentPlayer() {
-        return Controller.getInstance().getCurrentPlayer();
+        return Controller.getInstance().getMainPlayer();
     }
 
     public Deck getTheDeck(String deckName){
-        for(Deck deck : Controller.getInstance().getCurrentPlayer().getDecks()){
+        for(Deck deck : Controller.getInstance().getMainPlayer().getDecks()){
             if(deck.getName().equals(deckName)) return deck;
         }
         return null;
@@ -220,8 +259,8 @@ public class CardController {
     }
 
     public void removeDeck(String currentDeck) {
-        Controller.getInstance().getCurrentPlayer().getDecks().remove(getTheDeck(currentDeck));
-        if(Controller.getInstance().getCurrentPlayer().getPlayersDeck().getName().equals(currentDeck)) Controller.getInstance().getCurrentPlayer().setPlayersDeck(null);
+        Controller.getInstance().getMainPlayer().getDecks().remove(getTheDeck(currentDeck));
+        if(Controller.getInstance().getMainPlayer().getPlayersDeck().getName().equals(currentDeck)) Controller.getInstance().getMainPlayer().setPlayersDeck(null);
     }
 
     public Boolean canChangeDeckHero(String deckName){
@@ -242,6 +281,23 @@ public class CardController {
 //            for (Card card : deck.getCards()){
 //            }
 //        }
+//    }
+
+
+//    public void updateCardsShowCase(JPanel panel, ArrayList<Card> cards, Card shownCard){
+//        panel.removeAll();
+//        for (Card card : cards){
+//            MyCardButton myCardButton = new MyCardButton(card.getName(),100,panel);
+//            myCardButton.addClickListener();
+//            myCardButton.addActionListener(new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent actionEvent) {
+//                    shownCard = card;
+//                }
+//            });
+//        }
+//        panel.repaint();
+//        panel.revalidate();
 //    }
 
 }

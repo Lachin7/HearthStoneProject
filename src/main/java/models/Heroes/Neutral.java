@@ -8,28 +8,15 @@ import static controller.CardController.getALLCardsExistingInGame;
 
 public class Neutral extends Hero {
 
-  //  static Neutral Neutral = new Neutral();
-  @Expose
-  public ArrayList<Card> nuetralAllCards =new ArrayList<>();
-
     public Neutral() {
-        for(Card card : getALLCardsExistingInGame()) {
-            if(card.getHeroClass() == Card.HeroClass.NEUTRAL){
-                nuetralAllCards.add(card);
-            }
-        }
+        this.name = "Neutral";
     }
+
+  //  static Neutral Neutral = new Neutral();
+
 //    public static Neutral getInstance(){
 //        return Neutral;
 //    }
-    @Override
-    public String toString() {
-        return "NEUTRAL";
-    }
-
-    public String getName() {
-        return "Neutral";
-    }
 
 //    public static void main(String[] args) throws IOException {
 //        jsonFileMakerForHeroes(new Neutral());

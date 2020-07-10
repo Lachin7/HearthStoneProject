@@ -15,11 +15,11 @@ public class jsonForPlayers {
     public static File getPlayerFiles(String name) {
         File directory = new File("./src/main/java/JSON/jsonForPlayers/jsonFilesForPlayers");
         File[] listOfPlayersFiles = directory.listFiles();
-        for (File file : listOfPlayersFiles) {
-            if ((name + ".json").equals(file.getName())) {
-                return file;
+            for (File file : listOfPlayersFiles) {
+                if ((name + ".json").equals(file.getName())) {
+                    return file;
+                }
             }
-        }
         return null;
     }
 

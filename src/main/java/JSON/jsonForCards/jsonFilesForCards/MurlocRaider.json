@@ -1,11 +1,21 @@
 {
   "HP": 1,
   "Attack": 2,
+  "maxHp": 1,
+  "maxAttack": 2,
+  "hasDivineShield": false,
+  "canAttack": false,
+  "isRush": false,
+  "isTaunt": false,
+  "isPoisonous": false,
+  "subType": "MURLOC",
   "manaCost": 1,
   "name": "MurlocRaider",
-  "description": "-",
+  "description": "",
   "rarity": "COMMON",
   "type": "MINION",
   "heroClass": "NEUTRAL",
-  "price": 5
+  "price": 5,
+  "id": "1594402186082",
+  "hasInitialMoveTarget": false
 }

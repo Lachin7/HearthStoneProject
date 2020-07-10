@@ -1,10 +1,18 @@
 package models.Cards.weapons;
 
+import controller.BoardController;
+import controller.actionVisitors.card.CardVisitor;
 import models.Cards.Card;
 import models.Cards.Weapon;
+import models.Character;
 
-public class HeadhuntersHatchet extends Weapon {
-    public HeadhuntersHatchet(int manaCost, String name, String description, Card.rarity rarity, HeroClass heroClass, Card.type type, int price, int durability, int Attack) {
-        super(manaCost, name, description, rarity, heroClass, type, price, durability, Attack);
+public class FieryWarAxe extends Weapon {
+    public FieryWarAxe() {
+        super(3, "FieryWarAxe", "", Card.rarity.COMMON, HeroClass.NEUTRAL, Card.type.WEAPON, 5, 2, 3);
     }
+    @Override
+    public void accept(CardVisitor cardVisitor, Character target, BoardController boardController) {
+        cardVisitor.visitFieryWarAxe(this,target,boardController);
+    }
+
 }

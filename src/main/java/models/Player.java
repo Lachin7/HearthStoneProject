@@ -1,23 +1,14 @@
 package models;
-import cliAndMenus.gameCLI;
 import models.Cards.Card;
 import com.google.gson.annotations.Expose;
+import models.Cards.Minion;
+import models.Cards.Weapon;
 import models.Heroes.Hero;
-import models.Heroes.Mage;
-import models.Heroes.Rogue;
-import models.Heroes.Warlock;
 import models.board.InfoPassive;
 
-import java.io.*;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
+import java.security.*;
 import java.util.*;
 import java.util.logging.*;
-
-import static JSON.jsonForCards.jsonForCards.creatCardFromjson;
-import static JSON.jsonForPlayers.jsonForPlayers.*;
-import static controller.CardController.getALLCardsExistingInGame;
 
 public class Player {
 
@@ -30,20 +21,19 @@ public class Player {
     @Expose private ArrayList<Card> playersDeckCards = new ArrayList<>();
     @Expose private Deck playersDeck ;
     @Expose private ArrayList<Hero> PlayersUnlockedHeroes = new ArrayList<>();
-    @Expose private Mage PlayersMage = new Mage(); @Expose private Rogue PlayersRogue = new Rogue(); @Expose private Warlock PlayersWarlock = new Warlock();
-    @Expose public ArrayList<Card> mageDeckCards =new ArrayList<>();
-    @Expose public ArrayList<Card> rogueDeckCards =new ArrayList<>();
-    @Expose public ArrayList<Card> warlockDeckCards =new ArrayList<>();
+
     @Expose private ArrayList<Deck> Decks = new ArrayList<>() ;
     @Expose private ArrayList<Card> HandsCards =new ArrayList<>() ;
     @Expose private ArrayList<Card> DeckCardsInGame =new ArrayList<>() ;
-    @Expose private ArrayList<Card> FieldCardsInGame =new ArrayList<>() ;
+    @Expose private ArrayList<Minion> FieldCardsInGame =new ArrayList<>() ;
+    @Expose private int initialMana = 0;
+//    @Expose private Weapon weaponInGame;
     @Expose private String cardSkin = "BlushRoomCardBack.png";
     @Expose private String playBackGround = "HSplayBoard copy.jpg";
     @Expose private Boolean makeNewGame;
     @Expose private Boolean isSignedUp = false;
 
-    @Expose private int currentMana;
+    @Expose private int currentMana = 0;
     @Expose private InfoPassive infoPassive;
 
 
@@ -74,10 +64,10 @@ public class Player {
     public void setPlayersChoosedHero(Hero playersChoosedHero) {
         PlayersChoosedHero = playersChoosedHero;
     }
-    public void setPlayersChoosedHero(Card.HeroClass heroClass){
-        if(heroClass== Card.HeroClass.MAGE) setPlayersChoosedHero(getPlayersMage());
-        if(heroClass== Card.HeroClass.ROGUE) setPlayersChoosedHero(getPlayersRogue());
-        if(heroClass== Card.HeroClass.WARLOCK) setPlayersChoosedHero(getPlayersWarlock());
+    public void setPlayersChoosedHero(Card.HeroClass playersChoosedHero) {
+        //TODO
+//        if(playersChoosedHero ==Card.HeroClass.MAGE) playersChoosedHero =
+//        PlayersChoosedHero = playersChoosedHero;
     }
     public ArrayList<Card> getALLPlayersCards() {
         return ALLPlayersCards;
@@ -92,12 +82,16 @@ public class Player {
         this.ALLPlayersCards = ALLPlayersCards;
     }
 
-    public ArrayList<Card> getPlayersDeckCards() {
-        return playersDeckCards;
-    }
-
     public void setPlayersDeckCards(ArrayList<Card> playersDeckCards) {
         this.playersDeckCards = playersDeckCards;
+    }
+
+    public int getInitialMana() {
+        return initialMana;
+    }
+
+    public void setInitialMana(int initialMana) {
+        this.initialMana = initialMana;
     }
 
     public ArrayList<Deck> getDecks() {
@@ -124,72 +118,8 @@ public class Player {
     public void setPlayersDeck(Deck playersDeck) {
         this.playersDeck = playersDeck;
     }
-//
-    public Logger getPlayerLOGGER() {
-        return PlayerLOGGER;
-    }
-    public void setPlayerLOGGER(Logger playerLOGGER) {
-        PlayerLOGGER = playerLOGGER;
-    }
 
     Scanner scanner = new Scanner(System.in);
-
-    public void Signup() throws IOException {
-        System.out.println("*** so let's sign up :) ***");
-        boolean flagName = false , flagPass = false;
-
-        while (!flagName) {
-            System.out.println("Creat your user name: ");
-            this.setPlayerName(scanner.nextLine());
-            /** checking if the name already exist in players json files or not */
-            if(getPlayerFiles(PlayerName)==null){
-                flagName = true;
-            }
-            else {
-                System.out.println("Sorry this name is taken, Try something else..");
-            }
-        }
-        while (!flagPass) {
-            System.out.println("Creat your password: ");
-            String input = scanner.nextLine();
-            if(input.length()>=4) {
-                this.setPlayerPassword(getHashedPassword(input));
-                flagPass = true;
-            }
-            else {
-                System.out.println("your password should contain more than 3 Characters , try again");
-            }
-        }
-        /** mkiang a json file for this player */
-        this.setPlayerCoins(50);
-        this.setPlayersChoosedHero(PlayersMage);
-        this.setPlayerID(System.currentTimeMillis());
-//        this.mageDeckCards = (new ArrayList<Card>(Arrays.asList(creatCardFromjson("Polymorph"),creatCardFromjson("RollingFireball"),creatCardFromjson("MurlocRaider"),creatCardFromjson("MalygossExplosion"),creatCardFromjson("MalygossNova"),creatCardFromjson("Backstab"),creatCardFromjson("GoblinBomb"),creatCardFromjson("LostSpirit"),creatCardFromjson("SerratedTooth"),creatCardFromjson("MagmaRager"))));
-//        for(Card card : getALLCardsExistingInGame()){
-//            if(card.getHeroClass() == Card.HeroClass.MAGE){
-//                this.PlayersMage.getHeroAllCards().add(card);
-//            }
-//            if(card.getHeroClass() == Card.HeroClass.ROGUE){
-//                this.PlayersRogue.getHeroAllCards().add(card);
-//            }
-//            if(card.getHeroClass() == Card.HeroClass.WARLOCK){
-//                this.PlayersWarlock.getHeroAllCards().add(card);
-//            }
-//        }
-     //   this.PlayersDeckCards = PlayersMage.getHeroDeckCards();
-        this.setALLPlayersCards((new ArrayList<Card>(Arrays.asList(creatCardFromjson("Polymorph"),creatCardFromjson("RollingFireball"),creatCardFromjson("MurlocRaider"),creatCardFromjson("MalygossExplosion"),creatCardFromjson("MalygossNova"),creatCardFromjson("Backstab"),creatCardFromjson("GoblinBomb"),creatCardFromjson("LostSpirit"),creatCardFromjson("SerratedTooth"),creatCardFromjson("MagmaRager"),creatCardFromjson("TimeRip"),creatCardFromjson("BlinkFox"),creatCardFromjson("HungryCrab")))));
-       // this.setPlayersDeckCards(this.getPlayersChoosedHero().getHeroDeckCards());
-        this.PlayersUnlockedHeroes.add(PlayersMage);
-        jsonTofilePlayer(this);
-        gameCLI.getInstance().setCurrentPlayer(this);
-
-        LogManager.getLogManager().reset();
-        FileHandler fileHandler = new FileHandler("src/logs/"+ getPlayerName()+"-"+getPlayerID()+".log",true);
-        fileHandler.setFormatter(new SimpleFormatter());
-        PlayerLOGGER.addHandler(fileHandler);
-        PlayerLOGGER.info("USER  : " + getPlayerName() + "\nCREATED AT :" +  new SimpleDateFormat(" yyyy/MM/dd HH:mm:ss").format(new Date()) + "\nPASSWORD : " + getPlayerPassword() + "\n");
-        System.out.println("you are signed up successfully! BEGIN YOUR JOURNEY IN HEARTH STONE!!");
-    }
 
     public String getHashedPassword(String playerPassword){
         try {
@@ -209,95 +139,13 @@ public class Player {
     }
 
 
-
-    public void Signin() throws IOException {
-        System.out.println("*** so let's sign in :) ***");
-        boolean flagName = false, flagPass = false;
-        String CorrespondingPassword = "";
-        while (!flagName) {
-            System.out.println("Enter your user name: ");
-            PlayerName = scanner.nextLine();
-            /**check if players name exists ...*/
-            if (getPlayerFiles(getPlayerName()) == null) {
-                System.out.println("There isn't an account in this name , Try again..");
-            } else {
-                flagName = true;
-                CorrespondingPassword = jsonFileReader(getPlayerName()).getPlayerPassword();
-            }
-        }
-        while (!flagPass) {
-            System.out.println("Enter your Password: ");
-            String pass = scanner.nextLine();
-            /**check if players password is correct for the corresponding name ...*/
-            if (!getHashedPassword(pass).equals(CorrespondingPassword)) {
-                System.out.println("Wrong password , Try again..");
-            } else {
-                flagPass = true;
-            }
-        }
-        gameCLI.getInstance().setCurrentPlayer(jsonFileReader(this.getPlayerName()));
-
-        LogManager.getLogManager().reset();
-        FileHandler fileHandler = new FileHandler("src/logs/"+ getPlayerName()+"-"+getPlayerID()+".log",true);
-        fileHandler.setFormatter(new SimpleFormatter());
-        PlayerLOGGER.addHandler(fileHandler);
-        PlayerLOGGER.info("USER  : " + getPlayerName() + "\nSigned_In AT :" +  new SimpleDateFormat(" yyyy/MM/dd HH:mm:ss").format(new Date()) + "\nPASSWORD : " + getPlayerPassword() + "\n");
-        System.out.println("you are signed in successfully! WELCOME BACK " + getPlayerName() + " !!");
-    }
-
-    public  void deleteThePlayer() throws IOException {
-        Boolean isvalid = false;
-        while (!isvalid) {
-            System.out.println("If you are sure of DELETING your account, enter your Password : ");
-            String pass = scanner.nextLine();
-            if (getHashedPassword(pass).equals(this.PlayerPassword)) {
-                isvalid = true;
-                /** adding deleted to the log file in line 4 */
-                File file = new File("src/logs/"+ getPlayerName()+"-"+getPlayerID()+".log");
-                File temp = File.createTempFile("temp-file-name", ".log");
-                BufferedReader br = new BufferedReader(new FileReader( file));
-                PrintWriter pw =  new PrintWriter(new FileWriter( temp ));
-                String line;
-                int lineCount = 0;
-                while ((line = br.readLine()) != null) {
-                    pw.println(line);
-                    if(lineCount==3){
-                        pw.println("PLAYER_DELETED_AT : " +  new SimpleDateFormat(" yyyy/MM/dd HH:mm:ss").format(new Date()) + "\n");
-                    }
-                    lineCount++;
-                }
-                br.close();
-                pw.close();
-                file.delete();
-                temp.renameTo(file);
-
-                getPlayerFiles(PlayerName).deleteOnExit();
-                System.exit(0);
-            } else {
-                System.out.println("Wrong password! ");
-            }
-        }
-    }
-
-    public Hero getPlayerHero(String HeroName){
-        for (Hero hero : PlayersUnlockedHeroes){
-            if(hero.toString().equals(HeroName))
+    public Hero getPlayerHero(String HeroName) {
+        for (Hero hero : PlayersUnlockedHeroes) {
+            if (hero.toString().equals(HeroName))
                 return hero;
         }
         System.out.println("get player hero , doesnt exists");
         return null;
-    }
-
-    public Mage getPlayersMage() {
-        return PlayersMage;
-    }
-
-    public Rogue getPlayersRogue() {
-        return PlayersRogue;
-    }
-
-    public Warlock getPlayersWarlock() {
-        return PlayersWarlock;
     }
 
     public ArrayList<Card> getHandsCards() {
@@ -309,7 +157,7 @@ public class Player {
     }
 
     public int getCurrentMana() {
-        return currentMana;
+        return Math.min(currentMana + initialMana,10);
     }
 
     public void setCurrentMana(int currentMana) {
@@ -332,11 +180,11 @@ public class Player {
         DeckCardsInGame = deckCardsInGame;
     }
 
-    public ArrayList<Card> getFieldCardsInGame() {
+    public ArrayList<Minion> getFieldCardsInGame() {
         return FieldCardsInGame;
     }
 
-    public void setFieldCardsInGame(ArrayList<Card> fieldCardsInGame) {
+    public void setFieldCardsInGame(ArrayList<Minion> fieldCardsInGame) {
         FieldCardsInGame = fieldCardsInGame;
     }
 
@@ -371,6 +219,14 @@ public class Player {
     public void setSignedUp(Boolean signedUp) {
         isSignedUp = signedUp;
     }
+
+//    public Weapon getWeaponInGame() {
+//        return weaponInGame;
+//    }
+//
+//    public void setWeaponInGame(Weapon weaponInGame) {
+//        this.weaponInGame = weaponInGame;
+//    }
 
     /** if all cards of a hero were needed i will un comment this part */
 //    public static ArrayList<card> getPlayersMageCards(){

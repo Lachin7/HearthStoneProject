@@ -1,9 +1,8 @@
 package gui.panels;
 
-import controller.Controller;
 import controller.PlayerController;
 import gui.Constants.GuiCons;
-import gui.ResLoader;
+import resLoader.ImageLoader;
 import gui.myComponents.MyButton;
 import gui.myComponents.MyPanel;
 
@@ -17,13 +16,10 @@ public class SignInPanel extends MyPanel {
     private JTextField userName,password,CreatedName,CreatedPass;
     private JButton signIn,signUp;
     private PlayerController playerController;
-    private ResLoader resLoader;
 
     public SignInPanel(){
 
         playerController =new PlayerController();
-        resLoader = new ResLoader();
-
         this.setLayout(null);
         this.setPreferredSize(new Dimension(GuiCons.getWidth(),GuiCons.getHeight()));
 
@@ -106,8 +102,8 @@ public class SignInPanel extends MyPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(resLoader.imageLoader("rsz_loginhs.jpg"),0,0,null);
-        g.drawImage(resLoader.imageLoader("HS_background.jpg"),535,0,null);
+        g.drawImage(imageLoader.loadImage("rsz_loginhs.jpg"),0,0,null);
+        g.drawImage(imageLoader.loadImage("HS_background.jpg"),535,0,null);
     }
 
 }

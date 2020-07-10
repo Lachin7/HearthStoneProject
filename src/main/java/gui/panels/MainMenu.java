@@ -3,14 +3,12 @@ package gui.panels;
 import controller.Controller;
 import gui.Constants.GuiCons;
 import gui.GameFrame;
-import gui.MyAudioPlayer;
+import resLoader.MyAudioPlayer;
 import gui.myComponents.*;
-import models.board.InfoPassive;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.logging.Level;
 
 public class MainMenu extends MyPanel implements ActionListener {

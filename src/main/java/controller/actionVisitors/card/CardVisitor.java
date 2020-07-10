@@ -1,9 +1,11 @@
-package controller.actionVisitors;
+package controller.actionVisitors.card;
 
 import controller.BoardController;
 import models.Cards.minions.*;
 import models.Cards.spells.*;
-import models.Cards.weapons.HeadhuntersHatchet;
+import models.Cards.spells.questAndReward.LearnDraconic;
+import models.Cards.spells.questAndReward.StrengthInNumbers;
+import models.Cards.weapons.FieryWarAxe;
 import models.Cards.weapons.LightsJustice;
 import models.Cards.weapons.SerratedTooth;
 import models.Character;
@@ -15,7 +17,7 @@ public interface CardVisitor {
     void visitBookOfSpecters(BookOfSpecters bookOfSpecters, Character target, BoardController boardController);
     void visitPolymorph(Polymorph polymorph, Character target, BoardController boardController);
     void visitFriendlySmith(FriendlySmith friendlySmith, Character target, BoardController boardController);
-    void visitLearnDarconic(LearnDraconic learnDraconic, Character target, BoardController boardController);
+    void visitLearnDraconic(LearnDraconic learnDraconic, Character target, BoardController boardController);
     void visitStrengthInNumbers(StrengthInNumbers strengthInNumbers, Character target, BoardController boardController);
     void visitBeamingSidekick(BeamingSidekick beamingSidekick, Character target, BoardController boardController);
     void visitBonechewerVanguard(BonechewerVanguard bonechewerVanguard, Character target, BoardController boardController);
@@ -39,12 +41,13 @@ public interface CardVisitor {
     void visitTombWarden(TombWarden tombWarden, Character target, BoardController boardController);
     void visitCurioCollector(CurioCollector curioCollector, Character target, BoardController boardController);
     void visitDreadScale(DreadScale dreadScale, Character target, BoardController boardController);
-    void visitMalygossExplosion(MalygossExplosion malygossExplosion, Character target, BoardController boardController);
-    void visitMalygossNova(MalygossNova malygossNova, Character target, BoardController boardController);
-    void visitScrapShot(ScrapShot scrapShot, Character target, BoardController boardController);
+//    void visitMalygossExplosion(MalygossExplosion malygossExplosion, Character target, BoardController boardController);
+//    void visitMalygossNova(MalygossNova malygossNova, Character target, BoardController boardController);
+    void visitLifedrinker(Lifedrinker lifedrinker, Character target, BoardController boardController);
+    void visitScrapDeadlyShot(ScrapDeadlyShot scrapDeadlyShot, Character target, BoardController boardController);
     void visitPsycheSplit(PsycheSplit psycheSplit, Character target, BoardController boardController);
-    void visitHeadhuntersHatchet(HeadhuntersHatchet headhuntersHatchet, Character target, BoardController boardController);
+    void visitFieryWarAxe(FieryWarAxe fieryWarAxe, Character target, BoardController boardController);
     void visitLightsJustice(LightsJustice lightsJustice, Character target, BoardController boardController);
     void visitSerratedTooth(SerratedTooth serratedTooth, Character target, BoardController boardController);
-
+    void visitSheep(Sheep sheep, Character target, BoardController boardController);
 }

@@ -1,4 +1,4 @@
-package gui;
+package resLoader;
 
 import javax.sound.sampled.*;
 import java.io.File;
@@ -21,7 +21,7 @@ public class MyAudioPlayer {
     public void playMainMusic(String name){
         if(mainClip!=null) mainClip.stop();
         try {
-            audioInputStream = AudioSystem.getAudioInputStream(new File("./src/main/java/Resources/sounds/"+name));
+            audioInputStream = AudioSystem.getAudioInputStream(new File("./src/main/resources/sounds/"+name));
             mainClip = AudioSystem.getClip();
 
             looping =false;
@@ -48,13 +48,13 @@ public class MyAudioPlayer {
         }
     }
 
-    public static void playQuick(String name) {
+    public void playQuick(String name) {
         try {
             if (quickClip != null) {
                 quickClip.stop();
             }
             quickClip = AudioSystem.getClip();
-            quickClip.open(AudioSystem.getAudioInputStream(new File("./src/main/java/Resources/sounds/"+name)));
+            quickClip.open(AudioSystem.getAudioInputStream(new File("./src/main/resources/sounds/"+name)));
             quickClip.start();
 
 

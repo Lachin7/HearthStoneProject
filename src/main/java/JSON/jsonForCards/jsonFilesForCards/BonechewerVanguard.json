@@ -1,11 +1,21 @@
 {
   "HP": 10,
   "Attack": 4,
+  "maxHp": 10,
+  "maxAttack": 4,
+  "hasDivineShield": false,
+  "canAttack": false,
+  "isRush": false,
+  "isTaunt": true,
+  "isPoisonous": false,
+  "subType": "NULL",
   "manaCost": 7,
   "name": "BonechewerVanguard",
-  "description": "Taunt , Whenever this minion takes damage, gain +2 Attack.",
+  "description": "Taunt\nWhenever this minion takes damage, gain +2 Attack.",
   "rarity": "COMMON",
   "type": "MINION",
   "heroClass": "NEUTRAL",
-  "price": 5
+  "price": 5,
+  "id": "1594402186081",
+  "hasInitialMoveTarget": false
 }

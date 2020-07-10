@@ -1,29 +1,20 @@
 package models.Heroes;
 import models.Cards.Card;
-import cliAndMenus.gameCLI;
 import com.google.gson.annotations.Expose;
+import models.Cards.Target;
+
+import java.util.ArrayList;
 
 public class Mage extends Hero {
-
-    public String getName() {
-        return "Mage";
-    }
-
 
     public Mage() {
         this.HP = 30;
         this.name = "Mage";
+        this.heroPowerCost = 2;
+        this.heroPowerTarget = getAllCharacters();
     }
 
-    @Override
-    public void SpecialPower(){
-        if(gameCLI.getInstance().getCurrentPlayer().getPlayersChoosedHero()== this)
-        for (Card card :   gameCLI.getInstance().getCurrentPlayer().getALLPlayersCards()) {
-            if(card.getType()== Card.type.SPELL){
-               card.setManaCost(card.getManaCost()-2);
-            }
-        }
-    }
+
     @Override
     public String toString() {
         return "MAGE";
@@ -84,5 +75,13 @@ public class Mage extends Hero {
 //            mageAllCards.add(card);
 //        }
 //    }
-
+//    @Override
+//    public void SpecialPower(){
+//        if(gameCLI.getInstance().getCurrentPlayer().getPlayersChoosedHero()== this)
+//        for (Card card :   gameCLI.getInstance().getCurrentPlayer().getALLPlayersCards()) {
+//            if(card.getType()== Card.type.SPELL){
+//               card.setManaCost(card.getManaCost()-2);
+//            }
+//        }
+//    }
 }

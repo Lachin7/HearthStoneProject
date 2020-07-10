@@ -1,11 +1,21 @@
 {
   "HP": 6,
   "Attack": 3,
+  "maxHp": 6,
+  "maxAttack": 3,
+  "hasDivineShield": false,
+  "canAttack": false,
+  "isRush": false,
+  "isTaunt": true,
+  "isPoisonous": false,
+  "subType": "MECH",
   "manaCost": 8,
   "name": "TombWarden",
   "description": "Taunt\nBattlecry: Summon a copy of this minion.",
   "rarity": "RARE",
   "type": "MINION",
   "heroClass": "NEUTRAL",
-  "price": 10
+  "price": 10,
+  "id": "1594402186081",
+  "hasInitialMoveTarget": false
 }

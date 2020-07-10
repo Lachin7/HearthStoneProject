@@ -1,11 +1,14 @@
 {
-  "Quest": "",
-  "Reward": "",
+  "canRestore": false,
+  "restoreAmount": 0,
+  "hasDiscovery": false,
   "manaCost": 6,
   "name": "SwarmOfLocusts",
   "description": "Summon seven 1/1 Locusts with Rush.",
   "rarity": "RARE",
   "type": "SPELL",
-  "heroClass": "NEUTRAL",
-  "price": 10
+  "heroClass": "HUNTER",
+  "price": 10,
+  "id": "1594402185894",
+  "hasInitialMoveTarget": false
 }

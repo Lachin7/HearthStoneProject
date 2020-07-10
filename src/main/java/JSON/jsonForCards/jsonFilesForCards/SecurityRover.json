@@ -1,11 +1,21 @@
 {
   "HP": 6,
   "Attack": 2,
-  "manaCost": 6,
+  "maxHp": 6,
+  "maxAttack": 2,
+  "hasDivineShield": false,
+  "canAttack": false,
+  "isRush": false,
+  "isTaunt": false,
+  "isPoisonous": false,
+  "subType": "MECH",
+  "manaCost": 9,
   "name": "SecurityRover",
   "description": "Whenever this minion takes damage, summon a 2/3 Mech with Taunt.",
   "rarity": "RARE",
   "type": "MINION",
   "heroClass": "NEUTRAL",
-  "price": 10
+  "price": 10,
+  "id": "1594402186081",
+  "hasInitialMoveTarget": false
 }

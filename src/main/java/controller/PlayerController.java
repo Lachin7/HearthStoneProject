@@ -3,11 +3,12 @@ package controller;
 import models.Cards.Card;
 import gui.GameFrame;
 import models.Deck;
+import models.Heroes.Mage;
 import models.Player;
 import models.board.InfoPassive;
 
 import javax.swing.*;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.*;
@@ -18,8 +19,6 @@ import static JSON.jsonForPlayers.jsonForPlayers.*;
 public class PlayerController {
 
     private Logger PlayerLOGGER = Logger.getLogger("PlayerLog");
-    private ArrayList<InfoPassive> passives;
-    private String[] InfoPassives;
 
     public String SignIn(String userName, String pass) {
         String message = "";
@@ -35,8 +34,8 @@ public class PlayerController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Controller.getInstance().setCurrentPlayer(player);
             player.setSignedUp(true);
+            Controller.getInstance().setMainPlayer(player);
                     LogManager.getLogManager().reset();
             FileHandler fileHandler = null;
             try {
@@ -69,26 +68,28 @@ public class PlayerController {
             SignedUpPlayer.setPlayerPassword(SignedUpPlayer.getHashedPassword(CreatedPass));
             SignedUpPlayer.setPlayerCoins(50);
             SignedUpPlayer.setPlayerID(System.currentTimeMillis());
-            SignedUpPlayer.setPlayersChoosedHero(SignedUpPlayer.getPlayersMage());
+            SignedUpPlayer.setPlayersChoosedHero(new Mage());
             ArrayList<Card> optionalMageDeck = null;
-            optionalMageDeck = (new ArrayList<Card>(Arrays.asList(creatCardFromjson("Polymorph"),creatCardFromjson("RollingFireball"),creatCardFromjson("MurlocRaider"),creatCardFromjson("MalygossExplosion"),creatCardFromjson("MalygossNova"),creatCardFromjson("Backstab"),creatCardFromjson("GoblinBomb"),creatCardFromjson("LostSpirit"),creatCardFromjson("SerratedTooth"),creatCardFromjson("MagmaRager"))));
+            optionalMageDeck = (new ArrayList<Card>(Arrays.asList(creatCardFromjson("PharaohsBlessing"),creatCardFromjson("Polymorph"),creatCardFromjson("FriendlySmith"),creatCardFromjson("DreadScale"),creatCardFromjson("SwampKingDred"),creatCardFromjson("HighPriestAmet"),creatCardFromjson("Sathrovarr"),creatCardFromjson("SecurityRover"),creatCardFromjson("CurioCollector"),creatCardFromjson("StrengthInNumbers"),creatCardFromjson("LearnDraconic"),creatCardFromjson("ScrapDeadlyShot"),creatCardFromjson("BonechewerVanguard"),creatCardFromjson("BeamingSidekick"),creatCardFromjson("LostSpirit"),creatCardFromjson("Ratcatcher"),creatCardFromjson("ScavengingShivarra"),creatCardFromjson("LearnDraconic"),creatCardFromjson("FungalBruiser"),creatCardFromjson("RocketAugmerchant"),creatCardFromjson("PsycheSplit"),creatCardFromjson("CurioCollector"))));
             Deck deck = new Deck("optional Mage deck",optionalMageDeck);
             deck.setHero(Card.HeroClass.MAGE);
             SignedUpPlayer.setPlayersDeck(deck);
             SignedUpPlayer.setDecks(new ArrayList<>()) ;
             SignedUpPlayer.getDecks().add(SignedUpPlayer.getPlayersDeck());
-            ArrayList<Card> optionalAllCards = (new ArrayList<Card>(Arrays.asList(creatCardFromjson("Polymorph"),creatCardFromjson("RollingFireball"),creatCardFromjson("MurlocRaider"),creatCardFromjson("MalygossExplosion"),creatCardFromjson("MalygossNova"),creatCardFromjson("Backstab"),creatCardFromjson("GoblinBomb"),creatCardFromjson("LostSpirit"),creatCardFromjson("SerratedTooth"),creatCardFromjson("MagmaRager"))));
-            optionalAllCards.add(creatCardFromjson("TimeRip"));
-            optionalAllCards.add(creatCardFromjson("BlinkFox"));
-            optionalAllCards.add(creatCardFromjson("HungryCrab"));
+            ArrayList<Card> optionalAllCards = new ArrayList<>();
+            optionalAllCards.addAll(optionalMageDeck);
+            optionalAllCards.add(creatCardFromjson("FrozenShadoweaver"));
+            optionalAllCards.add(creatCardFromjson("CurioCollector"));
+            optionalAllCards.add(creatCardFromjson("BeamingSidekick"));
+            optionalAllCards.add(creatCardFromjson("Locust"));
             SignedUpPlayer.setALLPlayersCards(optionalAllCards);
-            SignedUpPlayer.getPlayersUnlockedHeroes().add(SignedUpPlayer.getPlayersMage());
+            SignedUpPlayer.getPlayersUnlockedHeroes().add(new Mage());
             try {
                 jsonTofilePlayer(SignedUpPlayer);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Controller.getInstance().setCurrentPlayer(SignedUpPlayer);
+            Controller.getInstance().setMainPlayer(SignedUpPlayer);
             LogManager.getLogManager().reset();
             FileHandler fileHandler = null;
             try {
@@ -106,29 +107,52 @@ public class PlayerController {
         return message;
     }
 
+    public String getFriendlyPlayersInfo(){
+       return  "player name : " + getFriendlyPlayer().getPlayerName()+"\n"+
+               "Player ID : " + getFriendlyPlayer().getPlayerID()+"\n"+
+               "player Coins : "+ getFriendlyPlayer().getPlayerCoins()+"\n";
+
+    }
+
+    private Player getFriendlyPlayer(){
+        return Controller.getInstance().getMainPlayer();
+    }
+
+//    public String deleteThePlayer(String CreatedName, String CreatedPass) throws IOException {
+//        Boolean isvalid = false;
+//        while (!isvalid) {
+//            String pass = scanner.nextLine();
+//            if (getHashedPassword(pass).equals(this.PlayerPassword)) {
+//                isvalid = true;
+//                /** adding deleted to the log file in line 4 */
+//                File file = new File("src/logs/"+ getPlayerName()+"-"+getPlayerID()+".log");
+//                File temp = File.createTempFile("temp-file-name", ".log");
+//                BufferedReader br = new BufferedReader(new FileReader( file));
+//                PrintWriter pw =  new PrintWriter(new FileWriter( temp ));
+//                String line;
+//                int lineCount = 0;
+//                while ((line = br.readLine()) != null) {
+//                    pw.println(line);
+//                    if(lineCount==3){
+//                        pw.println("PLAYER_DELETED_AT : " +  new SimpleDateFormat(" yyyy/MM/dd HH:mm:ss").format(new Date()) + "\n");
+//                    }
+//                    lineCount++;
+//                }
+//                br.close();
+//                pw.close();
+//                file.delete();
+//                temp.renameTo(file);
+//
+//                getPlayerFiles(PlayerName).deleteOnExit();
+//                System.exit(0);
+//            } else {
+//                System.out.println("Wrong password! ");
+//            }
+//        }
+//    }
+
     public Logger getPlayerLOGGER() {
         return PlayerLOGGER;
     }
 
-
-    public void checkForNewGame() {
-        if(Controller.getInstance().getCurrentPlayer().getMakeNewGame()==null || Controller.getInstance().getCurrentPlayer().getMakeNewGame()){
-            Controller.getInstance().getCurrentPlayer().setCurrentMana(0);
-            Controller.getInstance().getCurrentPlayer().setHandsCards(new ArrayList<>()) ;
-            Controller.getInstance().getCurrentPlayer().setFieldCardsInGame(new ArrayList<>());
-            for(Card card : Controller.getInstance().getCurrentPlayer().getPlayersDeck().getCards()){
-                Controller.getInstance().getCurrentPlayer().getDeckCardsInGame().add(card);
-            }
-        }
-    }
-
-    public void setPassives(){
-        passives = InfoPassive.getRandomPassives(3);
-        InfoPassives = new String[]{passives.get(0).getName(),passives.get(1).getName(),passives.get(2).getName()};
-        int response = JOptionPane.showOptionDialog(null,passives.get(0).getName() + " : " + passives.get(0).getExplanation()+
-                        "\n" + passives.get(1).getName() + " : " + passives.get(1).getExplanation()+ "\n" +passives.get(2).getName() + " : " + passives.get(2).getExplanation(),
-                "choose your Info Passive", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, InfoPassives, InfoPassives[0]);
-        Controller.getInstance().getCurrentPlayer().setInfoPassive(passives.get(response));
-        Controller.getInstance().getPlayerController().getPlayerLOGGER().log(Level.INFO,"passive "+ passives.get(response)+  " selected - PlayPanel");
-    }
 }

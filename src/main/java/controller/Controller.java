@@ -5,7 +5,10 @@ import models.Player;
 public class Controller {
 
     private static Controller controller;
-    Player currentPlayer = new Player();
+//    Player currentPlayer = new Player();
+//    Player friendlyPlayer = new Player();
+//    Player enemyPlayer = new Player();
+    Player mainPlayer = new Player();
 
     PlayerController playerController = new PlayerController();
     CardController cardController;
@@ -15,13 +18,19 @@ public class Controller {
         return controller;
     }
 
-    public Player getCurrentPlayer() {
-        return currentPlayer;
+
+
+
+    public Player getMainPlayer() {
+        return mainPlayer;
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
+    public void setMainPlayer(Player mainPlayer) {
+        this.mainPlayer = mainPlayer;
     }
+
+
+
 
     public PlayerController getPlayerController() {
         return playerController;

@@ -1,11 +1,16 @@
 {
-  "Quest": "Sidequest: Spend 8 Mana on spells.",
-  "Reward": "Reward: Summon a 6/6 Dragon.",
+  "quest": "Sidequest: Spend 8 Mana on spells.",
+  "reward": "Reward: Summon a 6/6 Dragon.",
+  "canRestore": false,
+  "restoreAmount": 0,
+  "hasDiscovery": false,
   "manaCost": 1,
   "name": "LearnDraconic",
-  "description": "-",
+  "description": "Sidequest: Spend 8 Mana on spells. Reward: Summon a 6/6 Dragon.",
   "rarity": "COMMON",
   "type": "SPELL",
-  "heroClass": "NEUTRAL",
-  "price": 5
+  "heroClass": "MAGE",
+  "price": 5,
+  "id": "1594402186081",
+  "hasInitialMoveTarget": false
 }

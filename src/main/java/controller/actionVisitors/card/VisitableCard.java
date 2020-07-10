@@ -1,8 +1,11 @@
-package controller.actionVisitors;
+package controller.actionVisitors.card;
 
 import controller.BoardController;
+import controller.actionVisitors.card.CardVisitor;
+import models.Cards.Card;
 import models.Character;
 
+
 public interface VisitableCard {
-    public void accept(CardVisitor cardVisitor, Character target, BoardController boardController);
+     void accept(CardVisitor cardVisitor, Character target, BoardController boardController);
 }

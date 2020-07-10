@@ -1,4 +1,23 @@
 package models.Cards.spells;
 
-public class PsycheSplit {
+import controller.BoardController;
+import controller.actionVisitors.card.CardVisitor;
+import models.Cards.Card;
+import models.Cards.Spell;
+import models.Cards.Target;
+import models.Character;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class PsycheSplit extends Spell {
+    public PsycheSplit() {
+        super(5, "PsycheSplit", "Give a minion +1/+2. Summon a copy of it.", Card.rarity.RARE, HeroClass.PRIEST, Card.type.SPELL, 10);
+        this.targets = new ArrayList<>(Arrays.asList(Target.FRIENDLY_MINION,Target.ENEMY_MINION));
+        this.hasInitialMoveTarget = true;
+    }
+    @Override
+    public void accept(CardVisitor cardVisitor, Character target, BoardController boardController) {
+        cardVisitor.visitPsycheSplit(this,target,boardController);
+    }
 }

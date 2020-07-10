@@ -5,6 +5,7 @@ public class Warlock extends Hero {
     public Warlock() {
         this.HP = 35;
         this.name="Warlock";
+        this.heroPowerCost =0;
    }
 
     public void HeroPower() {

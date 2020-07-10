@@ -1,11 +1,14 @@
 {
-  "Quest": "",
-  "Reward": "",
+  "canRestore": false,
+  "restoreAmount": 0,
+  "hasDiscovery": false,
   "manaCost": 7,
   "name": "Sprint",
-  "description": "Draw 4 cards.\n",
+  "description": "Draw 4 cards.",
   "rarity": "COMMON",
   "type": "SPELL",
   "heroClass": "NEUTRAL",
-  "price": 5
+  "price": 5,
+  "id": "1594402185894",
+  "hasInitialMoveTarget": false
 }
