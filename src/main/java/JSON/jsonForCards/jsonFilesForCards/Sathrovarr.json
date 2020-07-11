@@ -16,7 +16,7 @@
   "type": "MINION",
   "heroClass": "NEUTRAL",
   "price": 20,
-  "id": "1594402186081",
+  "id": 1594476933354,
   "hasInitialMoveTarget": true,
   "targets": [
     "FRIENDLY_MINION"

@@ -7,6 +7,7 @@ public class Priest extends Hero{
        this.name = "Priest";
        this.heroPowerCost =2;
        this.heroPowerTarget = getAllCharacters();
+       this.heroPower = HeroPower.PriestHPower;
    }
 
 //   @Override

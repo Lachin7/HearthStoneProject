@@ -1,13 +1,12 @@
 package models.Cards;
 import com.google.gson.annotations.Expose;
 
-public  class Spell extends Card {
+public abstract class Spell extends Card {
     @Expose boolean canRestore = false;
     @Expose int restoreAmount = 0;
     @Expose boolean hasDiscovery = false;
     public Spell(int manaCost, String name, String description, rarity rarity, HeroClass heroClass, type type, int price) {
         super(manaCost, name, description, rarity,  heroClass, type,price);
-
     }
 
     public boolean getCanRestore() {

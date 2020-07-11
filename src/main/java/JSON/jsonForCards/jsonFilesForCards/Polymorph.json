@@ -9,7 +9,7 @@
   "type": "SPELL",
   "heroClass": "MAGE",
   "price": 5,
-  "id": "1594402185895",
+  "id": 1594476933129,
   "hasInitialMoveTarget": true,
   "targets": [
     "FRIENDLY_MINION",

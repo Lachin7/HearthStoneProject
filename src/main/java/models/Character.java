@@ -9,5 +9,7 @@ public interface Character {
    void setMaxHp(int hp);
    int getMaxAttack();
    void setMaxAttack(int attack);
-   String getId();
+   long getId();
+   String getName();
+   void setName(String name);
 }

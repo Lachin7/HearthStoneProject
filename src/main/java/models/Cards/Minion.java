@@ -2,7 +2,7 @@ package models.Cards;
 import com.google.gson.annotations.Expose;
 import models.Character;
 
-public class Minion extends Card implements Character {
+public abstract class Minion extends Card implements Character {
 
     @Expose protected int HP , Attack;
     @Expose protected int maxHp, maxAttack;
@@ -38,12 +38,9 @@ public class Minion extends Card implements Character {
     public enum SubType{
        NULL,BEAST,DEMON,DRAGON,ELEMENTAL,MECH,MURLOC,PIRATE,TOTEM
     }
-    public String getId() {
+    public long getId() {
         return id;
     }
-
-
-
 
     public Minion(int manaCost, String name, String description, Card.rarity rarity, HeroClass heroClass, Card.type type, SubType subType, int price , int HP, int Attack) {
         super(manaCost, name, description, rarity, heroClass, type , price);

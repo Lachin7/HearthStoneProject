@@ -1,45 +1,43 @@
 package gui.panels;
 
 import com.google.gson.annotations.Expose;
-import controller.threads.EndTurnThread;
-import controller.threads.QuestRewardMaker;
+import controller.util.EndTurnThread;
+import controller.util.QuestRewardMaker;
 import gui.GameFrame;
 import gui.animation.SimpleMove;
 import models.Cards.Minion;
-import models.Cards.Spell;
 import models.Cards.Target;
+import models.Cards.spells.questAndReward.QuestAndReward;
+import models.Character;
 import resLoader.MyAudioPlayer;
 import models.Cards.Card;
 import controller.*;
 import gui.myComponents.*;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.logging.Level;
 
 public class PlayPanel extends MyPanel implements ActionListener {
 
-    @Expose private MyButton endTurn, events, newGame, hero1, hero2, power1, power2, weapon1, weapon2;
-    @Expose private MyCardButton selectedCard;
-    @Expose private int heroHP2 = 30;
+    @Expose private MyButton endTurn, events, newGame, hero1, hero2, power1, power2, questRewardsFriendly, questRewardsEnemy;
+    @Expose private MyCardButton selectedCard, weapon1, weapon2;
     @Expose private JLabel[] friendlyManas, enemyManas;
     @Expose private JLabel timeRemaining;
     @Expose private MyPanel mainPlayGround, discoverPanel;
     @Expose private BoardController boardController;
-    @Expose private int activeTurn = 0;
+    @Expose private int activeTurn = 0, animationTims =0, times =0 ;
     @Expose private MyAudioPlayer audioPlayer;
     @Expose private SimpleMove simpleMove;
     @Expose private EndTurnThread endTurnThread;
     @Expose private int friendlyFieldY, enemyFieldY, friendlyHandY, enemyHandY;
     @Expose private volatile int screenX = 0, screenY=0, myX = 0, myY = 0;
-
-
 
     public PlayPanel(BoardController boardController) {
        this.setLayout(null);
@@ -55,7 +53,8 @@ public class PlayPanel extends MyPanel implements ActionListener {
         setButtons();
         setHeroes();
         setManas();
-//        updateMana();
+        addActionListenerToPower();
+        updateMana();
 
        audioPlayer.playMainMusic("PlayGound.wav");
 
@@ -73,12 +72,16 @@ public class PlayPanel extends MyPanel implements ActionListener {
        endTurn.setBounds(953, 304, endTurn.getWidth(), endTurn.getHeight());
        newGame = new MyButton("new Game","pinkCrystal100.png",this,this);
        newGame.setBounds(1080,150,newGame.getWidth(),newGame.getHeight());
+       questRewardsEnemy = new MyButton("QuestRewrds","pinkCrystal100.png", this, this);
+       questRewardsEnemy.setBounds(25,80,questRewardsEnemy.getWidth(),questRewardsEnemy.getHeight());
+       questRewardsFriendly = new MyButton("QuestRewrds","pinkCrystal100.png",this, this);
+       questRewardsFriendly.setBounds(25,500,questRewardsFriendly.getWidth(),questRewardsFriendly.getHeight());
        customComponent.exit(this,1080,200);
        customComponent.backToMenuButton(this,1080,250,this);
        selectedCard = new MyCardButton("",150,this);
        selectedCard.setBounds(1050,380, 150,207);
        timeRemaining = new JLabel();
-       timeRemaining.setBounds(100,310,100,100);
+       timeRemaining.setBounds(100,300,100,100);
        this.add(timeRemaining);
 
    }
@@ -132,10 +135,19 @@ public class PlayPanel extends MyPanel implements ActionListener {
        g2d.setColor(Color.WHITE);
        g2d.setFont(new Font("Areil",Font.BOLD,14));
        g2d.drawString(boardController.getFriendlyPlayer().getCurrentMana()+"/10",780,654);
+       g2d.drawString(boardController.getEnemyPlayer().getCurrentMana()+"/10",780,42);
        g2d.drawString(boardController.getFriendlyPlayer().getDeckCardsInGame().size()+"",1020,500);
+       g2d.drawString(boardController.getEnemyPlayer().getDeckCardsInGame().size()+"",1020,300);
        if(boardController.getFriendlyQuestRewards().size()!=0) drawQuestReward(g,boardController.getFriendlyQuestRewards(),650);
-       if(boardController.getEnemyQuestRewards().size()!=0) drawQuestReward(g,boardController.getEnemyQuestRewards(),350);
-//       if(boardController.getWarningEndTurnSeconds()!=-1) g.drawString(boardController.getWarningEndTurnSeconds()+"",100,350);
+       if(boardController.getEnemyQuestRewards().size()!=0) drawQuestReward(g,boardController.getEnemyQuestRewards(),300);
+       if(boardController.getFriendlyPlayer().getPlayersChoosedHero().getWeapon()!=null){
+           weapon1 = new MyCardButton(boardController.getFriendlyPlayer().getPlayersChoosedHero().getWeapon().getName(),50,this);
+           weapon1.setBounds(331,450,weapon1.getWidth(),weapon1.getHeight());
+       }
+       if(boardController.getEnemyPlayer().getPlayersChoosedHero().getWeapon()!=null){
+           weapon2 = new MyCardButton(boardController.getEnemyPlayer().getPlayersChoosedHero().getWeapon().getName(),50,this);
+           weapon2.setBounds(331,150,weapon2.getWidth(),weapon2.getHeight());
+       }
        updateMana();
    }
 
@@ -144,7 +156,8 @@ public class PlayPanel extends MyPanel implements ActionListener {
        for(QuestRewardMaker questRewardMaker : questRewardMakers){
            g.drawString(questRewardMaker.getPercent()+"",25,height-i*50);
 //           g.drawImage(imageLoader.loadImage("Cards/" + questRewardMaker.getName() + ".png").getScaledInstance(200,272, Image.SCALE_SMOOTH),20,height-i*50,170,40,25,50,175,40,null);
-           g.drawString(questRewardMaker.getName(),50,height-i*50);
+           if(boardController.getFriendlyQuestRewards().contains(questRewardMaker))g.drawString(questRewardMaker.getName(),50,height-i*50);
+           else g.drawString(questRewardMaker.getName(),50,height+i*50);
            i++;
        }
    }
@@ -184,17 +197,18 @@ public class PlayPanel extends MyPanel implements ActionListener {
     }
 
     public void setDiscoverPanel(String card1Name, String card2Name, String card3Name){
-        discoverPanel = new MyPanel("Choose3CardBG.jpg",false,null,this);
+        discoverPanel = new MyPanel("Choose3CardBG.jpg",true,null,mainPlayGround);
+        discoverPanel.setBounds(350,250,500,200);
         ActionListener actionListener = actionEvent -> {
             boardController.setDiscovery(((MyCardButton)actionEvent.getSource()).getName());
             discoverPanel.setVisible(false);
         };
-        MyCardButton card1 = new MyCardButton(card1Name,200,discoverPanel,actionListener);
-        card1.setBounds(250,200,card1.getWidth(),card1.getHeight());
-        MyCardButton card2 = new MyCardButton(card2Name,200,discoverPanel,actionListener);
-        card2.setBounds(500,200,card1.getWidth(),card1.getHeight());
-        MyCardButton card3 = new MyCardButton(card3Name,200,discoverPanel,actionListener);
-        card3.setBounds(750,200,card1.getWidth(),card1.getHeight());
+        MyCardButton card1 = new MyCardButton(card1Name,100,discoverPanel,actionListener);
+        card1.setBounds(25,50,card1.getWidth(),card1.getHeight());
+        MyCardButton card2 = new MyCardButton(card2Name,100,discoverPanel,actionListener);
+        card2.setBounds(175,50,card1.getWidth(),card1.getHeight());
+        MyCardButton card3 = new MyCardButton(card3Name,100,discoverPanel,actionListener);
+        card3.setBounds(300,50,card1.getWidth(),card1.getHeight());
         card1.addActionListener(actionListener);card2.addActionListener(actionListener);card3.addActionListener(actionListener);
     }
 
@@ -204,35 +218,31 @@ public class PlayPanel extends MyPanel implements ActionListener {
         else fieldHeight = enemyFieldY;
         MyCardButton cardButton = new MyCardButton(card,100,mainPlayGround);
         cardButton.setBounds(getFieldComponents(fieldHeight).size() * 100 + 145, fieldHeight, 100, 138);
-//        if(card.getHasInitialMoveTarget())initialMoveTargeting(card,cardButton);
+
     }
 
     public void initialMoveTargeting(Card card, MyCardButton cardButton) {
-        if(cardButton!=null)cardButton.setBorder(BorderFactory.createBevelBorder(1, Color.GREEN, Color.LIGHT_GRAY));
+        updateFieldCards(friendlyFieldY,1);
+        updateFieldCards(enemyFieldY,1);
+        if(cardButton!=null)cardButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.RED, Color.LIGHT_GRAY));
         for (JButton component : getTargets(card)) {
-            component.setBorder(BorderFactory.createBevelBorder(1, Color.BLUE, Color.LIGHT_GRAY));
-            if (component != cardButton) {
+            if (((MyCardButton) component).getId()!= cardButton.getId()) {
+            component.setBorder(BorderFactory.createBevelBorder(0, Color.GREEN, Color.LIGHT_GRAY));
                 component.addActionListener(actionEvent -> {
                     if (actionEvent.getSource() instanceof MyCardButton)
-                        boardController.playCard(card, ((MyCardButton) component).getId());
-                    else boardController.playCard(card, component.getName());
+                        boardController.playTarget(card, ((MyCardButton) component).getId());
+//                    else boardController.playTarget(card, component.getName());
                     for (JButton component1 : getTargets(card)) {
                         component1.setBorder(null);
                         removeListeners(component1);
                     }
+                    cardButton.setBorder(null);
+                    updateBothFields();
                     for (Component componentw : mainPlayGround.getComponents()) componentw.repaint();
                 });
             }
         }
     }
-
-//    public String initialMoveTargeting(String id){
-//        updateFieldCards(friendlyFieldY,1);
-//        updateFieldCards(enemyFieldY,1);
-//        if(id!=null)getComponentInGame(id).setBorder(BorderFactory.createBevelBorder(1, Color.GREEN, Color.LIGHT_GRAY));
-//
-//
-//    }
 
     private void updateHandCards(int handHeight , ArrayList<Card> cards, int turn) {
         for (Component component : getFieldComponents(handHeight)) {
@@ -282,12 +292,13 @@ public class PlayPanel extends MyPanel implements ActionListener {
                                 boolean finallySettled = false;
                                 if (fieldComponents.size() == 0) cardButton.setBounds(140, fieldHeight, 100, 138);
                                 else {
-//                                    fieldComponents.sort(MyCardButton::compareTo);
+                                    fieldComponents.sort(MyCardButton::compareTo);
 //                                    for (Component component : fieldComponents) {
 //                                        if (component.getX() >= x) {
 //                                            final Rectangle bounds = component.getBounds();
+//                                            setTimes(fieldComponents.size());
 //                                            for (Component component1 : fieldComponents) {
-//                                                if (component1.getX() >= x) simpleMove.move(GameFrame.getInstance().getPlayPanel(),(JComponent) component1, new Point(component1.getX() + 100, fieldHeight), 1000, 10);
+//                                                if (component1.getX() >= x) simpleMove.animate(GameFrame.getInstance().getPlayPanel(),(JComponent) component1, new Point(component1.getX() + 100, fieldHeight),1000,100);
 //                                            }
 //                                            cardButton.setBounds(bounds);
 //                                            finallySettled = true;
@@ -312,9 +323,12 @@ public class PlayPanel extends MyPanel implements ActionListener {
 //                                       if(height==friendlyHandY) new MyButton("","");
 //                                       else cardButton.setBounds();
                             }
-                            if(!card.getHasInitialMoveTarget())boardController.playCard(card,null);
-                            if(card instanceof  Minion)boardController.getCurrentPlayer().getFieldCardsInGame().add((Minion) card);
-                            boardController.getCurrentPlayer().getHandsCards().remove(card);
+//                            while (animationTims!=times){
+//
+//                            }
+                            animationTims = 0;
+                            times = 0;
+                            boardController.initialPlay(card);
                             updateFieldCards(getOppositeFieldY(fieldHeight), 1);
                             updateFieldCards(fieldHeight, 0);
                             if(card.getHasInitialMoveTarget())initialMoveTargeting(card, cardButton);
@@ -355,28 +369,29 @@ public class PlayPanel extends MyPanel implements ActionListener {
         if(fieldHeight==friendlyFieldY) cards = boardController.getFriendlyFieldCards();
         else cards = boardController.getEnemyFieldCards();
         int i=0;
-        for(Minion card : cards){
-            MyCardButton cardButton = new MyCardButton(card,100,mainPlayGround);
+        for(Minion minion : cards){
+            MyCardButton cardButton = new MyCardButton(minion,100,mainPlayGround);
             cardButton.setBounds(140+i*100,fieldHeight,100,137);
-            addSelectedCardListener(cardButton,card);
+            addSelectedCardListener(cardButton,minion);
             i++;
             if(turn%2==0){
-                for(Minion minion : cards){
-                    if(minion.canAttack() && getFieldComponents(getOppositeFieldY(fieldHeight)).size()!=0){
-                        getComponentInGame(minion.getId()).setBorder(BorderFactory.createBevelBorder(1, Color.GREEN, Color.LIGHT_GRAY));
-                        for(MyCardButton enemyCardButton : getFieldComponents(getOppositeFieldY(fieldHeight))){
-                            if((!boardController.tauntExist(activeTurn))||
-                                    (((Minion)boardController.getCharacterOfTarget(enemyCardButton.getId()+"")).hasTaunt())){
-                                cardButton.setBorder(BorderFactory.createEtchedBorder(Color.BLUE,Color.BLACK));
-                                cardButton.addActionListener(actionEvent -> {
-                                    boardController.attack(minion, (Minion) boardController.getCharacterOfTarget(cardButton.getName()));
+                if(minion.canAttack() && getFieldComponents(getOppositeFieldY(fieldHeight)).size()!=0) {
+                    MyCardButton minionButton = getComponentInGame(minion.getId());
+                    minionButton.setBorder(BorderFactory.createBevelBorder(0, Color.ORANGE, Color.LIGHT_GRAY));
+                    minionButton.addActionListener(e -> {
+                        for (MyCardButton enemyCardButton : getFieldComponents(getOppositeFieldY(fieldHeight))) {
+                            if ((!boardController.tauntExist(activeTurn)) || (((Minion) boardController.getCharacterOfTarget(enemyCardButton.getId())).hasTaunt())) {
+                                enemyCardButton.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.BLACK));
+                                enemyCardButton.addActionListener(actionEvent -> {
+                                    boardController.attack(minion, (Minion) boardController.getCharacterOfTarget(enemyCardButton.getId()));
                                     minion.setCanAttack(false);
-                                    updateFieldCards(getOppositeFieldY(fieldHeight),turn);
-                                    updateFieldCards(fieldHeight,turn);
+                                    updateFieldCards(getOppositeFieldY(fieldHeight), turn);
+                                    updateFieldCards(fieldHeight, turn);
                                 });
+                                if(!boardController.tauntExist(activeTurn))setHeroAsTarget(minion);
                             }
                         }
-                    }
+                    });
                 }
             }
         }
@@ -385,9 +400,26 @@ public class PlayPanel extends MyPanel implements ActionListener {
         revalidate();
     }
 
-    private MyCardButton getComponentInGame(String id){
+    private void setHeroAsTarget(Minion attacker){
+        if(activeTurn%2==1){
+            hero1.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.BLACK));
+            hero1.addActionListener(actionEvent -> {
+                boardController.attack(attacker,boardController.getFriendlyPlayer().getPlayersChoosedHero());
+                hero1.removeActionListener(this);
+            });
+        }
+        else {
+            hero2.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.BLACK));
+            hero2.addActionListener(actionEvent -> {
+                boardController.attack(attacker,boardController.getEnemyPlayer().getPlayersChoosedHero());
+                hero1.removeActionListener(this);
+            });
+        }
+    }
+
+    private MyCardButton getComponentInGame(long id){
         for(Component cardButton : mainPlayGround.getComponents()){
-            if(cardButton instanceof MyCardButton &&((MyCardButton)cardButton).getId().equals(id+""))return (MyCardButton) cardButton;
+            if(cardButton instanceof MyCardButton &&((MyCardButton)cardButton).getId()==(id))return (MyCardButton) cardButton;
         }
         return null;
     }
@@ -454,6 +486,7 @@ public class PlayPanel extends MyPanel implements ActionListener {
         updateHandCards(friendlyHandY, boardController.getFriendlyHandCards(),activeTurn);
         updateHandCards(enemyHandY, boardController.getEnemyHandCards(),activeTurn+1);
         updateBothFields();
+        addActionListenerToPower();
         endTurnThread = new EndTurnThread(this);
         endTurnThread.start();
     }
@@ -469,9 +502,75 @@ public class PlayPanel extends MyPanel implements ActionListener {
                 e.printStackTrace();
             }
         }
-        if(actionEvent.getSource()==endTurn)endTurn();
-        if (actionEvent.getSource()==power1) boardController.playHeroPower();
-        if(actionEvent.getSource()==newGame) GameFrame.getInstance().goToPanel("playPanel");
+        else if(actionEvent.getSource()==questRewardsFriendly){
+            String result = "";
+            for(QuestRewardMaker questAndReward : boardController.getFriendlyQuestRewards()) result += (""+questAndReward.getName()+ " :  "+ questAndReward.getPercent() + "\n");
+            JOptionPane.showMessageDialog(null, result, boardController.getFriendlyPlayer().getPlayerName(), JOptionPane.INFORMATION_MESSAGE);
+        }
+        else if(actionEvent.getSource()==questRewardsEnemy){
+            String result = "";
+            for(QuestRewardMaker questAndReward : boardController.getEnemyQuestRewards()) result += (""+questAndReward.getName()+ " :  "+ questAndReward.getPercent() + "\n");
+            JOptionPane.showMessageDialog(null, result, boardController.getEnemyPlayer().getPlayerName(), JOptionPane.INFORMATION_MESSAGE);
+        }
+        else if(actionEvent.getSource()==endTurn)endTurn();
+        else if(actionEvent.getSource()==newGame) GameFrame.getInstance().goToPanel("playPanel");
+    }
+
+    private int getCurrentField(){
+        if(activeTurn%2==0)return friendlyFieldY;
+        return enemyFieldY;
+    }
+
+//    private void setAttackTargets(Character attacker, boolean damgeOnly){
+//        for (MyCardButton enemyCardButton : getFieldComponents(getOppositeFieldY(getCurrentField()))) {
+//            if ((!boardController.tauntExist(activeTurn)) || (((Minion) boardController.getCharacterOfTarget(enemyCardButton.getId())).hasTaunt())) {
+//                enemyCardButton.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.BLACK));
+//                enemyCardButton.addActionListener(actionEvent -> {
+//                   if(!damgeOnly) boardController.attack(attacker, (Minion) boardController.getCharacterOfTarget(enemyCardButton.getId()));
+//                   else boardController.changeMinion();
+//                    updateFieldCards(getOppositeFieldY(getCurrentField()), 1);
+//                    updateFieldCards(getCurrentField(), 0);
+//                });
+//            }
+//        }
+//    }
+
+    private ArrayList<MyCardButton> getAll(){
+        ArrayList<MyCardButton> all = new ArrayList<>();
+        all.addAll(getFieldComponents(friendlyFieldY));
+        all.addAll(getFieldComponents(enemyFieldY));
+        return all;
+    }
+
+
+
+    private void addActionListenerToPower(){
+        ActionListener powerListener = actionEvent -> {
+            boardController.playHeroPower();
+            for (MyCardButton cardButton : getAll()){
+                cardButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent actionEvent) {
+                        boardController.playTargetetPower(cardButton.getId());
+                        updateBothFields();
+                    }
+                });
+            }
+            power1.removeActionListener(this);
+            power2.removeActionListener(this);
+        };
+        if(activeTurn%2==0){
+            if(boardController.hasManaForPower()) {
+                power1.setBorder(BorderFactory.createBevelBorder(1, Color.MAGENTA, Color.GRAY));
+                power1.addActionListener(powerListener);
+            }
+        }
+        else {
+            if (boardController.hasManaForPower()) {
+                power2.setBorder(BorderFactory.createBevelBorder(1, Color.MAGENTA, Color.GRAY));
+                power2.addActionListener(powerListener);
+            }
+        }
     }
 
     public JLabel[] getFriendlyManas() {
@@ -485,9 +584,19 @@ public class PlayPanel extends MyPanel implements ActionListener {
         return timeRemaining;
     }
 
+    public void setAnimationTims(int animationTims) {
+        this.animationTims = animationTims;
+    }
 
+    public int getAnimationTimes(){
+        return animationTims;
+    }
 
-//    private class HandToFieldMouseListener implements MouseListener , MouseMotionListener{
+    public void setTimes(int times) {
+        this.times = times;
+    }
+
+    //    private class HandToFieldMouseListener implements MouseListener , MouseMotionListener{
 //
 //        MyCardButton cardButton;
 //        ArrayList<MyCardButton> fieldComponents;
@@ -872,4 +981,39 @@ public class PlayPanel extends MyPanel implements ActionListener {
 //        currentField.repaint();
 //        revalidate();
 //    }
+
+//    boardController.syncFriendlyFieldComponents(getFieldComponents(friendlyFieldY));
+//        boardController.syncEnemyFieldComponents(getFieldComponents(enemyFieldY));
+//        for (Component component : getFieldComponents(fieldHeight)) {
+//        mainPlayGround.remove(component);
+//    }
+//    ArrayList<Minion> cards ;
+//        if(fieldHeight==friendlyFieldY) cards = boardController.getFriendlyFieldCards();
+//        else cards = boardController.getEnemyFieldCards();
+//    int i=0;
+//        for(Minion card : cards){
+//        MyCardButton cardButton = new MyCardButton(card,100,mainPlayGround);
+//        cardButton.setBounds(140+i*100,fieldHeight,100,137);
+//        addSelectedCardListener(cardButton,card);
+//        i++;
+//        if(turn%2==0){
+//            for(Minion minion : cards){
+//                if(minion.canAttack() && getFieldComponents(getOppositeFieldY(fieldHeight)).size()!=0){
+//                    getComponentInGame(minion.getId()).setBorder(BorderFactory.createBevelBorder(1, Color.GREEN, Color.LIGHT_GRAY));
+//                    for(MyCardButton enemyCardButton : getFieldComponents(getOppositeFieldY(fieldHeight))){
+//                        if((!boardController.tauntExist(activeTurn))||
+//                                (((Minion)boardController.getCharacterOfTarget(enemyCardButton.getId()+"")).hasTaunt())){
+//                            cardButton.setBorder(BorderFactory.createEtchedBorder(Color.BLUE,Color.BLACK));
+//                            cardButton.addActionListener(actionEvent -> {
+//                                boardController.attack(minion, (Minion) boardController.getCharacterOfTarget(cardButton.getName()));
+//                                minion.setCanAttack(false);
+//                                updateFieldCards(getOppositeFieldY(fieldHeight),turn);
+//                                updateFieldCards(fieldHeight,turn);
+//                            });
+//                        }
+//                    }
+//                }
+//            }
+//        }
+
 

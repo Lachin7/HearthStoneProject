@@ -15,6 +15,7 @@ public class Ratcatcher extends Minion {
         super(3, "Ratcatcher", "Rush\n" +
                 "Battlecry: Destroy a friendly minion and gain its Attack and Health.", Card.rarity.EPIC, HeroClass.WARLOCK,Card.type.MINION,SubType.MURLOC,15, 2, 2);
         this.isRush = true;
+        this.hasInitialMoveTarget = true;
         this.targets= new ArrayList<>(Arrays.asList(Target.FRIENDLY_MINION));
     }
     @Override

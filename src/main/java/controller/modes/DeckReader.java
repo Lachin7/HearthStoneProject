@@ -19,7 +19,7 @@ public class DeckReader extends BoardController {
 
     public ArrayList<Card> getCards(ArrayList <String> arrayList){
         ArrayList<Card> result = new ArrayList<>();
-        for(String name : arrayList) result.add(cardController.creatCard(name));
+        for(String name : arrayList) result.add(cardController.createCard(name));
         return result;
     }
 
@@ -68,5 +68,10 @@ public class DeckReader extends BoardController {
     @Override
     protected Card shuffleAndGetCard() {
        return getCurrentPlayer().getHandsCards().get(0);
+    }
+
+    @Override
+    public void checkGameOver() {
+
     }
 }

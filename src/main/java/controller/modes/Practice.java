@@ -7,9 +7,6 @@ import models.Heroes.Mage;
 import models.Player;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
-import static JSON.jsonForCards.jsonForCards.creatCardFromjson;
 
 public class Practice extends BoardController {
 
@@ -32,7 +29,7 @@ public class Practice extends BoardController {
             //todo you can go and choose controller.getMainPlayer ... or create them here
             enemyPlayer = new Player();
             enemyPlayer.setPlayersDeckCards(new ArrayList<>());
-            for(Card card : friendlyPlayer.getDeckCardsInGame())enemyPlayer.getDeckCardsInGame().add(card);
+            for(Card card : friendlyPlayer.getDeckCardsInGame())enemyPlayer.getDeckCardsInGame().add(cardController.createCard(card.getName()));
 //            enemyPlayer.setDeckCardsInGame(new ArrayList<Card>(Arrays.asList(creatCardFromjson("SwarmOfLocusts"),creatCardFromjson("SwarmOfLocusts"),creatCardFromjson("PharaohsBlessing"),creatCardFromjson("BookOfSpecters"),creatCardFromjson("DreadScale"),creatCardFromjson("Starscryer"),creatCardFromjson("FungalBruiser"),creatCardFromjson("BeamingSidekick"),creatCardFromjson("SerratedTooth"),creatCardFromjson("BonechewerVanguard"),creatCardFromjson("CurioCollector"),creatCardFromjson("Sathrovarr"),creatCardFromjson("ScrapDeadlyShot"),creatCardFromjson("FriendlySmith"),creatCardFromjson("LostSpirit"),creatCardFromjson("HighPriestAmet"),creatCardFromjson("DreadScale"),creatCardFromjson("LearnDraconic"),creatCardFromjson("ScrapDeadlyShot"),creatCardFromjson("Starscryer"),creatCardFromjson("FrozenShadoweaver"),creatCardFromjson("CurioCollector"))));
             enemyPlayer.setPlayersChoosedHero(new Mage());
             enemyPlayer.setPlayerName("aaa");

@@ -12,6 +12,7 @@ public class Mage extends Hero {
         this.name = "Mage";
         this.heroPowerCost = 2;
         this.heroPowerTarget = getAllCharacters();
+        this.heroPower = HeroPower.MageHPower;
     }
 
 

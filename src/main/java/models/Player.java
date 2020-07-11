@@ -3,7 +3,7 @@ import models.Cards.Card;
 import com.google.gson.annotations.Expose;
 import models.Cards.Minion;
 import models.Cards.Weapon;
-import models.Heroes.Hero;
+import models.Heroes.*;
 import models.board.InfoPassive;
 
 import java.security.*;
@@ -16,7 +16,7 @@ public class Player {
     @Expose private String PlayerName;
     @Expose private String PlayerPassword;
     @Expose private long PlayerCoins ,PlayerID;
-    @Expose private Hero PlayersChoosedHero = new Hero();
+    @Expose private Hero PlayersChoosedHero = new Mage();
     @Expose private  ArrayList<Card> ALLPlayersCards = new ArrayList<>();
     @Expose private ArrayList<Card> playersDeckCards = new ArrayList<>();
     @Expose private Deck playersDeck ;
@@ -27,7 +27,6 @@ public class Player {
     @Expose private ArrayList<Card> DeckCardsInGame =new ArrayList<>() ;
     @Expose private ArrayList<Minion> FieldCardsInGame =new ArrayList<>() ;
     @Expose private int initialMana = 0;
-//    @Expose private Weapon weaponInGame;
     @Expose private String cardSkin = "BlushRoomCardBack.png";
     @Expose private String playBackGround = "HSplayBoard copy.jpg";
     @Expose private Boolean makeNewGame;
@@ -64,10 +63,12 @@ public class Player {
     public void setPlayersChoosedHero(Hero playersChoosedHero) {
         PlayersChoosedHero = playersChoosedHero;
     }
-    public void setPlayersChoosedHero(Card.HeroClass playersChoosedHero) {
-        //TODO
-//        if(playersChoosedHero ==Card.HeroClass.MAGE) playersChoosedHero =
-//        PlayersChoosedHero = playersChoosedHero;
+    public void setPlayersChoosedHero(Card.HeroClass heroClass) {
+        if(heroClass== Card.HeroClass.MAGE)setPlayersChoosedHero(new Mage());
+        else if(heroClass== Card.HeroClass.ROGUE)setPlayersChoosedHero(new Rogue());
+        else if(heroClass== Card.HeroClass.WARLOCK)setPlayersChoosedHero(new Warlock());
+        else if(heroClass== Card.HeroClass.HUNTER)setPlayersChoosedHero(new Hunter());
+        else if(heroClass== Card.HeroClass.PRIEST)setPlayersChoosedHero(new Priest());
     }
     public ArrayList<Card> getALLPlayersCards() {
         return ALLPlayersCards;
@@ -107,10 +108,6 @@ public class Player {
         return PlayersUnlockedHeroes;
     }
 
-    public void setPlayersUnlockedHeroes(ArrayList<Hero> playersUnlockedHeroes) {
-        PlayersUnlockedHeroes = playersUnlockedHeroes;
-    }
-
     public Deck getPlayersDeck() {
         return playersDeck;
     }
@@ -119,34 +116,6 @@ public class Player {
         this.playersDeck = playersDeck;
     }
 
-    Scanner scanner = new Scanner(System.in);
-
-    public String getHashedPassword(String playerPassword){
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
-            md.update(playerPassword.getBytes());
-            byte byteData[] = md.digest();
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < byteData.length ; i++) {
-                sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-            }
-            return sb.toString();
-
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
-    public Hero getPlayerHero(String HeroName) {
-        for (Hero hero : PlayersUnlockedHeroes) {
-            if (hero.toString().equals(HeroName))
-                return hero;
-        }
-        System.out.println("get player hero , doesnt exists");
-        return null;
-    }
 
     public ArrayList<Card> getHandsCards() {
         return HandsCards;

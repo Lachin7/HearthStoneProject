@@ -6,6 +6,7 @@ public class Hunter extends Hero {
         this.HP = 30;
         this.name = "Hunter";
         this.heroPowerCost = 0;
+        this.heroPower = HeroPower.HunterHPower;
     }
 
 //    @Override

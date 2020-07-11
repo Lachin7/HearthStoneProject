@@ -24,7 +24,8 @@ public class MyCardButton extends JButton implements Comparable<JButton> {
    private ImageLoader imageLoader = ImageLoader.getInstance();
    private CardController cardController = new CardController();
    private SimpleMove simpleMove;
-   private String cardName, id;
+   private String cardName;
+   private long id ;
    private boolean isInGame = false;
    private Card card;
    private int manaCost;
@@ -39,7 +40,7 @@ public class MyCardButton extends JButton implements Comparable<JButton> {
         this.setSize(width, width * 136 / 100);
         if(!cardName.equals("")) {
             this.setName(cardName);
-            Card card = cardController.creatCard(cardName);
+            Card card = cardController.createCard(cardName);
             locked = cardController.isLocked(card);
             this.setToolTipText("Name:" + card.getName() + ", " +
                     "type:" + card.getType() + ", " + "Class:" + card.getHeroClass() + ", " + "price:" + card.getPrice() + ", " +
@@ -186,7 +187,7 @@ public class MyCardButton extends JButton implements Comparable<JButton> {
 
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 

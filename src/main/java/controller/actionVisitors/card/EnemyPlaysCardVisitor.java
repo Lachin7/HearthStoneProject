@@ -1,6 +1,7 @@
 package controller.actionVisitors.card;
 
 import controller.BoardController;
+import models.Cards.Minion;
 import models.Cards.minions.*;
 import models.Cards.spells.*;
 import models.Cards.spells.questAndReward.LearnDraconic;
@@ -10,7 +11,7 @@ import models.Cards.weapons.LightsJustice;
 import models.Cards.weapons.SerratedTooth;
 import models.Character;
 
-public class WhenTakesDamageVisitor implements CardVisitor{
+public class EnemyPlaysCardVisitor implements CardVisitor {
     @Override
     public void visitSprint(Sprint sprint, Character target, BoardController boardController) {
 
@@ -58,7 +59,7 @@ public class WhenTakesDamageVisitor implements CardVisitor{
 
     @Override
     public void visitBonechewerVanguard(BonechewerVanguard bonechewerVanguard, Character target, BoardController boardController) {
-        boardController.changeMinion(bonechewerVanguard,0,2);
+
     }
 
     @Override
@@ -133,7 +134,7 @@ public class WhenTakesDamageVisitor implements CardVisitor{
 
     @Override
     public void visitSecurityRover(SecurityRover securityRover, Character target, BoardController boardController) {
-        boardController.summon("TombWarden",1);
+
     }
 
     @Override
@@ -143,7 +144,7 @@ public class WhenTakesDamageVisitor implements CardVisitor{
 
     @Override
     public void visitSwampKingDred(SwampKingDred swampKingDred, Character target, BoardController boardController) {
-
+        boardController.attack(swampKingDred, (Minion) target);
     }
 
     @Override
@@ -162,7 +163,7 @@ public class WhenTakesDamageVisitor implements CardVisitor{
     }
 
     @Override
-    public void visitLifedrinker(Lifedrinker lifedrinker, Character target, BoardController boardController){
+    public void visitLifedrinker(Lifedrinker lifedrinker, Character target, BoardController boardController) {
 
     }
 

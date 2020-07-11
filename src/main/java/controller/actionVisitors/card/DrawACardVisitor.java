@@ -10,7 +10,7 @@ import models.Cards.weapons.LightsJustice;
 import models.Cards.weapons.SerratedTooth;
 import models.Character;
 
-public class WhenDrawACardVisitor implements CardVisitor{
+public class DrawACardVisitor implements CardVisitor{
     @Override
     public void visitSprint(Sprint sprint, Character target, BoardController boardController) {
 

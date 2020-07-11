@@ -1,5 +1,6 @@
 package JSON.jsonForCards;
 
+import JSON.JsonAdapter;
 import models.Cards.*;
 import models.Cards.Card.*;
 import com.google.gson.Gson;
@@ -11,14 +12,16 @@ import models.Cards.spells.questAndReward.StrengthInNumbers;
 import models.Cards.weapons.FieryWarAxe;
 import models.Cards.weapons.LightsJustice;
 import models.Cards.weapons.SerratedTooth;
+import models.Heroes.Hero;
 
 import java.io.*;
 
 public class jsonForCards {
 
     public static void jsonFileMakerForCards(Card card) throws IOException {
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
-        FileWriter fileWriter = new FileWriter("./src/main/java/JSON/jsonForCards/jsonFilesForCards/" + card.getName() + ".json");
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Card.class, new JsonAdapter<>());
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();        FileWriter fileWriter = new FileWriter("./src/main/java/JSON/jsonForCards/jsonFilesForCards/" + card.getName() + ".json");
         gson.toJson(card, fileWriter);
         fileWriter.close();
     }
@@ -26,6 +29,8 @@ public class jsonForCards {
 
 
     public static Card creatCardFromjson(String name) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Card.class, new JsonAdapter<>());
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
         FileReader fileReader = null;
         try {
@@ -72,7 +77,9 @@ public class jsonForCards {
             case "Lifedrinker": card = gson.fromJson(fileReader,Lifedrinker.class);break;
             case "PsycheSplit": card = gson.fromJson(fileReader,PsycheSplit.class);break;
             case "BookOfSpecters": card = gson.fromJson(fileReader,BookOfSpecters.class);break;
-            default: card = gson.fromJson(fileReader,Card.class);
+//            default: card = gson.fromJson(fileReader,Card.class);
+//            default: card = gson.fromJson(fileReader,Card.class);
+//            case "Sprint": card = gson.fromJson(fileReader,Sprint.class);
 //            case "Sprint": card = gson.fromJson(fileReader,Sprint.class);
 //            case "Sprint": card = gson.fromJson(fileReader,Sprint.class);
         }
@@ -83,6 +90,9 @@ public class jsonForCards {
         }
         return card;
     }
+
+
+
 
 
 

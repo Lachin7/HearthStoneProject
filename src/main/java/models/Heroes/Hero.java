@@ -8,18 +8,19 @@ import models.Character;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class  Hero implements Character {
+public abstract class  Hero implements Character {
 
    @Expose protected int HP, Attack = 0, maxHp, maxAttack;
    @Expose protected String name;
-   @Expose int heroPowerCost;
+   @Expose protected long id;
+   @Expose protected int heroPowerCost;
    @Expose protected ArrayList<Target> heroPowerTarget;
-   @Expose protected String id;
    @Expose protected Weapon weapon;
+   @Expose protected HeroPower heroPower;
 
 
    public Hero(){
-      id = System.currentTimeMillis()+"";
+      id = System.currentTimeMillis();
    }
 
    @Override
@@ -52,8 +53,8 @@ public class  Hero implements Character {
    }
 
    @Override
-   public String getId() {
-      return null;
+   public long getId() {
+      return id;
    }
 
    @Override
@@ -63,6 +64,10 @@ public class  Hero implements Character {
    @Override
    public int getAttack() {
       return Attack;
+   }
+
+   public HeroPower getHeroPower(){
+      return heroPower;
    }
 
    public String getName(){

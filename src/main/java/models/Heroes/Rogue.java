@@ -7,6 +7,7 @@ public class Rogue extends Hero {
         this.HP = 30;
         this.name ="Rogue";
         this.heroPowerCost = 3;
+        this.heroPower = HeroPower.RogueHPower;
     }
 
     public String getName() {

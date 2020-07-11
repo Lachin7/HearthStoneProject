@@ -1,5 +1,7 @@
 package gui.animation;
 
+import gui.panels.PlayPanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 
 public class SimpleMove {
-    public  void animate(JComponent component, Point newPoint, int frames, int interval) {
+    public  void animate(PlayPanel playPanel ,JComponent component, Point newPoint, int frames, int interval) {
         Rectangle compBounds = component.getBounds();
 
         Point oldPoint = new Point(compBounds.x, compBounds.y),
@@ -23,7 +25,9 @@ public class SimpleMove {
                         compBounds.height);
 
                 if (currentFrame != frames) currentFrame++;
-//                if(component.getLocation()==newPoint.getLocation())mouseAdapter.notify();
+                if(component.getLocation()==newPoint.getLocation()){
+                    playPanel.setAnimationTims(playPanel.getAnimationTimes()+1);
+                }
                 else{
                     ((Timer)e.getSource()).stop();
                 }

@@ -16,8 +16,8 @@
   "type": "MINION",
   "heroClass": "WARLOCK",
   "price": 15,
-  "id": "1594402186082",
-  "hasInitialMoveTarget": false,
+  "id": 1594476933355,
+  "hasInitialMoveTarget": true,
   "targets": [
     "FRIENDLY_MINION"
   ]

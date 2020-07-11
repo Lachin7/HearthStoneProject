@@ -1,5 +1,7 @@
 package models.Cards;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import controller.BoardController;
 import controller.actionVisitors.card.VisitableCard;
@@ -9,7 +11,7 @@ import models.Character;
 
 import java.util.ArrayList;
 
-public class Card implements VisitableCard {
+public abstract class Card implements VisitableCard {
 
     /** defining fields here */
     @Expose protected int manaCost ;
@@ -18,15 +20,10 @@ public class Card implements VisitableCard {
     @Expose protected type type;
     @Expose protected HeroClass heroClass;
     @Expose protected int price;
-    @Expose protected String id;
+    @Expose protected long id;
     @Expose protected boolean hasInitialMoveTarget;
     @Expose protected ArrayList<Target> targets;
 
-
-    @Override
-    public void accept(CardVisitor cardVisitor, Character target, BoardController boardController) {
-
-    }
 
     /** defining relevant enums and classes here */
     public enum rarity {
@@ -39,15 +36,16 @@ public class Card implements VisitableCard {
 
     public enum  HeroClass {
         NEUTRAL,MAGE,WARLOCK,ROGUE,HUNTER,PRIEST;
-//
-//        @Override
-//        public String toString() {
-//            return this.name() + "";
-//        }
     }
 
     public Card(){
-        this.id = System.currentTimeMillis() + "";
+
+
+    }
+
+    @Override
+    public void accept(CardVisitor cardVisitor, Character target, BoardController boardController) {
+
     }
 
     /** defining constructor here */
@@ -59,8 +57,8 @@ public class Card implements VisitableCard {
         this.heroClass = heroClass;
         this.type = type;
         this.price = price;
-        this.id = System.currentTimeMillis() + "";
-
+        this.id = System.currentTimeMillis();
+//        System.out.println(System.currentTimeMillis());
     }
 
 
@@ -77,6 +75,11 @@ public class Card implements VisitableCard {
         if (this == obj) return true;
         Card ex = (Card) obj;
         return this.toString().equals(ex.toString()) ;
+    }
+
+    public Card cardFromJson(){
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
+        return gson.fromJson(gson.toJson(this, Card.class), Card.class);
     }
 
 
@@ -130,7 +133,7 @@ public class Card implements VisitableCard {
         this.hasInitialMoveTarget = hasInitialMoveTarget;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 

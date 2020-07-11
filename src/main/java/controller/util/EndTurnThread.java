@@ -1,6 +1,5 @@
-package controller.threads;
+package controller.util;
 
-import controller.BoardController;
 import gui.panels.PlayPanel;
 
 import java.awt.*;
@@ -23,11 +22,11 @@ public class EndTurnThread extends Thread{
                 playPanel.getTimeRemaining().setFont(new Font("Ariel",Font.BOLD,50));
                 playPanel.getTimeRemaining().setBackground(Color.RED);
             }
-            else if(System.currentTimeMillis() - startTime >= 60000) {
-                playPanel.getTimeRemaining().setText("");
-                playPanel.endTurn();
-                isRunning=false;
-            }
+             if(System.currentTimeMillis() - startTime >= 60000) {
+                 playPanel.getTimeRemaining().setText("");
+                 playPanel.endTurn();
+                 isRunning = false;
+             }
         }
     }
 

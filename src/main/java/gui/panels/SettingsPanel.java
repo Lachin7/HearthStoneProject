@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class SettingsPanel extends MyPanel implements ActionListener {
 
@@ -32,7 +33,7 @@ public class SettingsPanel extends MyPanel implements ActionListener {
 
         skinCard = new MyButton("Card Skins", "blueCrystal150.png",itemsPanel,this);
         Theme = new MyButton("Theme", "blueCrystal150.png",itemsPanel,this);
-        deleteAccount = new MyButton("Theme", "blueCrystal150.png",itemsPanel,this);
+        deleteAccount = new MyButton("delete Account", "blueCrystal150.png",itemsPanel,this);
 
         setSkin();
         setTheme();
@@ -102,9 +103,11 @@ public class SettingsPanel extends MyPanel implements ActionListener {
             theme.setVisible(true);
         }
         if(actionEvent.getSource()==deleteAccount){
-            skin.setVisible(false);
-            deleteAccount.setVisible(true);
-            theme.setVisible(false);
+            try {
+                Controller.getInstance().getPlayerController().deleteThePlayer();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         if(actionEvent.getSource()==mute){
             if(muteUnmute%2==0){
