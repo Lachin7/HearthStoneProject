@@ -21,21 +21,19 @@ import java.util.ArrayList;
 public class MyCardButton extends JButton implements Comparable<JButton> {
 
    protected Boolean locked ;
-   private ImageLoader imageLoader = ImageLoader.getInstance();
-   private CardController cardController = new CardController();
-   private SimpleMove simpleMove;
+   private final ImageLoader imageLoader = ImageLoader.getInstance();
+   private final CardController cardController = new CardController();
    private String cardName;
    private long id ;
    private boolean isInGame = false;
    private Card card;
    private int manaCost;
 
-
     public MyCardButton(String cardName , int width, Container container){
         if(cardName.equals("")) this.setIcon(new ImageIcon(imageLoader.loadImage(Controller.getInstance().getMainPlayer().getCardSkin()).getScaledInstance(width,width*136/100 +3,Image.SCALE_SMOOTH)));
         else{
             this.cardName=cardName;
-            this.setIcon(new ImageIcon(imageLoader.loadImage("Cards/" + cardName + ".png").getScaledInstance(width,width*136/100,Image.SCALE_SMOOTH)));
+            this.setIcon(new ImageIcon(imageLoader.getCardsImages().get(cardName).getScaledInstance(width,width*136/100,Image.SCALE_SMOOTH)));
         }
         this.setSize(width, width * 136 / 100);
         if(!cardName.equals("")) {
@@ -49,7 +47,7 @@ public class MyCardButton extends JButton implements Comparable<JButton> {
             id = card.getId();
             this.card = card;
 
-        if(locked) this.setIcon(new ImageIcon(makeGrayImage( imageLoader.loadImage("Cards/" + cardName + ".png")).getScaledInstance(width,width*138/100,Image.SCALE_SMOOTH)));
+        if(locked) this.setIcon(new ImageIcon(makeGrayImage( imageLoader.getCardsImages().get(cardName)).getScaledInstance(width,width*138/100,Image.SCALE_SMOOTH)));
         }
         this.setOpaque(false);
         this.setContentAreaFilled(false);
@@ -72,11 +70,9 @@ public class MyCardButton extends JButton implements Comparable<JButton> {
     public void setCardSize(int width){
         setSize(width, width*136/100);
         setPreferredSize(new Dimension(width, width*136/100));
-        setIcon(new ImageIcon(imageLoader.loadImage("Cards/" + cardName + ".png").getScaledInstance(width,width*136/100,Image.SCALE_SMOOTH)));
+        setIcon(new ImageIcon(imageLoader.getCardsImages().get(cardName).getScaledInstance(width,width*136/100,Image.SCALE_SMOOTH)));
         //todo have the filed version of the cards
     }
-
-
 
     @Override
     public void paintComponent(Graphics graphics){
@@ -115,17 +111,13 @@ public class MyCardButton extends JButton implements Comparable<JButton> {
         return result;
     }
 
-
-
     public void addClickListener() {
 
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 setBorder(BorderFactory.createEtchedBorder(Color.MAGENTA,Color.BLACK));
-
             }
-
             @Override
             public void mouseExited(MouseEvent mouseEvent){
                 setBorder(null);
@@ -133,66 +125,8 @@ public class MyCardButton extends JButton implements Comparable<JButton> {
         });
     }
 
-
-
-    public void addMakeBiggerListener(Container container, int width2, int x, int y) {
-        MyCardButton myCardButton = this;
-        addMouseListener(new MouseAdapter(){
-            @Override
-            public void mouseEntered(MouseEvent mouseEvent){
-               myCardButton.setSize(width2,width2*136/100);
-               myCardButton.setBounds(x,y,width2,width2*136/100);
-               container.add(myCardButton);
-            }
-            @Override
-            public void mouseExited(MouseEvent mouseEvent){
-                container.remove(myCardButton);
-            }
-        });
-
-    }
-
-    private volatile int draggedAtX, draggedAtY;
-
-    public void addDragButton(Container parent,Container target){
-
-        addMouseMotionListener(new MouseAdapter(){
-            ArrayList<Component> cards = new ArrayList<>();
-            public void mousePressed(MouseEvent e){
-                setSize(100, 138);
-                setPreferredSize(new Dimension(100, 138));
-                draggedAtX = e.getX();
-                draggedAtY = e.getY();
-                for(Component component : target.getComponents()) cards.add(component);
-
-            }
-
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                target.add((Component) e.getSource());
-                parent.remove((Component) e.getSource());
-                setSize(50, 69);
-                setPreferredSize(new Dimension(50, 69));
-                setLocation(e.getX() - draggedAtX + getLocation().x, e.getY() - draggedAtY + getLocation().y);
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e){
-                for(Component component : cards){
-//                    if(component.getX())
-                }
-//                (Component) ((Component) e.getSource()).setBounds();
-            }
-        });
-
-    }
-
     public long getId() {
         return id;
-    }
-
-    public void addCanAttackListener(ArrayList<Component> characters) {
-
     }
 
     @Override

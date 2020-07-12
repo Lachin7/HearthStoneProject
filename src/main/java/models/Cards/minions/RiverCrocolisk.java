@@ -1,14 +1,14 @@
-package models.Cards.spells;
+package models.Cards.minions;
 
 import controller.BoardController;
 import controller.actionVisitors.card.CardVisitor;
 import models.Cards.Card;
-import models.Cards.Spell;
+import models.Cards.Minion;
 import models.Character;
 
-public class MalygossNova extends Spell {
-    public MalygossNova() {
-        super(1, "MalygossNova", "Discover a weapon from any class. Add it to your Adventure Deck with +2/+2.", Card.rarity.COMMON, HeroClass.ROGUE, Card.type.SPELL, 5);
+public class RiverCrocolisk extends Minion{
+    public RiverCrocolisk() {
+        super(2, "RiverCrocolisk", "", Card.rarity.EPIC, Card.HeroClass.WARLOCK,Card.type.MINION, Minion.SubType.BEAST,15, 2, 3);
     }
 
     @Override
@@ -17,6 +17,6 @@ public class MalygossNova extends Spell {
     }
 //    @Override
 //    public void accept(CardVisitor cardVisitor, Character target, BoardController boardController) {
-//        cardVisitor.visitMalygossNova(this,target,boardController);
+//        cardVisitor.visitRatcatcher(this,target,boardController);
 //    }
 }

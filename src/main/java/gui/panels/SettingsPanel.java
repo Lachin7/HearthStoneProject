@@ -14,10 +14,29 @@ import java.io.IOException;
 
 public class SettingsPanel extends MyPanel implements ActionListener {
 
-    private MyPanel itemsPanel, skin, theme, sound, panel, playerInfo;
-    private MyButton skinCard, Theme, BlushRoom,CakeoftheDead,BansheeQueen,BlizzardEvents2018, HSplayBoard, HA_BG, deleteAccount, mute, decrease, increase, delete;
-    private JLabel selected, info, deleteWarning;
-    private PlayerController playerController;
+    private final MyPanel itemsPanel;
+    private MyPanel skin;
+    private MyPanel theme;
+    private final MyPanel sound;
+    private MyPanel panel;
+    private MyPanel playerInfo;
+    private final MyButton skinCard;
+    private final MyButton Theme;
+    private MyButton BlushRoom;
+    private MyButton CakeoftheDead;
+    private MyButton BansheeQueen;
+    private MyButton BlizzardEvents2018;
+    private MyButton HSplayBoard;
+    private MyButton HA_BG;
+    private final MyButton deleteAccount;
+    private final MyButton mute;
+    private final MyButton decrease;
+    private final MyButton increase;
+    private MyButton delete;
+    private final JLabel selected;
+    private JLabel info;
+    private JLabel deleteWarning;
+    private final PlayerController playerController;
     private String skinFileName = "BlushRoomCardBack.png";
     private String bgFileName = "HSplayBoard.jpg";
     private int muteUnmute = 0;

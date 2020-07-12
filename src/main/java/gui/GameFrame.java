@@ -21,13 +21,13 @@ public class GameFrame extends JFrame {
     private CollectionPanel collectionPanel;
     private StatusPanel statusPanel;
     private SettingsPanel settingsPanel;
-    private CardLayout cardLayout = new CardLayout();
-    private JPanel cardPane;
+    private final CardLayout cardLayout = new CardLayout();
+    private final JPanel cardPane;
     private String currentPanel;
-    private MyAudioPlayer audioPlayer;
+    private final MyAudioPlayer audioPlayer;
     private Boolean firstGame = true;
-    private PlayerController playerController;
-    private PrePlayPanel prePlayPanel;
+    private final PlayerController playerController;
+    private final PrePlayPanel prePlayPanel;
 
 
     private static  GameFrame myGameFrame = null;
@@ -67,11 +67,12 @@ public class GameFrame extends JFrame {
                 }
                 if(result == 1) {
                     Controller.getInstance().getMainPlayer().setMakeNewGame(false);
-                    try {
-                        playPanel = GameFromjson();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+
+//                    try {
+//                        playPanel = new PlayPanel(GameFromjson());
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
                     goToPanel("mainPlayPanel");
                 }
             }

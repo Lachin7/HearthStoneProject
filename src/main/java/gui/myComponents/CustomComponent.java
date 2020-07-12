@@ -21,12 +21,12 @@ public class CustomComponent {
 
     public void backToMenuButton(Container container, int x, int y, PlayPanel playPanel){
         if(playPanel!=null) {
-//            try {
-//                //todo
-//                jsonFileMakerForGame(playPanel);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                //todo
+                jsonFileMakerForGame(playPanel.getBoardController());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         MyButton back = new MyButton("back to Menu", "pinkCrystal100.png", container, actionEvent -> GameFrame.getInstance().goToPanel("mainMenu"));
         back.setBounds(x,y,100,41);

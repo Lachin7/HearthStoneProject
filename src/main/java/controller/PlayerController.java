@@ -14,13 +14,12 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.*;
 
-import static JSON.jsonForCards.jsonForCards.creatCardFromjson;
 import static JSON.jsonForPlayers.jsonForPlayers.*;
 
 public class PlayerController {
 
-    private Logger PlayerLOGGER ;
-    private CardController cardController;
+    private final Logger PlayerLOGGER ;
+    private final CardController cardController;
     public PlayerController(){
         PlayerLOGGER = Logger.getLogger("PlayerLog");
         cardController = new CardController();
@@ -77,7 +76,7 @@ public class PlayerController {
             SignedUpPlayer.setPlayersChoosedHero(new Mage());
             ArrayList<Card> optionalMageDeck = null;
 //            optionalMageDeck = (new ArrayList<Card>(Arrays.asList(cardController.createCardWRef("PharaohsBlessing"),cardController.createCardWRef("Polymorph"),cardController.createCardWRef("FriendlySmith"),cardController.createCardWRef("DreadScale"),cardController.createCardWRef("SwampKingDred"),cardController.createCardWRef("HighPriestAmet"),cardController.createCardWRef("Sathrovarr"),cardController.createCardWRef("SecurityRover"),cardController.createCardWRef("CurioCollector"),cardController.createCardWRef("StrengthInNumbers"),cardController.createCardWRef("LearnDraconic"),cardController.createCardWRef("DreadScale"),cardController.createCardWRef("DreadScale"),cardController.createCardWRef("BeamingSidekick"),cardController.createCardWRef("LostSpirit"),cardController.createCardWRef("Ratcatcher"),cardController.createCardWRef("ScavengingShivarra"),cardController.createCardWRef("LearnDraconic"),cardController.createCardWRef("FungalBruiser"),cardController.createCardWRef("RocketAugmerchant"),cardController.createCardWRef("PsycheSplit"),cardController.createCardWRef("CurioCollector"))));
-            optionalMageDeck = (new ArrayList<Card>(Arrays.asList(cardController.createCard("FriendlySmith"),cardController.createCard("FriendlySmith"),cardController.createCard("PharaohsBlessing"),cardController.createCard("DreadScale"),cardController.createCard("Sathrovarr"),cardController.createCard("Sathrovarr"),cardController.createCard("Sathrovarr"),cardController.createCard("SecurityRover"),cardController.createCard("SecurityRover"),cardController.createCard("SecurityRover"),cardController.createCard("SwampKingDred"),cardController.createCard("HighPriestAmet"),cardController.createCard("DreadScale"),cardController.createCard("HighPriestAmet"),cardController.createCard("LostSpirit"),cardController.createCard("Ratcatcher"),cardController.createCard("ScavengingShivarra"),cardController.createCard("LearnDraconic"),cardController.createCard("FungalBruiser"),cardController.createCard("RocketAugmerchant"),cardController.createCard("PsycheSplit"),cardController.createCard("CurioCollector"))));
+            optionalMageDeck = (new ArrayList<Card>(Arrays.asList(cardController.createCard("LearnDraconic"),cardController.createCard("LearnDraconic"),cardController.createCard("LearnDraconic"),cardController.createCard("LearnDraconic"),cardController.createCard("LearnDraconic"),cardController.createCard("LearnDraconic"),cardController.createCard("PharaohsBlessing"),cardController.createCard("PharaohsBlessing"),cardController.createCard("SecurityRover"),cardController.createCard("SecurityRover"),cardController.createCard("SwampKingDred"),cardController.createCard("HighPriestAmet"),cardController.createCard("HighPriestAmet"),cardController.createCard("HighPriestAmet"),cardController.createCard("HighPriestAmet"),cardController.createCard("HighPriestAmet"),cardController.createCard("HighPriestAmet"),cardController.createCard("HighPriestAmet"),cardController.createCard("HighPriestAmet"),cardController.createCard("RocketAugmerchant"),cardController.createCard("PsycheSplit"),cardController.createCard("CurioCollector"))));
 
             Deck deck = new Deck("optional Mage deck",optionalMageDeck);
             deck.setHero(Card.HeroClass.MAGE);
@@ -86,10 +85,6 @@ public class PlayerController {
             SignedUpPlayer.getDecks().add(SignedUpPlayer.getPlayersDeck());
             ArrayList<Card> optionalAllCards = new ArrayList<>();
             optionalAllCards.addAll(optionalMageDeck);
-//            optionalAllCards.add(creatCardFromjson("FrozenShadoweaver"));
-//            optionalAllCards.add(creatCardFromjson("CurioCollector"));
-//            optionalAllCards.add(creatCardFromjson("BeamingSidekick"));
-//            optionalAllCards.add(creatCardFromjson("Locust"));
             SignedUpPlayer.setALLPlayersCards(optionalAllCards);
             SignedUpPlayer.getPlayersUnlockedHeroes().add(new Mage());
             try {
@@ -160,7 +155,7 @@ public class PlayerController {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-1");
             md.update(playerPassword.getBytes());
-            byte byteData[] = md.digest();
+            byte[] byteData = md.digest();
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < byteData.length ; i++) {
                 sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));

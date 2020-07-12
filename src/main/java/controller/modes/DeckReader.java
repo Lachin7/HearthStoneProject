@@ -1,20 +1,24 @@
 package controller.modes;
 
+import JSON.JsonAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import controller.BoardController;
 import models.Cards.Card;
+import models.Deck;
 import models.Heroes.Mage;
 import models.Player;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class DeckReader extends BoardController {
 
-    private ArrayList<String> friend = new ArrayList<>() , enemy = new ArrayList<>();
+    private final ArrayList<String> friend = new ArrayList<>();
+    private final ArrayList<String> enemy = new ArrayList<>();
 
 
     public ArrayList<Card> getCards(ArrayList <String> arrayList){
@@ -63,6 +67,15 @@ public class DeckReader extends BoardController {
             e.printStackTrace();
         }
         return deckReader;
+    }
+
+    public static void jsonFileMakerForDeckReader(DeckReader deckReader) throws IOException {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+//        gsonBuilder.registerTypeAdapter(Card.class, new JsonAdapter<>());
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
+        FileWriter fileWriter = new FileWriter("./src/main/resources/config/deckReader.json");
+        gson.toJson(deckReader, fileWriter);
+        fileWriter.close();
     }
 
     @Override

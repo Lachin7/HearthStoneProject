@@ -89,8 +89,7 @@ public class SummonCardVisitor implements CardVisitor{
 
     @Override
     public void visitHighPriestAmet(HighPriestAmet highPriestAmet, Character target, BoardController boardController) {
-        boardController.changeMinion((Minion) target,highPriestAmet.getHP(),0);
-
+        boardController.transformMinion((Minion) target,highPriestAmet.getHP(),target.getAttack());
     }
 
     @Override

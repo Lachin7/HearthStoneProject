@@ -20,7 +20,7 @@ public abstract class  Hero implements Character {
 
 
    public Hero(){
-      id = System.currentTimeMillis();
+      id = System.nanoTime();
    }
 
    @Override

@@ -20,18 +20,17 @@ public class jsonForCards {
 
     public static void jsonFileMakerForCards(Card card) throws IOException {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Card.class, new JsonAdapter<>());
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();        FileWriter fileWriter = new FileWriter("./src/main/java/JSON/jsonForCards/jsonFilesForCards/" + card.getName() + ".json");
+        gsonBuilder.registerTypeAdapter(Card.class, new JsonAdapter<Card>());
+        Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
+        FileWriter fileWriter = new FileWriter("./src/main/java/JSON/jsonForCards/jsonFilesForCards/" + card.getName() + ".json");
         gson.toJson(card, fileWriter);
         fileWriter.close();
     }
 
-
-
     public static Card creatCardFromjson(String name) {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Card.class, new JsonAdapter<>());
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
+        gsonBuilder.registerTypeAdapter(Card.class, new JsonAdapter<Card>());
+        Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
         FileReader fileReader = null;
         try {
             fileReader = new FileReader("./src/main/java/JSON/jsonForCards/jsonFilesForCards/" + name + ".json");

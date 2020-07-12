@@ -21,7 +21,6 @@ public class JsonAdapter <T> implements JsonSerializer<T>, JsonDeserializer<T>{
             final JsonElement typeString = get(member, "type");
             final JsonElement data = get(member, "data");
             final Type actualType = typeForName(typeString);
-
             return context.deserialize(data, actualType);
         }
 

@@ -12,10 +12,21 @@ import java.awt.event.*;
 
 public class SignInPanel extends MyPanel {
 
-    private JLabel WelcomeText,EnterName,EnterPass,noAccount,CreatName,CreatPass,ErrorSignIn,ErrorSignUp;
-    private JTextField userName,password,CreatedName,CreatedPass;
-    private JButton signIn,signUp;
-    private PlayerController playerController;
+    private final JLabel WelcomeText;
+    private final JLabel EnterName;
+    private final JLabel EnterPass;
+    private final JLabel noAccount;
+    private final JLabel CreatName;
+    private final JLabel CreatPass;
+    private final JLabel ErrorSignIn;
+    private final JLabel ErrorSignUp;
+    private final JTextField userName;
+    private final JTextField password;
+    private final JTextField CreatedName;
+    private final JTextField CreatedPass;
+    private final JButton signIn;
+    private final JButton signUp;
+    private final PlayerController playerController;
 
     public SignInPanel(){
 

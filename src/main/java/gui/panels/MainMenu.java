@@ -13,8 +13,13 @@ import java.util.logging.Level;
 
 public class MainMenu extends MyPanel implements ActionListener {
 
-    private JButton play , shop , status , collection , settings, signIn ;
-    private MyAudioPlayer audioPlayer;
+    private final JButton play;
+    private final JButton shop;
+    private final JButton status;
+    private final JButton collection;
+    private final JButton settings;
+    private final JButton signIn ;
+    private final MyAudioPlayer audioPlayer;
 
 
     public MainMenu(){

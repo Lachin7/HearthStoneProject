@@ -12,8 +12,8 @@ public class MyAudioPlayer {
     private static float soundVolume = 1;
     private AudioFormat format;
     private DataLine.Info info;
-    private static boolean muteSound = false;
-    private static MyAudioPlayer audioPlayer = new MyAudioPlayer();
+    private static final boolean muteSound = false;
+    private static final MyAudioPlayer audioPlayer = new MyAudioPlayer();
     public static MyAudioPlayer getInstance(){
         return audioPlayer;
     }

@@ -14,8 +14,10 @@ import java.util.logging.Level;
 
 public class StatusPanel extends MyPanel {
 
-    private JPanel cards,  buttonsPanel ;
-    private String selectedDeck, mostUsedCard ="";
+    private final JPanel cards;
+    private final JPanel buttonsPanel ;
+    private String selectedDeck;
+    private final String mostUsedCard ="";
     MyButton selectDeck ;
     CardController cardController ;
 

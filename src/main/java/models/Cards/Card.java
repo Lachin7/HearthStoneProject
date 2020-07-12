@@ -35,7 +35,7 @@ public abstract class Card implements VisitableCard {
     }
 
     public enum  HeroClass {
-        NEUTRAL,MAGE,WARLOCK,ROGUE,HUNTER,PRIEST;
+        NEUTRAL,MAGE,WARLOCK,ROGUE,HUNTER,PRIEST
     }
 
     public Card(){
@@ -44,9 +44,7 @@ public abstract class Card implements VisitableCard {
     }
 
     @Override
-    public void accept(CardVisitor cardVisitor, Character target, BoardController boardController) {
-
-    }
+    public abstract void accept(CardVisitor cardVisitor, Character target, BoardController boardController);
 
     /** defining constructor here */
     public Card(int manaCost, String name, String description, rarity rarity, HeroClass heroClass,type type, int price){
@@ -57,7 +55,7 @@ public abstract class Card implements VisitableCard {
         this.heroClass = heroClass;
         this.type = type;
         this.price = price;
-        this.id = System.currentTimeMillis();
+        this.id = System.nanoTime();
 //        System.out.println(System.currentTimeMillis());
     }
 
@@ -135,6 +133,10 @@ public abstract class Card implements VisitableCard {
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id){
+        this.id = id;
     }
 
     public ArrayList<Target> getTargets() {

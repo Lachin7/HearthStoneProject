@@ -9,8 +9,8 @@ import java.awt.image.BufferedImage;
 
 public class MyButton extends JButton {
 
-    private ImageLoader imageLoader = ImageLoader.getInstance();
-    private String IconFile;
+    private final ImageLoader imageLoader = ImageLoader.getInstance();
+    private final String IconFile;
     private String name;
     private long id ;
 

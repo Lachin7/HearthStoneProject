@@ -13,12 +13,19 @@ import java.util.logging.Level;
 
 
 public class ShopPanel extends MyPanel implements ActionListener {
-    private CardController cardController = new CardController();
-    private JPanel itemsPanel , cardsShowCase , cardPanel;
-    private JLabel shopLabel, playersCoins, price;
+    private final CardController cardController = new CardController();
+    private final JPanel itemsPanel;
+    private final JPanel cardsShowCase;
+    private final JPanel cardPanel;
+    private final JLabel shopLabel;
+    private final JLabel playersCoins;
+    private final JLabel price;
     private MyCardButton selectedCard;
-    private JButton CardsYouCanBuyButton, CardsYouCanSellButton, BuyCardButton, SellCardButton;
-    private MyAudioPlayer audioPlayer;
+    private final JButton CardsYouCanBuyButton;
+    private final JButton CardsYouCanSellButton;
+    private final JButton BuyCardButton;
+    private final JButton SellCardButton;
+    private final MyAudioPlayer audioPlayer;
 
     public ShopPanel(){
         this.setPreferredSize(new Dimension(GuiCons.getWidth(),GuiCons.getHeight()));
@@ -69,7 +76,7 @@ public class ShopPanel extends MyPanel implements ActionListener {
            myCardButton.addActionListener(new ActionListener() {
                @Override
                public void actionPerformed(ActionEvent actionEvent) {
-                   selectedCard.setIcon(new ImageIcon(imageLoader.loadImage("Cards/" + card.getName() + ".png").getScaledInstance(200,276,Image.SCALE_SMOOTH)));
+                   selectedCard.setIcon(new ImageIcon(imageLoader.getCardsImages().get(card.getName()).getScaledInstance(200,276,Image.SCALE_SMOOTH)));
                    selectedCard.setName(card.getName());
                    selectedCard.setContentAreaFilled(false); selectedCard.setBorderPainted(false); selectedCard.setOpaque(false);
                    price.setText("    price        :      "+ card.getPrice());
@@ -141,7 +148,7 @@ public class ShopPanel extends MyPanel implements ActionListener {
     public void setSelectedCard(MyCardButton selectedCard) {
         playersCoins.setText("you have "+ Controller.getInstance().getMainPlayer().getPlayerCoins()+ " coins");
         this.selectedCard = selectedCard;
-        price.setText("    price        :      "+ cardController.creatCard(selectedCard.getName()).getPrice());
+        price.setText("    price        :      "+ CardController.creatCard(selectedCard.getName()).getPrice());
     }
 
     public MyCardButton getSelectedCard() {

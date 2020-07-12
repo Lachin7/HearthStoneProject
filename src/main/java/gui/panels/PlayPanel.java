@@ -1,6 +1,7 @@
 package gui.panels;
 
 import com.google.gson.annotations.Expose;
+import controller.modes.AI;
 import controller.util.EndTurnThread;
 import controller.util.QuestRewardMaker;
 import gui.GameFrame;
@@ -22,6 +23,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 
 public class PlayPanel extends MyPanel implements ActionListener {
@@ -30,12 +32,14 @@ public class PlayPanel extends MyPanel implements ActionListener {
     @Expose private MyCardButton selectedCard, weapon1, weapon2;
     @Expose private JLabel[] friendlyManas, enemyManas;
     @Expose private JLabel timeRemaining;
-    @Expose private MyPanel mainPlayGround, discoverPanel;
-    @Expose private BoardController boardController;
-    @Expose private int activeTurn = 0, animationTims =0, times =0 ;
-    @Expose private MyAudioPlayer audioPlayer;
-    @Expose private SimpleMove simpleMove;
+    @Expose private final MyPanel mainPlayGround;
+    @Expose private MyPanel discoverPanel;
+    @Expose private final BoardController boardController;
+    @Expose private int activeTurn = 0, animationTims =0;
+    @Expose private final MyAudioPlayer audioPlayer;
+    @Expose private final SimpleMove simpleMove;
     @Expose private EndTurnThread endTurnThread;
+    @Expose private final Object monitor = new Object();
     @Expose private int friendlyFieldY, enemyFieldY, friendlyHandY, enemyHandY;
     @Expose private volatile int screenX = 0, screenY=0, myX = 0, myY = 0;
 
@@ -45,7 +49,7 @@ public class PlayPanel extends MyPanel implements ActionListener {
        this.backGroundFile = Controller.getInstance().getMainPlayer().getPlayBackGround();
        audioPlayer = MyAudioPlayer.getInstance();
        this.boardController = boardController;
-       simpleMove = new SimpleMove();
+        simpleMove = new SimpleMove();
 
        mainPlayGround = new MyPanel(null,false,null,this);
        mainPlayGround.setBounds(100,0,960,700);
@@ -57,9 +61,8 @@ public class PlayPanel extends MyPanel implements ActionListener {
         updateMana();
 
        audioPlayer.playMainMusic("PlayGound.wav");
-
-       updateHandCards(610, this.boardController.getFriendlyHandCards(),activeTurn);
-       updateHandCards(10, this.boardController.getEnemyHandCards(),activeTurn+1);
+       updateHandCards(friendlyHandY, this.boardController.getFriendlyHandCards(),activeTurn);
+       updateHandCards(enemyHandY, this.boardController.getEnemyHandCards(),activeTurn+1);
 
        endTurnThread = new EndTurnThread(this);
        endTurnThread.start();
@@ -141,12 +144,12 @@ public class PlayPanel extends MyPanel implements ActionListener {
        if(boardController.getFriendlyQuestRewards().size()!=0) drawQuestReward(g,boardController.getFriendlyQuestRewards(),650);
        if(boardController.getEnemyQuestRewards().size()!=0) drawQuestReward(g,boardController.getEnemyQuestRewards(),300);
        if(boardController.getFriendlyPlayer().getPlayersChoosedHero().getWeapon()!=null){
-           weapon1 = new MyCardButton(boardController.getFriendlyPlayer().getPlayersChoosedHero().getWeapon().getName(),50,this);
-           weapon1.setBounds(331,450,weapon1.getWidth(),weapon1.getHeight());
+           weapon1 = new MyCardButton(boardController.getFriendlyPlayer().getPlayersChoosedHero().getWeapon().getName(),80,this);
+           weapon1.setBounds(350,550,weapon1.getWidth(),weapon1.getHeight());
        }
        if(boardController.getEnemyPlayer().getPlayersChoosedHero().getWeapon()!=null){
-           weapon2 = new MyCardButton(boardController.getEnemyPlayer().getPlayersChoosedHero().getWeapon().getName(),50,this);
-           weapon2.setBounds(331,150,weapon2.getWidth(),weapon2.getHeight());
+           weapon2 = new MyCardButton(boardController.getEnemyPlayer().getPlayersChoosedHero().getWeapon().getName(),80,this);
+           weapon2.setBounds(350,100,weapon2.getWidth(),weapon2.getHeight());
        }
        updateMana();
    }
@@ -154,10 +157,14 @@ public class PlayPanel extends MyPanel implements ActionListener {
    private void drawQuestReward(Graphics g,ArrayList<QuestRewardMaker> questRewardMakers, int height){
        int i = 0;
        for(QuestRewardMaker questRewardMaker : questRewardMakers){
-           g.drawString(questRewardMaker.getPercent()+"",25,height-i*50);
-//           g.drawImage(imageLoader.loadImage("Cards/" + questRewardMaker.getName() + ".png").getScaledInstance(200,272, Image.SCALE_SMOOTH),20,height-i*50,170,40,25,50,175,40,null);
-           if(boardController.getFriendlyQuestRewards().contains(questRewardMaker))g.drawString(questRewardMaker.getName(),50,height-i*50);
-           else g.drawString(questRewardMaker.getName(),50,height+i*50);
+           if(boardController.getFriendlyQuestRewards().contains(questRewardMaker)){
+               g.drawString(questRewardMaker.getName(),50,height-i*50);
+               g.drawString(questRewardMaker.getPercent()+"",25,height-i*50);
+           }
+           else {
+               g.drawString(questRewardMaker.getPercent()+"",25,height+i*50);
+               g.drawString(questRewardMaker.getName(),50,height+i*50);
+           }
            i++;
        }
    }
@@ -218,7 +225,6 @@ public class PlayPanel extends MyPanel implements ActionListener {
         else fieldHeight = enemyFieldY;
         MyCardButton cardButton = new MyCardButton(card,100,mainPlayGround);
         cardButton.setBounds(getFieldComponents(fieldHeight).size() * 100 + 145, fieldHeight, 100, 138);
-
     }
 
     public void initialMoveTargeting(Card card, MyCardButton cardButton) {
@@ -255,7 +261,6 @@ public class PlayPanel extends MyPanel implements ActionListener {
             num++;
             addSelectedCardListener(cardButton,card);
             if (turn % 2 == 0 && haveEnoughMana(card.getManaCost())) {
-
                 cardButton.addClickListener();
                 ArrayList<MyCardButton> fieldComponents;
                 int fieldHeight;
@@ -266,19 +271,14 @@ public class PlayPanel extends MyPanel implements ActionListener {
                     fieldComponents = getFieldComponents(enemyFieldY);
                     fieldHeight = enemyFieldY;
                 }
-
                 Rectangle bounds = cardButton.getBounds();
-
                 cardButton.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
-                        if (fieldComponents.size() == 7 && card instanceof Minion)
-                            JOptionPane.showMessageDialog(null, "you can't have more than 7 minions in your field");
-
+                        if (fieldComponents.size() == 7 && card instanceof Minion) JOptionPane.showMessageDialog(null, "you can't have more than 7 minions in your field");
                         cardButton.setCardSize(100);
                         screenX = e.getXOnScreen();
                         screenY = e.getYOnScreen();
-
                         myX = cardButton.getX();
                         myY = cardButton.getY();
                     }
@@ -287,59 +287,42 @@ public class PlayPanel extends MyPanel implements ActionListener {
                     @Override
                     public void mouseReleased(MouseEvent e) {
                         if (Math.abs(cardButton.getY() - handHeight) >= 10) {
+                            if (card.getType() == Card.type.SPELL) mainPlayGround.remove(cardButton);
                             if (card.getType() == Card.type.MINION) {
                                 int x = cardButton.getX();
                                 boolean finallySettled = false;
                                 if (fieldComponents.size() == 0) cardButton.setBounds(140, fieldHeight, 100, 138);
-                                else {
-                                    fieldComponents.sort(MyCardButton::compareTo);
-//                                    for (Component component : fieldComponents) {
-//                                        if (component.getX() >= x) {
-//                                            final Rectangle bounds = component.getBounds();
-//                                            setTimes(fieldComponents.size());
-//                                            for (Component component1 : fieldComponents) {
-//                                                if (component1.getX() >= x) simpleMove.animate(GameFrame.getInstance().getPlayPanel(),(JComponent) component1, new Point(component1.getX() + 100, fieldHeight),1000,100);
-//                                            }
-//                                            cardButton.setBounds(bounds);
-//                                            finallySettled = true;
-//                                            fieldComponents.add(cardButton);
-//                                            Collections.sort(fieldComponents);
-//                                            break;
-//                                        }
-//                                    }
-                                    if (!finallySettled) cardButton.setBounds(fieldComponents.size() * 100 + 140, fieldHeight, 100, 138);
-                                }
+                                else { fieldComponents.sort(MyCardButton::compareTo);
+                                        if (cardButton.getX() > (fieldComponents.size()-1)*100+140) {
+                                            cardButton.setBounds(fieldComponents.size() * 100 + 140, fieldHeight, 100, 138);
+                                        } else {
+                                            for (Component component : fieldComponents) {
+                                                if (component.getX() >= x) {
+                                                    final Rectangle bounds = component.getBounds();
+                                                    for (Component component1 : fieldComponents) {
+                                                        if (component1.getX() >= x)
+                                                            simpleMove.animate((JComponent) component1, new Point(component1.getX() + 100, fieldHeight), 1000, 1000);
+                                                        try {
+                                                            Thread.sleep(100);
+                                                        } catch (InterruptedException interruptedException) {
+                                                            interruptedException.printStackTrace();
+                                                        }
+                                                    }
+                                                    cardButton.setBounds(bounds);
+                                                    fieldComponents.add(cardButton);
+                                                    Collections.sort(fieldComponents);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                fieldComponents.add(cardButton);
                             }
-                            if (card.getType() == Card.type.SPELL) {
-                                cardButton.setBounds(400, 300, 100, 138);
-                                mainPlayGround.remove(cardButton);
-                            }
-                            if (card.getType() == Card.type.WEAPON) {
-                                if (handHeight == friendlyHandY)
-                                    cardButton.setBounds(331, 60, cardButton.getWidth(), cardButton.getHeight());
-                                else
-                                    cardButton.setBounds(331, 360, cardButton.getWidth(), cardButton.getHeight());
-                                //todo
-//                                       if(height==friendlyHandY) new MyButton("","");
-//                                       else cardButton.setBounds();
-                            }
-//                            while (animationTims!=times){
-//
-//                            }
-                            animationTims = 0;
-                            times = 0;
-                            boardController.initialPlay(card);
-                            updateFieldCards(getOppositeFieldY(fieldHeight), 1);
-                            updateFieldCards(fieldHeight, 0);
-                            if(card.getHasInitialMoveTarget())initialMoveTargeting(card, cardButton);
-                            if(activeTurn%2==0)updateHandCards(handHeight, boardController.getFriendlyHandCards(), turn);
-                            else updateHandCards(handHeight,boardController.getEnemyHandCards(),turn);
-
+                            afterHandToDeck(card,cardButton);
                         } else {
                             cardButton.setCardSize(100);
                             cardButton.setBounds(bounds);
                         }
-//                                updateMana();
                     }
                 });
                 cardButton.addMouseMotionListener(new MouseAdapter() {
@@ -347,24 +330,32 @@ public class PlayPanel extends MyPanel implements ActionListener {
                     public void mouseDragged(MouseEvent e) {
                         int deltaX = e.getXOnScreen() - screenX;
                         int deltaY = e.getYOnScreen() - screenY;
-                        if(myX + deltaX>=0 && myY + deltaY>=0 && myX + deltaX <= 1200 && myY + deltaY<=700)
-                            cardButton.setLocation(myX + deltaX, myY + deltaY);
+                        if(myX + deltaX>=0 && myY + deltaY>=0 && myX + deltaX <= 1200 && myY + deltaY<=700) cardButton.setLocation(myX + deltaX, myY + deltaY);
                     }
-
                 });
-
             }
         }
         mainPlayGround.repaint();
         revalidate();
     }
 
+    public void afterHandToDeck(Card card, MyCardButton cardButton){
+        boardController.initialPlay(card);
+        updateFieldCards(getOppositeFieldY(getCurrentField()), 1);
+        updateFieldCards(getCurrentField(), 0);
+        if (card.getHasInitialMoveTarget()) initialMoveTargeting(card, cardButton);
+       updateHands();
+    }
+
+    public void updateHands(){
+        if(activeTurn%2==0)updateHandCards(friendlyHandY,boardController.getFriendlyHandCards(),0);
+        else updateHandCards(enemyHandY,boardController.getEnemyHandCards(),0);
+    }
+
     private void updateFieldCards(int fieldHeight, int turn){
         boardController.syncFriendlyFieldComponents(getFieldComponents(friendlyFieldY));
-        boardController.syncEnemyFieldComponents(getFieldComponents(enemyFieldY));
-        for (Component component : getFieldComponents(fieldHeight)) {
-            mainPlayGround.remove(component);
-        }
+        if(!(boardController instanceof AI))boardController.syncEnemyFieldComponents(getFieldComponents(enemyFieldY));
+        for (Component component : getFieldComponents(fieldHeight)) mainPlayGround.remove(component);
         ArrayList<Minion> cards ;
         if(fieldHeight==friendlyFieldY) cards = boardController.getFriendlyFieldCards();
         else cards = boardController.getEnemyFieldCards();
@@ -376,19 +367,20 @@ public class PlayPanel extends MyPanel implements ActionListener {
             i++;
             if(turn%2==0){
                 if(minion.canAttack() && getFieldComponents(getOppositeFieldY(fieldHeight)).size()!=0) {
-                    MyCardButton minionButton = getComponentInGame(minion.getId());
-                    minionButton.setBorder(BorderFactory.createBevelBorder(0, Color.ORANGE, Color.LIGHT_GRAY));
-                    minionButton.addActionListener(e -> {
+                    cardButton.setBorder(BorderFactory.createBevelBorder(0, Color.ORANGE, Color.LIGHT_GRAY));
+                    cardButton.addActionListener(e -> {
                         for (MyCardButton enemyCardButton : getFieldComponents(getOppositeFieldY(fieldHeight))) {
                             if ((!boardController.tauntExist(activeTurn)) || (((Minion) boardController.getCharacterOfTarget(enemyCardButton.getId())).hasTaunt())) {
                                 enemyCardButton.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.BLACK));
                                 enemyCardButton.addActionListener(actionEvent -> {
-                                    boardController.attack(minion, (Minion) boardController.getCharacterOfTarget(enemyCardButton.getId()));
+                                    boardController.attack(minion, boardController.getCharacterOfTarget(enemyCardButton.getId()));
                                     minion.setCanAttack(false);
+                                    removeListeners(hero2);hero2.setBorderPainted(false);
+                                    removeListeners(hero1);hero1.setBorderPainted(false);
                                     updateFieldCards(getOppositeFieldY(fieldHeight), turn);
                                     updateFieldCards(fieldHeight, turn);
                                 });
-                                if(!boardController.tauntExist(activeTurn))setHeroAsTarget(minion);
+                                if(!boardController.tauntExist(activeTurn))setHeroAsTarget(minion,cardButton);
                             }
                         }
                     });
@@ -400,28 +392,29 @@ public class PlayPanel extends MyPanel implements ActionListener {
         revalidate();
     }
 
-    private void setHeroAsTarget(Minion attacker){
+    private void setHeroAsTarget(Minion attacker,MyCardButton cardButton){
         if(activeTurn%2==1){
+            removeListeners(hero2);
             hero1.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.BLACK));
+            hero1.setBorderPainted(true);
             hero1.addActionListener(actionEvent -> {
                 boardController.attack(attacker,boardController.getFriendlyPlayer().getPlayersChoosedHero());
+                removeListeners(cardButton);
                 hero1.removeActionListener(this);
+                hero1.setBorderPainted(false);
             });
         }
         else {
+            removeListeners(hero1);
             hero2.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.BLACK));
+            hero2.setBorderPainted(true);
             hero2.addActionListener(actionEvent -> {
                 boardController.attack(attacker,boardController.getEnemyPlayer().getPlayersChoosedHero());
-                hero1.removeActionListener(this);
+                removeListeners(cardButton);
+                hero2.removeActionListener(this);
+                hero2.setBorderPainted(false);
             });
         }
-    }
-
-    private MyCardButton getComponentInGame(long id){
-        for(Component cardButton : mainPlayGround.getComponents()){
-            if(cardButton instanceof MyCardButton &&((MyCardButton)cardButton).getId()==(id))return (MyCardButton) cardButton;
-        }
-        return null;
     }
 
     private ArrayList<MyCardButton> getFieldComponents(int height){
@@ -465,14 +458,14 @@ public class PlayPanel extends MyPanel implements ActionListener {
         return boardController.getCurrentPlayer().getCurrentMana();
     }
 
-    private void updateBothFields(){
+    public void updateBothFields(){
         if(activeTurn%2==0) {
-            updateFieldCards(friendlyFieldY, activeTurn);
             updateFieldCards(enemyFieldY, activeTurn + 1);
+            updateFieldCards(friendlyFieldY, activeTurn);
         }
         else {
-            updateFieldCards(enemyFieldY, activeTurn + 1);
-            updateFieldCards(friendlyFieldY, activeTurn);
+            updateFieldCards(enemyFieldY, activeTurn);
+            updateFieldCards(friendlyFieldY, activeTurn + 1);
         }
     }
 
@@ -521,20 +514,6 @@ public class PlayPanel extends MyPanel implements ActionListener {
         return enemyFieldY;
     }
 
-//    private void setAttackTargets(Character attacker, boolean damgeOnly){
-//        for (MyCardButton enemyCardButton : getFieldComponents(getOppositeFieldY(getCurrentField()))) {
-//            if ((!boardController.tauntExist(activeTurn)) || (((Minion) boardController.getCharacterOfTarget(enemyCardButton.getId())).hasTaunt())) {
-//                enemyCardButton.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.BLACK));
-//                enemyCardButton.addActionListener(actionEvent -> {
-//                   if(!damgeOnly) boardController.attack(attacker, (Minion) boardController.getCharacterOfTarget(enemyCardButton.getId()));
-//                   else boardController.changeMinion();
-//                    updateFieldCards(getOppositeFieldY(getCurrentField()), 1);
-//                    updateFieldCards(getCurrentField(), 0);
-//                });
-//            }
-//        }
-//    }
-
     private ArrayList<MyCardButton> getAll(){
         ArrayList<MyCardButton> all = new ArrayList<>();
         all.addAll(getFieldComponents(friendlyFieldY));
@@ -542,31 +521,32 @@ public class PlayPanel extends MyPanel implements ActionListener {
         return all;
     }
 
-
-
     private void addActionListenerToPower(){
         ActionListener powerListener = actionEvent -> {
             boardController.playHeroPower();
             for (MyCardButton cardButton : getAll()){
-                cardButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent actionEvent) {
-                        boardController.playTargetetPower(cardButton.getId());
-                        updateBothFields();
-                    }
+                cardButton.setBorder(BorderFactory.createBevelBorder(1, Color.BLUE, Color.GRAY));
+                cardButton.addActionListener(actionEvent1 -> {
+                    boardController.playTargetetPower(cardButton.getId());
+                    for (MyCardButton cardButton1: getAll())removeListeners(cardButton1);
+                    updateBothFields();
                 });
             }
-            power1.removeActionListener(this);
-            power2.removeActionListener(this);
+            power1.removeActionListener(this);power1.setBorderPainted(false);
+            power2.removeActionListener(this);power2.setBorderPainted(false);
         };
         if(activeTurn%2==0){
             if(boardController.hasManaForPower()) {
+                power2.setBorderPainted(false);
+                power1.setBorderPainted(true);
                 power1.setBorder(BorderFactory.createBevelBorder(1, Color.MAGENTA, Color.GRAY));
                 power1.addActionListener(powerListener);
             }
         }
         else {
-            if (boardController.hasManaForPower()) {
+            if (boardController.hasManaForPower()&&!(boardController instanceof AI)) {
+                power1.setBorderPainted(false);
+                power2.setBorderPainted(true);
                 power2.setBorder(BorderFactory.createBevelBorder(1, Color.MAGENTA, Color.GRAY));
                 power2.addActionListener(powerListener);
             }
@@ -584,6 +564,11 @@ public class PlayPanel extends MyPanel implements ActionListener {
         return timeRemaining;
     }
 
+    public Object getMonitor(){
+        return monitor;
+    }
+
+
     public void setAnimationTims(int animationTims) {
         this.animationTims = animationTims;
     }
@@ -592,9 +577,69 @@ public class PlayPanel extends MyPanel implements ActionListener {
         return animationTims;
     }
 
-    public void setTimes(int times) {
-        this.times = times;
+    private MyCardButton getComponentInGame(long id){
+        for(Component cardButton : mainPlayGround.getComponents()){
+            if(cardButton instanceof MyCardButton &&((MyCardButton)cardButton).getId()==(id))return (MyCardButton) cardButton;
+        }
+        return null;
     }
+
+    public BoardController getBoardController() {
+        return boardController;
+    }
+
+    //                                    for (Component component : fieldComponents) {
+//                                        if (component.getX() >= x) {
+//                                            final Rectangle bounds = component.getBounds();
+//                                            setTimes(fieldComponents.size());
+//                                            for (Component component1 : fieldComponents) {
+//                                                if (component1.getX() >= x) simpleMove.animate(GameFrame.getInstance().getPlayPanel(),(JComponent) component1, new Point(component1.getX() + 100, fieldHeight),1000,100);
+//                                            }
+//                                            cardButton.setBounds(bounds);
+//                                            finallySettled = true;
+//                                            fieldComponents.add(cardButton);
+//                                            Collections.sort(fieldComponents);
+//                                            break;
+//                                        }
+//                                    }
+//                                                    if (!finallySettled) cardButton.setBounds(fieldComponents.size() * 100 + 140, fieldHeight, 100, 138);
+
+
+//                                                    final Rectangle bounds = component.getBounds();
+//                                                    setTimes(fieldComponents.size());
+//                                                    ArrayList<MyCardButton> buttons = new ArrayList<>();
+//
+//                                                    for (Component component1 : fieldComponents) {
+//                                                        if (component1.getX() >= x)
+//                                                            buttons.add((MyCardButton) component1);
+//                                                    }
+////                                                    simpleMove = new SimpleMove(monitor, buttons);
+////                                                    simpleMove.start();
+////                                                    try {
+////                                                        monitor.wait();
+////                                                    } catch (InterruptedException interruptedException) {
+////                                                        interruptedException.printStackTrace();
+////                                                    }
+//                                                    cardButton.setBounds(bounds);
+//                                                    finallySettled = true;
+//                                                    fieldComponents.add(cardButton);
+//                                                    Collections.sort(fieldComponents);
+//                                                    break
+
+
+//    private void setAttackTargets(Character attacker, boolean damgeOnly){
+//        for (MyCardButton enemyCardButton : getFieldComponents(getOppositeFieldY(getCurrentField()))) {
+//            if ((!boardController.tauntExist(activeTurn)) || (((Minion) boardController.getCharacterOfTarget(enemyCardButton.getId())).hasTaunt())) {
+//                enemyCardButton.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.BLACK));
+//                enemyCardButton.addActionListener(actionEvent -> {
+//                   if(!damgeOnly) boardController.attack(attacker, (Minion) boardController.getCharacterOfTarget(enemyCardButton.getId()));
+//                   else boardController.changeMinion();
+//                    updateFieldCards(getOppositeFieldY(getCurrentField()), 1);
+//                    updateFieldCards(getCurrentField(), 0);
+//                });
+//            }
+//        }
+//    }
 
     //    private class HandToFieldMouseListener implements MouseListener , MouseMotionListener{
 //

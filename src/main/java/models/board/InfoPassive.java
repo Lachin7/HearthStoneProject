@@ -49,7 +49,8 @@ public enum InfoPassive implements VisitablePassive {
         }
     };
 
-    private String name, explanation;
+    private final String name;
+    private final String explanation;
     InfoPassive(String name, String explanation){
         this.name = name;
         this.explanation = explanation;

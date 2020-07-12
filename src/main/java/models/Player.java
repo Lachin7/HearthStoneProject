@@ -1,4 +1,5 @@
 package models;
+import controller.util.MyDeckComparator;
 import models.Cards.Card;
 import com.google.gson.annotations.Expose;
 import models.Cards.Minion;
@@ -20,7 +21,7 @@ public class Player {
     @Expose private  ArrayList<Card> ALLPlayersCards = new ArrayList<>();
     @Expose private ArrayList<Card> playersDeckCards = new ArrayList<>();
     @Expose private Deck playersDeck ;
-    @Expose private ArrayList<Hero> PlayersUnlockedHeroes = new ArrayList<>();
+    @Expose private final ArrayList<Hero> PlayersUnlockedHeroes = new ArrayList<>();
 
     @Expose private ArrayList<Deck> Decks = new ArrayList<>() ;
     @Expose private ArrayList<Card> HandsCards =new ArrayList<>() ;
@@ -36,7 +37,7 @@ public class Player {
     @Expose private InfoPassive infoPassive;
 
 
-    private Logger PlayerLOGGER = Logger.getLogger("PlayerLog");
+    private final Logger PlayerLOGGER = Logger.getLogger("PlayerLog");
 
     /** defining getters and setters for the fields  */
     public String getPlayerName() {
@@ -96,7 +97,7 @@ public class Player {
     }
 
     public ArrayList<Deck> getDecks() {
-       Collections.sort(Decks, new Deck("",null).getDeckComparator());
+       Collections.sort(Decks, new MyDeckComparator().getDeckComparator());
         return Decks;
     }
 
@@ -126,7 +127,7 @@ public class Player {
     }
 
     public int getCurrentMana() {
-        return Math.min(currentMana + initialMana,10);
+        return currentMana;
     }
 
     public void setCurrentMana(int currentMana) {

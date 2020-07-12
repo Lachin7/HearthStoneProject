@@ -11,12 +11,12 @@ import java.util.Properties;
 
 public class ConfigLoader {
 
-    private  static String defaultAddress = "./src/main/resources/config/config.properties";
-    private  static ConfigLoader loader = new ConfigLoader();
+    private  static final String defaultAddress = "./src/main/resources/config/config.properties";
+    private  static final ConfigLoader loader = new ConfigLoader();
     public static ConfigLoader getInstance(){ return loader; }
 
     private FileInputStream fileInputStream;
-    private Properties properties;
+    private final Properties properties;
 
     private ConfigLoader(){
         properties = new Properties();

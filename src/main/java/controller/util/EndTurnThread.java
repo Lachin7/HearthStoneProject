@@ -6,9 +6,9 @@ import java.awt.*;
 
 public class EndTurnThread extends Thread{
 
-    private long startTime;
+    private final long startTime;
     private boolean isRunning;
-    private PlayPanel playPanel;
+    private final PlayPanel playPanel;
     public EndTurnThread(PlayPanel playPanel){
         this.playPanel = playPanel;
         startTime = System.currentTimeMillis();
@@ -20,12 +20,11 @@ public class EndTurnThread extends Thread{
             if(System.currentTimeMillis() - startTime >= 40000){
                 playPanel.getTimeRemaining().setText((System.currentTimeMillis() - startTime)/1000+"");
                 playPanel.getTimeRemaining().setFont(new Font("Ariel",Font.BOLD,50));
-                playPanel.getTimeRemaining().setBackground(Color.RED);
             }
              if(System.currentTimeMillis() - startTime >= 60000) {
+                 isRunning = false;
                  playPanel.getTimeRemaining().setText("");
                  playPanel.endTurn();
-                 isRunning = false;
              }
         }
     }

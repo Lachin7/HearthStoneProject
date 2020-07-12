@@ -24,11 +24,12 @@ public class CollectionPanel extends MyPanel implements ChangeListener , ActionL
     private String currentDeck;
     private JSlider manaFilter ;
     private JTextField searchField;
-    private CardController cardController;
+    private final CardController cardController;
     private String  selectedCardInDeck;
-    private String[] cardOptions , heroOptions;
-    private SettingsPanel settings;
-    private MyAudioPlayer audioPlayer;
+    private String[] cardOptions;
+    private final String[] heroOptions;
+    private final SettingsPanel settings;
+    private final MyAudioPlayer audioPlayer;
 
     public CollectionPanel(){
         cardController = new CardController();
@@ -124,7 +125,7 @@ public class CollectionPanel extends MyPanel implements ChangeListener , ActionL
             myCardButton.addClickListener();
             myCardButton.addActionListener(actionEvent -> {
                int ans = JOptionPane.showOptionDialog(null,"what do you want to do with this card?","",JOptionPane.DEFAULT_OPTION,JOptionPane.PLAIN_MESSAGE,
-                       new ImageIcon(imageLoader.loadImage("Cards/" + card.getName() + ".png").getScaledInstance(170,17*138/10,Image.SCALE_SMOOTH)),cardOptions,cardOptions[0]);
+                       new ImageIcon(imageLoader.getCardsImages().get(card.getName()).getScaledInstance(170,17*138/10,Image.SCALE_SMOOTH)),cardOptions,cardOptions[0]);
                if(ans==0){
                    if(!cardController.canBuy(card.getName())) JOptionPane.showMessageDialog(null,"you already have this card \n no need to buy it!");
                    else {
@@ -159,7 +160,7 @@ public class CollectionPanel extends MyPanel implements ChangeListener , ActionL
             MyCardButton myCardButton = new MyCardButton(card.getName(),100,deckCards);
             myCardButton.addActionListener(actionEvent -> {
                 selectedCardInDeck = card.getName();
-                shownCardDeck.setIcon(new ImageIcon(imageLoader.loadImage("Cards/" + card.getName() + ".png").getScaledInstance(140,197,Image.SCALE_SMOOTH)));
+                shownCardDeck.setIcon(new ImageIcon(imageLoader.getCardsImages().get(card.getName()).getScaledInstance(140,197,Image.SCALE_SMOOTH)));
                 Controller.getInstance().getPlayerController().getPlayerLOGGER().log(Level.INFO, "card clicked for showing its info - Collection ");
             });
         }

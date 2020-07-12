@@ -10,7 +10,7 @@ public class InitialSetUpHeroPowerVisitor implements HeroPowerVisitor {
 
     @Override
     public void visitMageHeroPower(Character target, BoardController boardController) {
-        boardController.changeCharacter(target,-1,0);
+        if(target instanceof Minion)boardController.changeMinion((Minion) target,-1,0);
         boardController.applyManaCost(2);
     }
 

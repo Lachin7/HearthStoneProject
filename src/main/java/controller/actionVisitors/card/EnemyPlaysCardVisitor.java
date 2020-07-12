@@ -144,7 +144,7 @@ public class EnemyPlaysCardVisitor implements CardVisitor {
 
     @Override
     public void visitSwampKingDred(SwampKingDred swampKingDred, Character target, BoardController boardController) {
-        boardController.attack(swampKingDred, (Minion) target);
+        boardController.attack(swampKingDred, target);
     }
 
     @Override

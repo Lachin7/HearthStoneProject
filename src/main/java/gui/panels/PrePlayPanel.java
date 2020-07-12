@@ -55,10 +55,15 @@ public class PrePlayPanel extends MyPanel{
                         boardController = new Practice();
                         ChoosePassive(boardController.getFriendlyPlayer());
                         ChoosePassive(boardController.getEnemyPlayer());
-                        ChooseFirstCards(boardController.getFriendlyPlayer());
+                        ChooseFirstCards(boardController.getFriendlyPlayer(),true);
 
                     }
-                    if (source == AI) boardController = new AI();
+                    if (source == AI) {
+                        boardController = new AI();
+                        ChoosePassive(boardController.getFriendlyPlayer());
+                        ChooseFirstCards(boardController.getFriendlyPlayer(),false);
+
+                    }
                     if (boardController.getClass() != DeckReader.class) checkNecessaryItems();
                     GameFrame.getInstance().setFirstGame(false);
                 }
@@ -103,7 +108,7 @@ public class PrePlayPanel extends MyPanel{
         boardController.getPlayerLogger().log(Level.INFO, "passive " + passives.get(response) + " is selected for : "+player.getPlayerName()+" - PlayPanel");
     }
 
-    private synchronized void ChooseFirstCards(Player player){
+    private synchronized void ChooseFirstCards(Player player, boolean chooseForEnemy){
 //        synchronized (this) {
             this.removeAll();
             this.backGroundFile = "Choose3CardBG.jpg";
@@ -134,11 +139,13 @@ public class PrePlayPanel extends MyPanel{
                     boardController.getFirstChoices(replacedCard, player);
                     boardController.initialGameSetUps(player);
                     num++;
-                    System.out.println(replacedCard);
-                    if(num==1)ChooseFirstCards(boardController.getEnemyPlayer());
-                    if (num == 2){
-                        GameFrame.getInstance().goToPanel("mainPlayPanel");
+                    if(chooseForEnemy) {
+                        if (num == 1) ChooseFirstCards(boardController.getEnemyPlayer(), true);
+                        if (num == 2) {
+                            GameFrame.getInstance().goToPanel("mainPlayPanel");
+                        }
                     }
+                    if(!chooseForEnemy)GameFrame.getInstance().goToPanel("mainPlayPanel");
                 }
             };
             card1 = new MyCardButton(player.getHandsCards().get(0).getName(), 200, this, actionListener);

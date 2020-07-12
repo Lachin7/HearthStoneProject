@@ -1,9 +1,12 @@
 package JSON.jsonForGame;
 
 
+import JSON.JsonAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import controller.BoardController;
 import gui.panels.PlayPanel;
+import models.Cards.Card;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -12,17 +15,23 @@ import java.lang.reflect.Type;
 
 public class jsonForGame {
 
-    public static void jsonFileMakerForGame(PlayPanel playPanel) throws IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    public static void jsonFileMakerForGame(BoardController playPanel) throws IOException {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+//        gsonBuilder.registerTypeAdapter(BoardController.class, new JsonAdapter<BoardController>());
+//        gsonBuilder.registerTypeAdapter(Card.class, new JsonAdapter<Card>());
+        Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
         FileWriter fileWriter = new FileWriter("./src/main/java/JSON/jsonForGame/game.json" );
-        gson.toJson(playPanel, fileWriter);
+        gson.toJson(playPanel,BoardController.class,fileWriter);
         fileWriter.close();
     }
 
-    public static PlayPanel GameFromjson() throws IOException {
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
+    public static BoardController GameFromjson() throws IOException {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+//        gsonBuilder.registerTypeAdapter(BoardController.class, new JsonAdapter<BoardController>());
+//        gsonBuilder.registerTypeAdapter(Card.class, new JsonAdapter<Card>());
+        Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
         FileReader fileReader = new FileReader("./src/main/java/JSON/jsonForGame/game.json");
-        PlayPanel playPanel = gson.fromJson(fileReader, PlayPanel.class);
+        BoardController playPanel = gson.fromJson(fileReader, BoardController.class);
         fileReader.close();
         return playPanel;
     }

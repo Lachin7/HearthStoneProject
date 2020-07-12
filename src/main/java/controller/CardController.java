@@ -34,7 +34,6 @@ public class CardController {
         AllHunterCards = getHeroCardsInGame(Card.HeroClass.HUNTER);
     }
 
-
     public static ArrayList<Card> getALLCardsExistingInGame() {
         ArrayList<Card> arrayList = new ArrayList<>();
         File AllCards = new File("./src/main/java/JSON/jsonForCards/jsonFilesForCards");
@@ -44,26 +43,6 @@ public class CardController {
             fileName = fileName.substring(0,fileName.length()-5);
             arrayList.add(creatCardFromjson(fileName));
         }
-//        GsonBuilder gsonBuilder = new GsonBuilder();
-//        gsonBuilder.registerTypeAdapter(Card.class, new JsonAdapter<>());
-//        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
-//
-//        for (File file : CardFiles){
-//            FileReader fileReader = null;
-//            try {
-//                fileReader = new FileReader("./src/main/java/JSON/jsonForCards/jsonFilesForCards/" + file.getName());
-//
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//            Card card = gson.fromJson(fileReader, Card.class);
-//            arrayList.add(card);
-//            try {
-//                fileReader.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
         return arrayList;
     }
 
@@ -78,8 +57,7 @@ public class CardController {
 
 
     public Boolean isLocked(Card card){
-        if(Controller.getInstance().getMainPlayer().getALLPlayersCards().contains(card)) return false;
-        return true;
+        return !Controller.getInstance().getMainPlayer().getALLPlayersCards().contains(card);
     }
 
     public ArrayList<Card> getLockedCards(){
@@ -116,19 +94,6 @@ public class CardController {
        return creatCardFromjson(name);
     }
 
-
-//     Card card = creatCard(name);
-//        try {
-//            String className = card.getClass()+"";
-//            className = className.substring(6);
-//            card =  (Card) Class.forName(className).getConstructor().newInstance();
-//        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException e) {
-//            e.printStackTrace();
-//        }
-//        return card;
-
-
-//
 
     public Boolean canBuy(String cardName){
         Card card = creatCard(cardName);
@@ -221,7 +186,7 @@ public class CardController {
         return true;
     }
 
-    public  Card createCard(String name){
+    public Card createCard(String name){
         Card card = creatCard(name);
         try {
             String className = card.getClass()+"";

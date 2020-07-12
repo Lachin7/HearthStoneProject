@@ -1,7 +1,10 @@
 package models.Cards;
 import com.google.gson.annotations.Expose;
+import controller.BoardController;
+import controller.actionVisitors.card.CardVisitor;
+import models.Character;
 
-public class Weapon extends Card {
+public abstract class Weapon extends Card {
     @Expose private int durability,Attack;
 
     public Weapon(int manaCost, String name, String description, Card.rarity rarity, HeroClass heroClass, Card.type type, int price, int durability, int Attack) {
