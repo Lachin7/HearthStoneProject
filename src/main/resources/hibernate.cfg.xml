@@ -1,0 +1,76 @@
+<hibernate-configuration>
+    <session-factory>
+        <!-- Database connection setting -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/HearthStone</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">password</property>
+        <!-- SQl dialect -->
+        <property name="dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
+        <!-- update the database schema on startup -->
+        <property name="hbm2ddl.auto">update</property>
+
+
+        <mapping class="models.Cards.Card"/>
+        <mapping class="models.Cards.Minion"/>
+        <mapping class="models.Cards.Spell"/>
+        <mapping class="models.Cards.Weapon"/>
+        <mapping class="models.Cards.minions.BeamingSidekick"/>
+        <mapping class="models.Cards.minions.BonechewerVanguard"/>
+        <mapping class="models.Cards.minions.ConchguardWarlord"/>
+        <mapping class="models.Cards.minions.CurioCollector"/>
+        <mapping class="models.Cards.minions.Dragonrider"/>
+        <mapping class="models.Cards.minions.DreadScale"/>
+        <mapping class="models.Cards.minions.FrozenShadoweaver"/>
+        <mapping class="models.Cards.minions.FungalBruiser"/>
+        <mapping class="models.Cards.minions.GoblinBomb"/>
+        <mapping class="models.Cards.minions.HighPriestAmet"/>
+        <mapping class="models.Cards.minions.Lifedrinker"/>
+        <mapping class="models.Cards.minions.Locust"/>
+        <mapping class="models.Cards.minions.LostSpirit"/>
+        <mapping class="models.Cards.minions.MagmaRager"/>
+        <mapping class="models.Cards.minions.MurlocRaider"/>
+        <mapping class="models.Cards.minions.Ratcatcher"/>
+        <mapping class="models.Cards.minions.RiverCrocolisk"/>
+        <mapping class="models.Cards.minions.RocketAugmerchant"/>
+        <mapping class="models.Cards.minions.Sathrovarr"/>
+        <mapping class="models.Cards.minions.ScavengingShivarra"/>
+        <mapping class="models.Cards.minions.SecurityRover"/>
+        <mapping class="models.Cards.minions.Sheep"/>
+        <mapping class="models.Cards.minions.Starscryer"/>
+        <mapping class="models.Cards.minions.SwampKingDred"/>
+        <mapping class="models.Cards.minions.TombWarden"/>
+        <mapping class="models.Cards.spells.BookOfSpecters"/>
+        <mapping class="models.Cards.spells.FriendlySmith"/>
+        <mapping class="models.Cards.spells.MalygossExplosion"/>
+        <mapping class="models.Cards.spells.MalygossNova"/>
+        <mapping class="models.Cards.spells.PharaohsBlessing"/>
+        <mapping class="models.Cards.spells.Polymorph"/>
+        <mapping class="models.Cards.spells.PsycheSplit"/>
+        <mapping class="models.Cards.spells.ScrapDeadlyShot"/>
+        <mapping class="models.Cards.spells.Sprint"/>
+        <mapping class="models.Cards.spells.SwarmOfLocusts"/>
+        <mapping class="models.Cards.spells.questAndReward.QuestAndReward"/>
+        <mapping class="models.Cards.spells.questAndReward.LearnDraconic"/>
+        <mapping class="models.Cards.spells.questAndReward.StrengthInNumbers"/>
+        <mapping class="models.Cards.weapons.FieryWarAxe"/>
+        <mapping class="models.Cards.weapons.LightsJustice"/>
+        <mapping class="models.Cards.weapons.SerratedTooth"/>
+        <mapping class="models.Player"/>
+        <mapping class="models.Deck"/>
+        <mapping class="models.Heroes.Hero"/>
+        <mapping class="models.Heroes.Mage"/>
+        <mapping class="models.Heroes.Rogue"/>
+        <mapping class="models.Heroes.Warlock"/>
+        <mapping class="models.Heroes.Hunter"/>
+        <mapping class="models.Heroes.Priest"/>
+        <mapping class="models.Heroes.Neutral"/>
+        <mapping class="models.Character"/>
+        <mapping class="models.board.InfoPassive"/>
+        <mapping class="models.Heroes.HeroPower"/>
+        <mapping class="models.Cards.Target"/>
+        <mapping class="models.board.Side"/>
+
+
+    </session-factory>
+</hibernate-configuration>

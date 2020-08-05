@@ -1,113 +1,51 @@
 package gui.panels;
 
-import controller.PlayerController;
-import gui.Constants.GuiCons;
-import resLoader.ImageLoader;
+import client.actionController.ActionController;
+import client.actionController.InitialSetUp;
+import gui.myComponents.MyJLabel;
 import gui.myComponents.MyButton;
 import gui.myComponents.MyPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 public class SignInPanel extends MyPanel {
 
-    private final JLabel WelcomeText;
-    private final JLabel EnterName;
-    private final JLabel EnterPass;
-    private final JLabel noAccount;
-    private final JLabel CreatName;
-    private final JLabel CreatPass;
-    private final JLabel ErrorSignIn;
-    private final JLabel ErrorSignUp;
-    private final JTextField userName;
-    private final JTextField password;
-    private final JTextField CreatedName;
-    private final JTextField CreatedPass;
-    private final JButton signIn;
-    private final JButton signUp;
-    private final PlayerController playerController;
+    private  MyJLabel ErrorSignIn, ErrorSignUp;
+    private  JTextField userName, password, CreatedName, CreatedPass;
+    private final InitialSetUp actionController;
 
-    public SignInPanel(){
-
-        playerController =new PlayerController();
+    public SignInPanel(InitialSetUp actionController){
         this.setLayout(null);
-        this.setPreferredSize(new Dimension(GuiCons.getWidth(),GuiCons.getHeight()));
+        this.setPreferredSize(new Dimension(configLoader.readInteger("mainFrameWidth"),configLoader.readInteger("mainFrameHeight")));
+        this.actionController = actionController;
+        setUpComponents();
+    }
 
-        WelcomeText = new JLabel("Welcome! Let's Sign In! ");
-        WelcomeText.setForeground(Color.MAGENTA);
-        WelcomeText.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        WelcomeText.setBounds(750,100,300,40);
-        this.add(WelcomeText);
-
-        EnterName = new JLabel("Enter your user name : ");
-//        EnterName.setForeground(new Color(0x2F170C));
-        EnterName.setBounds(700,150,200,30);
+    private void setUpComponents(){
+        new MyJLabel("Welcome! Let's Sign In! ", Color.MAGENTA,25,this, 750,100,300,40);
+        new MyJLabel("Enter your user name : ", new Color(12, 12, 94),15,this, 670,150,200,30);
         userName = new JTextField();
         userName.setBounds(850,150,200,30);
-        this.add(EnterName); this.add(userName);
-
-        EnterPass = new JLabel("Enter your password : ");
-        EnterPass.setBounds(700,200,200,30);
-//        EnterPass.setForeground(new Color(0x2F170C));
+        this.add(userName);
+        new MyJLabel("Enter your password : ", new Color(12, 12, 94),15,this,670,200,200,30);
         password = new JPasswordField();
         password.setBounds(850,200,200,30);
-        this.add(EnterPass); this.add(password);
+        this.add(password);
+        ErrorSignIn = new MyJLabel("", Color.MAGENTA,13,this,700,300,400,30);
+        new MyButton("Sign In!", "pinkCrystal100.png", this, actionEvent -> { actionController.signIn(userName.getText(),password.getText());}, 820,250);
 
-        ErrorSignIn = new JLabel("");
-        ErrorSignIn.setBounds(700,300,400,30);
-        ErrorSignIn.setFont(new Font("Segoe UI", Font.BOLD, 13));
-        ErrorSignIn.setForeground(Color.MAGENTA);
-//        ErrorSignIn.setForeground(new Color(0x2F170C));
-        this.add(ErrorSignIn);
-
-        signIn = new MyButton("Sign In!","pinkCrystal100.png",this,null);
-        signIn.setBounds(820,250,signIn.getWidth(),signIn.getHeight());
-        signIn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-               ErrorSignIn.setText(playerController.SignIn(userName.getText(),password.getText()));
-            }
-
-        });
-
-
-
-        noAccount = new JLabel("Don't have an account? Sign Up! ");
-        noAccount.setBounds(680,350,450,30);
-        noAccount.setForeground(Color.GREEN);
-        noAccount.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        this.add(noAccount);
-
-
-        CreatName = new JLabel("Creat your user name : ");
-        CreatName.setBounds(700,400,200,30);
+        new MyJLabel("Don't have an account? Sign Up! ", Color.GREEN,25,this, 670,350,450,30);
+        new MyJLabel("Creat your user name : ", new Color(12, 12, 94),15,this, 670,400,200,30);
         CreatedName = new JTextField();
         CreatedName.setBounds(850,400,200,30);
-        this.add(CreatName); this.add(CreatedName);
-
-        CreatPass = new JLabel("Creat your password : ");
-        CreatPass.setBounds(700,450,200,30);
+        this.add(CreatedName);
+        new MyJLabel("Creat your password : ", new Color(12, 12, 94),15,this, 680,450,200,30);
         CreatedPass = new JPasswordField();
         CreatedPass.setBounds(850,450,200,30);
-        this.add(CreatPass); this.add(CreatedPass);
-
-        ErrorSignUp = new JLabel("");
-        ErrorSignUp.setBounds(700,550,400,30);
-        ErrorSignUp.setForeground(Color.GREEN);
-        this.add(ErrorSignUp);
-
-        signUp = new MyButton("Sign Up!","GreenCrystal.png",this,null);
-        signUp.setBounds(820,500,100,50);
-        signUp.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                ErrorSignUp.setText(playerController.SignUp(CreatedName.getText(),CreatedPass.getText()));
-//             playerController.SignUp(CreatedName.getText(),CreatedPass.getText(),ErrorSignUp);
-            }
-        });
-
-
+        this.add(CreatedPass);
+        ErrorSignUp = new MyJLabel("", Color.GREEN,25,this, 670,550,450,30);
+        new MyButton("Sign Up!", "GreenCrystal.png", this, actionEvent -> actionController.signUp(CreatedName.getText(),CreatedPass.getText()), 820, 500);
     }
 
     @Override
@@ -117,4 +55,11 @@ public class SignInPanel extends MyPanel {
         g.drawImage(imageLoader.loadImage("HS_background.jpg"),535,0,null);
     }
 
+    public MyJLabel getErrorSignIn() {
+        return ErrorSignIn;
+    }
+
+    public MyJLabel getErrorSignUp() {
+        return ErrorSignUp;
+    }
 }

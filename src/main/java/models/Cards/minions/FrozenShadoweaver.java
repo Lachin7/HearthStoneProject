@@ -1,11 +1,14 @@
 package models.Cards.minions;
 
-import controller.BoardController;
-import controller.actionVisitors.card.CardVisitor;
+import server.controller.BoardController;
+import server.controller.actionVisitors.card.CardVisitor;
 import models.Cards.Card;
 import models.Cards.Minion;
 import models.Character;
 
+import javax.persistence.Entity;
+
+@Entity
 public class FrozenShadoweaver extends Minion {
     public FrozenShadoweaver() {
         super(3, "FrozenShadoweaver", "", Card.rarity.COMMON, HeroClass.NEUTRAL,Card.type.MINION,SubType.NULL,5, 3, 4);

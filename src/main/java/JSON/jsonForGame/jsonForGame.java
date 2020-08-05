@@ -1,17 +1,13 @@
 package JSON.jsonForGame;
 
 
-import JSON.JsonAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import controller.BoardController;
-import gui.panels.PlayPanel;
-import models.Cards.Card;
+import server.controller.BoardController;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Type;
 
 public class jsonForGame {
 

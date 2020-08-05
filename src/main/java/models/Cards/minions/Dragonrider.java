@@ -1,11 +1,14 @@
 package models.Cards.minions;
 
-import controller.BoardController;
-import controller.actionVisitors.card.CardVisitor;
+import server.controller.BoardController;
+import server.controller.actionVisitors.card.CardVisitor;
 import models.Cards.Card;
 import models.Cards.Minion;
 import models.Character;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Dragonrider extends Minion {
     public Dragonrider() {
         super(3, "Dragonrider", ""

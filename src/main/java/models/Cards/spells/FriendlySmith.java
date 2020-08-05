@@ -1,11 +1,14 @@
 package models.Cards.spells;
 
-import controller.BoardController;
-import controller.actionVisitors.card.CardVisitor;
+import server.controller.BoardController;
+import server.controller.actionVisitors.card.CardVisitor;
 import models.Cards.Card;
 import models.Cards.Spell;
 import models.Character;
 
+import javax.persistence.Entity;
+
+@Entity
 public class FriendlySmith extends Spell {
 
     public FriendlySmith() {

@@ -1,8 +1,8 @@
 package models.Heroes;
 
-import controller.BoardController;
-import controller.actionVisitors.heroPower.HeroPowerVisitor;
-import controller.actionVisitors.heroPower.VisitableHeroPower;
+import server.controller.BoardController;
+import server.controller.actionVisitors.heroPower.HeroPowerVisitor;
+import server.controller.actionVisitors.heroPower.VisitableHeroPower;
 import models.Character;
 
 public enum HeroPower implements VisitableHeroPower {

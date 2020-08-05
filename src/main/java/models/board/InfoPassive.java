@@ -1,9 +1,8 @@
 package models.board;
 
-import controller.BoardController;
-import controller.actionVisitors.passive.InitialSetupsPassiveVisitor;
-import controller.actionVisitors.passive.PassiveVisitor;
-import controller.actionVisitors.passive.VisitablePassive;
+import server.controller.BoardController;
+import server.controller.actionVisitors.passive.PassiveVisitor;
+import server.controller.actionVisitors.passive.VisitablePassive;
 import models.Player;
 
 import java.util.ArrayList;

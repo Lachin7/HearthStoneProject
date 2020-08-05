@@ -7,7 +7,7 @@ public class jsonForPlayers {
 
     public static void jsonTofilePlayer(Player player) throws IOException {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
-        FileWriter fileWriter = new FileWriter("./src/main/java/JSON/jsonForPlayers/jsonFilesForPlayers/" + player.getPlayerName() + ".json");
+        FileWriter fileWriter = new FileWriter("./src/main/java/JSON/jsonForPlayers/jsonFilesForPlayers/" + player.getName() + ".json");
         gson.toJson(player, fileWriter);
         fileWriter.close();
     }

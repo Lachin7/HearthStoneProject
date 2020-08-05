@@ -1,5 +1,6 @@
 package gui.myComponents;
 
+import client.actionController.ActionController;
 import resLoader.*;
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ public class MyPanel extends JPanel {
 
     public MyPanel(){
         imageLoader = ImageLoader.getInstance();
-        configLoader = ConfigLoader.getInstance();
+        configLoader = new ConfigLoader("guiConfig");
         audioPlayer = MyAudioPlayer.getInstance();
         customComponent = new CustomComponent();
     }
@@ -39,5 +40,9 @@ public class MyPanel extends JPanel {
             g.setColor(new Color(49, 49, 55, 180));
             g.fillRect(0,0,this.getWidth(),this.getHeight());
         }
+    }
+
+    public void setBackGroundFile(String backGroundFile) {
+        this.backGroundFile = backGroundFile;
     }
 }

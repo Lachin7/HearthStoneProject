@@ -1,5 +1,7 @@
 package models;
 
+import javax.persistence.Entity;
+import javax.persistence.Transient;
 public interface Character {
    int getHP();
    void setHP(int hp);

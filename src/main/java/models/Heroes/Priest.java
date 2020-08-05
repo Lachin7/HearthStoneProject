@@ -1,5 +1,8 @@
 package models.Heroes;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Priest extends Hero{
 
    public Priest(){
@@ -9,10 +12,4 @@ public class Priest extends Hero{
        this.heroPowerTarget = getAllCharacters();
        this.heroPower = HeroPower.PriestHPower;
    }
-
-//   @Override
-//   public void HeroPower(){}
-//   @Override
-//   public void SpecialPower(){}
-
 }

@@ -11,7 +11,7 @@ import java.util.Properties;
 
 public class ConfigLoader {
 
-    private  static final String defaultAddress = "./src/main/resources/config/config.properties";
+    private  String defaultAddress = "./src/main/resources/config/config.properties";
     private  static final ConfigLoader loader = new ConfigLoader();
     public static ConfigLoader getInstance(){ return loader; }
 
@@ -20,6 +20,16 @@ public class ConfigLoader {
 
     private ConfigLoader(){
         properties = new Properties();
+        load();
+    }
+
+    public ConfigLoader(String name){
+        properties = new Properties();
+        defaultAddress = "./src/main/resources/config/"+name+".properties";
+        load();
+    }
+
+    private void load(){
         try {
             fileInputStream = new FileInputStream(defaultAddress);
             properties.load(fileInputStream);

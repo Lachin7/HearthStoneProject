@@ -1,177 +1,169 @@
 package models;
-import controller.util.MyDeckComparator;
+
+import lombok.Getter;
+import lombok.Setter;
 import models.Cards.Card;
-import com.google.gson.annotations.Expose;
 import models.Cards.Minion;
-import models.Cards.Weapon;
 import models.Heroes.*;
 import models.board.InfoPassive;
+import org.hibernate.annotations.Cascade;
+import server.controller.util.MyDeckComparator;
 
-import java.security.*;
-import java.util.*;
-import java.util.logging.*;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
+@Entity
 public class Player {
 
-    /** defining fields in Player class */
-    @Expose private String PlayerName;
-    @Expose private String PlayerPassword;
-    @Expose private long PlayerCoins ,PlayerID;
-    @Expose private Hero PlayersChoosedHero = new Mage();
-    @Expose private  ArrayList<Card> ALLPlayersCards = new ArrayList<>();
-    @Expose private ArrayList<Card> playersDeckCards = new ArrayList<>();
-    @Expose private Deck playersDeck ;
-    @Expose private final ArrayList<Hero> PlayersUnlockedHeroes = new ArrayList<>();
+    /**
+     * defining fields in Player class
+     */
 
-    @Expose private ArrayList<Deck> Decks = new ArrayList<>() ;
-    @Expose private ArrayList<Card> HandsCards =new ArrayList<>() ;
-    @Expose private ArrayList<Card> DeckCardsInGame =new ArrayList<>() ;
-    @Expose private ArrayList<Minion> FieldCardsInGame =new ArrayList<>() ;
-    @Expose private int initialMana = 0;
-    @Expose private String cardSkin = "BlushRoomCardBack.png";
-    @Expose private String playBackGround = "HSplayBoard copy.jpg";
-    @Expose private Boolean makeNewGame;
-    @Expose private Boolean isSignedUp = false;
+    @Id
+    @Getter
+    @Setter
+    private String name;
+    @Column
+    @Getter
+    @Setter
+    private String password;
+    @Column
+    @Getter
+    @Setter
+    private long coins, ID;
+    @Setter
+    @ManyToOne
+    @JoinColumn
+    private Hero choosedHero;
+    @Getter
+    @Setter
+    @JoinColumn
+    @ManyToOne
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Deck deck;
+    @Column
+    @Getter
+    @Setter
+    @ManyToMany
+    @JoinTable(name = "unlockedHeroes")
+    private List<Hero> PlayersUnlockedHeroes;
+    @Column
+    @Setter
+    @ManyToMany
+    @JoinTable(name = "decks")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private List<Deck> Decks;
+    @Column
+    @OneToMany
+    @Getter
+    @Setter
+    @JoinTable(name = "allCards")
+    private List<Card> allCards;
+    @Column
+    @Getter
+    @Setter
+    @OneToMany
+    @JoinTable(name = "hands cards")
+    private List<Card> HandsCards;
+    @Column
+    @Getter
+    @Setter
+    @OneToMany
+    @JoinTable(name = "deck cards in games")
+    private List<Card> DeckCardsInGame;
+    @Column
+    @Getter
+    @Setter
+    @OneToMany
+    @JoinTable(name = "field cards in game")
+    private List<Minion> FieldCardsInGame;
+    @Column
+    @Getter
+    @Setter
+    private int initialMana = 0, wins = 0, loses = 0, currentMana = 0;
+    @Column
+    @Getter
+    @Setter
+    private String cardSkin = "BlushRoomCardBack.png", playBackGround = "HSplayBoard copy.jpg";
+    @Column
+    private Boolean makeNewGame, isSignedUp = false;
+    @Getter
+    @Setter
+    @JoinColumn
+    private InfoPassive infoPassive;
+    @Column
+    @Getter
+    @Setter
+    @ElementCollection
+    private List<Integer> winLoseHistory;
 
-    @Expose private int currentMana = 0;
-    @Expose private InfoPassive infoPassive;
+
+    public Player() {
+        choosedHero = new Mage();
+        allCards = new ArrayList<>();
+        PlayersUnlockedHeroes = new ArrayList<>();
+        Decks = new ArrayList<>();
+        HandsCards = new ArrayList<>();
+        DeckCardsInGame = new ArrayList<>();
+        FieldCardsInGame = new ArrayList<>();
+        winLoseHistory = new LinkedList<>();
+
+    }
 
 
-    private final Logger PlayerLOGGER = Logger.getLogger("PlayerLog");
+//    public Player(String name,String password,long id, long coins,Hero choosedHero,)
 
-    /** defining getters and setters for the fields  */
-    public String getPlayerName() {
-        return PlayerName;
+
+
+    /**
+     * defining getters and setters and methods
+     */
+    public Hero getChoosedHero() {
+        //todo
+        if (choosedHero == null) return convert(getDeck().getHero());
+        return choosedHero;
     }
-    public void setPlayerName(String playerName) {
-        PlayerName = playerName;
-    }
-    public String getPlayerPassword() {
-        return PlayerPassword;
-    }
-    public void setPlayerPassword(String playerPassword) {
-        PlayerPassword = playerPassword;
-    }
-    public long getPlayerCoins() {
-        return PlayerCoins;
-    }
-    public void setPlayerCoins(long playerCoins) {
-        PlayerCoins = playerCoins;
-    }
-    public Hero getPlayersChoosedHero() {
-        return PlayersChoosedHero;
-    }
-    public void setPlayersChoosedHero(Hero playersChoosedHero) {
-        PlayersChoosedHero = playersChoosedHero;
-    }
+
+
     public void setPlayersChoosedHero(Card.HeroClass heroClass) {
-        if(heroClass== Card.HeroClass.MAGE)setPlayersChoosedHero(new Mage());
-        else if(heroClass== Card.HeroClass.ROGUE)setPlayersChoosedHero(new Rogue());
-        else if(heroClass== Card.HeroClass.WARLOCK)setPlayersChoosedHero(new Warlock());
-        else if(heroClass== Card.HeroClass.HUNTER)setPlayersChoosedHero(new Hunter());
-        else if(heroClass== Card.HeroClass.PRIEST)setPlayersChoosedHero(new Priest());
-    }
-    public ArrayList<Card> getALLPlayersCards() {
-        return ALLPlayersCards;
-    }
-    public long getPlayerID() {
-        return PlayerID;
-    }
-    public void setPlayerID(long playerID) {
-        PlayerID = playerID;
-    }
-    public void setALLPlayersCards(ArrayList<Card> ALLPlayersCards) {
-        this.ALLPlayersCards = ALLPlayersCards;
+        setChoosedHero(convert(heroClass));
     }
 
-    public void setPlayersDeckCards(ArrayList<Card> playersDeckCards) {
-        this.playersDeckCards = playersDeckCards;
+    private Hero convert(Card.HeroClass heroClass) {
+        if (heroClass == Card.HeroClass.MAGE) return (new Mage());
+        else if (heroClass == Card.HeroClass.ROGUE) return (new Rogue());
+        else if (heroClass == Card.HeroClass.WARLOCK) return (new Warlock());
+        else if (heroClass == Card.HeroClass.HUNTER) return (new Hunter());
+        else return (new Priest());
     }
 
-    public int getInitialMana() {
-        return initialMana;
-    }
 
-    public void setInitialMana(int initialMana) {
-        this.initialMana = initialMana;
-    }
-
-    public ArrayList<Deck> getDecks() {
-       Collections.sort(Decks, new MyDeckComparator().getDeckComparator());
+    public List<Deck> getDecks() {
+        Collections.sort(Decks, new MyDeckComparator().getDeckComparator());
         return Decks;
     }
 
-    public void setDecks(ArrayList<Deck> decks) {
-        Decks = decks;
+    public int getCups() {
+        return Math.max(getWins() - getLoses(), 0);
     }
 
-    public ArrayList<Hero> getPlayersUnlockedHeroes() {
-        return PlayersUnlockedHeroes;
+    public void addWin() {
+        this.wins = wins + 1;
+        winLoseHistory.add(1);
     }
 
-    public Deck getPlayersDeck() {
-        return playersDeck;
+    public void addLoses() {
+        this.loses = loses + 1;
+        winLoseHistory.add(-1);
     }
 
-    public void setPlayersDeck(Deck playersDeck) {
-        this.playersDeck = playersDeck;
-    }
-
-
-    public ArrayList<Card> getHandsCards() {
-        return HandsCards;
-    }
-
-    public void setHandsCards(ArrayList<Card> handsCards) {
-        HandsCards = handsCards;
-    }
-
-    public int getCurrentMana() {
-        return currentMana;
-    }
-
-    public void setCurrentMana(int currentMana) {
-        this.currentMana = currentMana;
-    }
-
-    public InfoPassive getInfoPassive() {
-        return infoPassive;
-    }
-
-    public void setInfoPassive(InfoPassive infoPassive) {
-        this.infoPassive = infoPassive;
-    }
-
-    public ArrayList<Card> getDeckCardsInGame() {
-        return DeckCardsInGame;
-    }
-
-    public void setDeckCardsInGame(ArrayList<Card> deckCardsInGame) {
-        DeckCardsInGame = deckCardsInGame;
-    }
-
-    public ArrayList<Minion> getFieldCardsInGame() {
-        return FieldCardsInGame;
-    }
-
-    public void setFieldCardsInGame(ArrayList<Minion> fieldCardsInGame) {
-        FieldCardsInGame = fieldCardsInGame;
-    }
-
-    public String getCardSkin() {
-        return cardSkin;
-    }
-
-    public void setCardSkin(String cardSkin) {
-        this.cardSkin = cardSkin;
-    }
-
-    public String getPlayBackGround() {
-        return playBackGround;
-    }
-
-    public void setPlayBackGround(String playBackGround) {
-        this.playBackGround = playBackGround;
+    public int getWinLoseHistoryIn(int games) {
+        int result = 0;
+        for (int i = 0; i < games; i++) if (i < winLoseHistory.size()) result += winLoseHistory.get(i);
+        return result;
     }
 
     public Boolean getMakeNewGame() {
@@ -190,130 +182,4 @@ public class Player {
         isSignedUp = signedUp;
     }
 
-//    public Weapon getWeaponInGame() {
-//        return weaponInGame;
-//    }
-//
-//    public void setWeaponInGame(Weapon weaponInGame) {
-//        this.weaponInGame = weaponInGame;
-//    }
-
-    /** if all cards of a hero were needed i will un comment this part */
-//    public static ArrayList<card> getPlayersMageCards(){
-//        ArrayList<card> arrayList = new ArrayList<>();
-//        for (card card : ALLPlayersCards) {
-//            if((Hero)card.getHeroClass()== Mage.getInstance())
-//                arrayList.add(card);
-//        }
-//        return arrayList;
-//    }
-//    public static ArrayList<card> getPlayersRougeCards(){
-//        ArrayList<card> arrayList = new ArrayList<>();
-//        for (card card : ALLPlayersCards) {
-//            if((Hero)card.getHeroClass()== Rogue.getInstance())
-//                arrayList.add(card);
-//        }
-//        return arrayList;
-//    }
-//    public static ArrayList<card> getPlayersWarlockCards(){
-//        ArrayList<card> arrayList = new ArrayList<>();
-//        for (card card : ALLPlayersCards) {
-//            if((Hero)card.getHeroClass()== Mage.getInstance())
-//                arrayList.add(card);
-//        }
-//        return arrayList;
-//    }
-
-/** may be needed in future :D */
-    //  public static  Player enemyPlayer = new Player();
-//    public ArrayList<card> getPlayersBoardCards() {
-//        return PlayersBoardCards;
-//    }
-//
-//    public void setPlayersBoardCards(ArrayList<card> playersBoardCards) {
-//        PlayersBoardCards = playersBoardCards;
-//    }
-//   private ArrayList<card> PlayersBoardCards = new ArrayList<>();
-
-
-//    public Player(/**String playerName,String playerPassword , long playerCoins, Hero playersChoosedHero, ArrayList ALLPlayersCards, ArrayList playersDeckCards*/) {
-//        this.PlayerName = PlayerName;
-//        this.PlayerPassword = PlayerPassword;
-//        this.PlayerCoins = PlayerCoins;
-//        this.PlayersChoosedHero = PlayersChoosedHero;
-//        this.ALLPlayersCards = ALLPlayersCards;
-//        this.PlayersDeckCards = PlayersDeckCards;
-//    }
-
-    //            try {
-//                JSONParser jsonParser = new JSONParser();
-//                FileReader reader = new FileReader("/Users/shahinnaghashyar/Desktop/HearthStone/src/JSON/jsonForPlayers/jsonFilesForPlayers/ALLPlayers.json");
-//                    Object obj = jsonParser.parse(reader);
-//                    JSONArray PlayersJList = (JSONArray) obj;
-//                for (int i = 0; i <PlayersJList.size() ; i++) {
-//                    if(((JSONObject)(((JSONObject)(PlayersJList.get(i))).get("Player"))).get("PlayerName").equals(this.getPlayerName()) ){
-//                        throw new PlayerAlreadyExistsException() ;
-//                    }
-//                }
-
-//            }
-//            catch (PlayerAlreadyExistsException | FileNotFoundException e){
-//                System.out.println("Sorry this name is taken, Try something else..");
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-
-
-//                boolean theNameExists = true;
-//
-//                JSONParser jsonParser = new JSONParser();
-//                FileReader reader = new FileReader("/Users/shahinnaghashyar/Desktop/HearthStone/src/JSON/jsonForPlayers/jsonFilesForPlayers/ALLPlayers.json");
-//                Object obj = jsonParser.parse(reader);
-//                JSONArray PlayersJList = (JSONArray) obj;
-//                for (int i = 0; i < PlayersJList.size() ; i++) {
-//                    if(((String)((JSONObject)(((JSONObject)(PlayersJList.get(i))).get("Player"))).get("PlayerName")).equals(PlayerName) ){
-//                        theNameExists = false;
-//                        /** also getting its password to check later in password part */
-//                        CorrespondingPassword =(String)((JSONObject)(((JSONObject)(PlayersJList.get(i))).get("Player"))).get("PlayerPassword");
-//                        reader.close();
-//                        break;
-//                    }
-//                }
-//                if(theNameExists==true){
-//                    throw new PlayerNotFoundException();
-//                }
-//                flagName = true;
-//            }
-//            catch (PlayerNotFoundException | FileNotFoundException e1){
-//                System.out.println("There isn't an account in this name , Try again..");
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-
-
-
-//        Scanner scanner = new Scanner(System.in);
-//        if(this.IsSignedin == true) {
-//            Boolean isvalid = false;
-//            while (!isvalid) {
-//                System.out.println("If you are sure of DELETING your account, enter your Password : ");
-//                String pass = scanner.nextLine();
-//                if (pass == this.PlayerPassword) {
-//                    isvalid = true;
-//                    this.setPlayerName("deleted account");
-//                    this.setPlayerPassword("-");
-//                    this.setPlayerCoins(0);
-//                    this.ALLPlayersCards = null;
-//                    this.PlayersChoosedHero=null;
-//                    this.PlayersDeckCards=null;
-//                     jsonTofilePlayer(this);
-//                    System.exit(0);
-//                } else {
-//                    System.out.println("Wrong password! ");
-//                }
-//            }
 }

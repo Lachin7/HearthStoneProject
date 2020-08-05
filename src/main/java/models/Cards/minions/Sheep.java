@@ -1,11 +1,14 @@
 package models.Cards.minions;
 
-import controller.BoardController;
-import controller.actionVisitors.card.CardVisitor;
+import server.controller.BoardController;
+import server.controller.actionVisitors.card.CardVisitor;
 import models.Cards.Card;
 import models.Cards.Minion;
 import models.Character;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Sheep extends Minion {
     public Sheep() {
         super(1, "Sheep", ""  , Card.rarity.COMMON, HeroClass.NEUTRAL,Card.type.MINION,SubType.BEAST,5, 1, 1);

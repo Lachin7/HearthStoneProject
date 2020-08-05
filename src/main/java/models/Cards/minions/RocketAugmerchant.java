@@ -1,15 +1,17 @@
 package models.Cards.minions;
 
-import controller.BoardController;
-import controller.actionVisitors.card.CardVisitor;
+import server.controller.BoardController;
+import server.controller.actionVisitors.card.CardVisitor;
 import models.Cards.Card;
 import models.Cards.Minion;
 import models.Cards.Target;
 import models.Character;
 
+import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+@Entity
 public class RocketAugmerchant extends Minion {
     public RocketAugmerchant() {
         super(1, "RocketAugmerchant", "Rush\n" + "Battlecry: Destroy a friendly minion and gain its Attack and Health.", Card.rarity.COMMON, HeroClass.NEUTRAL,Card.type.MINION,SubType.NULL,5, 1, 2);

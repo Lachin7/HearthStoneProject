@@ -1,63 +1,41 @@
 package models.Cards;
-import com.google.gson.annotations.Expose;
+
+import lombok.Getter;
+import lombok.Setter;
 import models.Character;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 
+@Entity
 public abstract class Minion extends Card implements Character {
+    @Column
+    @Getter
+    @Setter
+    protected int HP, Attack, maxHp, maxAttack;
+    @Column
+    protected boolean hasDivineShield, canAttack, isRush, isTaunt, isPoisonous;
+    @Column
+    @Getter
+    @Setter
+    protected SubType subType;
 
-    @Expose protected int HP , Attack;
-    @Expose protected int maxHp, maxAttack;
-    @Expose protected boolean hasDivineShield, canAttack , isRush,isTaunt, isPoisonous;
-    @Expose protected SubType subType;
+    public Minion(){}
 
-    @Override
-    public int getHP() {
-        return HP;
-    }
-    @Override
-    public void setHP(int HP) {
-        this.HP = HP;
-    }
-    @Override
-    public int getAttack() {
-        return Attack;
-    }
-    @Override
-    public void setAttack(int attack) {
-        Attack = attack;
+    public enum SubType {
+        NULL, BEAST, DEMON, DRAGON, ELEMENTAL, MECH, MURLOC, PIRATE, TOTEM
     }
 
-
-    public int getMaxHp() {
-        return maxHp;
-    }
-
-    public int getMaxAttack() {
-        return maxAttack;
-    }
-
-    public enum SubType{
-       NULL,BEAST,DEMON,DRAGON,ELEMENTAL,MECH,MURLOC,PIRATE,TOTEM
-    }
     public long getId() {
         return id;
     }
 
-    public Minion(int manaCost, String name, String description, Card.rarity rarity, HeroClass heroClass, Card.type type, SubType subType, int price , int HP, int Attack) {
-        super(manaCost, name, description, rarity, heroClass, type , price);
+    public Minion(int manaCost, String name, String description, Card.rarity rarity, HeroClass heroClass, Card.type type, SubType subType, int price, int HP, int Attack) {
+        super(manaCost, name, description, rarity, heroClass, type, price);
         this.HP = HP;
         this.Attack = Attack;
         maxHp = HP;
         maxAttack = Attack;
         this.subType = subType;
-    }
-
-
-    public void setMaxHp(int maxHp) {
-        this.maxHp = maxHp;
-    }
-
-    public void setMaxAttack(int maxAttack) {
-        this.maxAttack = maxAttack;
     }
 
     public boolean hasDivineShield() {
@@ -75,6 +53,7 @@ public abstract class Minion extends Card implements Character {
     public void setCanAttack(boolean canAttack) {
         this.canAttack = canAttack;
     }
+
     public boolean CanAttackHero() {
         return isRush;
     }
@@ -83,7 +62,7 @@ public abstract class Minion extends Card implements Character {
         this.isRush = rush;
     }
 
-    public boolean isRush(){
+    public boolean isRush() {
         return this.isRush;
     }
 
@@ -102,6 +81,7 @@ public abstract class Minion extends Card implements Character {
     public void setPoisonous(boolean poisonous) {
         isPoisonous = poisonous;
     }
+
 
 //    public boolean isCanAttackToMinion() {
 //        return canAttackToMinion;
@@ -144,7 +124,6 @@ public abstract class Minion extends Card implements Character {
 //        this.setHP(this.getHP() + hpAdded);
 //        this.setAttack(this.getAttack() + attackAdded);
 //    }
-
 
 
     //    @Override

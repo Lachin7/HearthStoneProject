@@ -1,8 +1,8 @@
 package gui.panels;
 
-import controller.Controller;
-import controller.PlayerController;
-import gui.myComponents.CustomComponent;
+import client.actionController.SettingsActionController;
+import gui.myComponents.MyJLabel;
+import server.controller.PlayerController;
 import gui.myComponents.MyButton;
 import gui.myComponents.MyPanel;
 
@@ -14,38 +14,19 @@ import java.io.IOException;
 
 public class SettingsPanel extends MyPanel implements ActionListener {
 
-    private final MyPanel itemsPanel;
-    private MyPanel skin;
-    private MyPanel theme;
-    private final MyPanel sound;
-    private MyPanel panel;
-    private MyPanel playerInfo;
-    private final MyButton skinCard;
-    private final MyButton Theme;
-    private MyButton BlushRoom;
-    private MyButton CakeoftheDead;
-    private MyButton BansheeQueen;
-    private MyButton BlizzardEvents2018;
-    private MyButton HSplayBoard;
-    private MyButton HA_BG;
-    private final MyButton deleteAccount;
-    private final MyButton mute;
-    private final MyButton decrease;
-    private final MyButton increase;
-    private MyButton delete;
-    private final JLabel selected;
-    private JLabel info;
-    private JLabel deleteWarning;
-    private final PlayerController playerController;
-    private String skinFileName = "BlushRoomCardBack.png";
-    private String bgFileName = "HSplayBoard.jpg";
+    private MyPanel itemsPanel,skin,theme,sound,playerInfo;
+    private  MyButton skinCard,Theme,deleteAccount,mute,decrease,increase,BlushRoom,CakeoftheDead,BansheeQueen,BlizzardEvents2018,HSplayBoard,HA_BG;
+    private JLabel selected,info,deleteWarning;
+    private String skinFileName = "BlushRoomCardBack.png",bgFileName = "HSplayBoard.jpg";
     private int muteUnmute = 0;
+    private SettingsActionController actionController;
 
-    public SettingsPanel(){
+    public SettingsPanel(SettingsActionController actionController){
+        this.actionController = actionController;
         this.setPreferredSize(new Dimension(configLoader.readInteger("mainFrameWidth"),configLoader.readInteger("mainFrameHeight")));
         this.setLayout(null);
         this.backGroundFile = configLoader.readString("settingsBackground");
-        playerController =new PlayerController();
+
 
         itemsPanel = new MyPanel(null,true,new FlowLayout(FlowLayout.CENTER,5,0),this);
         itemsPanel.setBounds(25,10,1150,80);
@@ -56,7 +37,6 @@ public class SettingsPanel extends MyPanel implements ActionListener {
 
         setSkin();
         setTheme();
-        setPlayerInfo();
 
         sound = new MyPanel(null,true,new FlowLayout(),this);
         sound.setBounds(50,100,200,500);
@@ -65,7 +45,7 @@ public class SettingsPanel extends MyPanel implements ActionListener {
         decrease = new MyButton("decrease volume", "blueCrystal150.png",sound, this);
 
         customComponent.exit(this,140,620);
-        customComponent.backToMenuButton(this,25,620,null);
+        customComponent.backToMenuButton(this,25,620,actionController);
 
         selected = new JLabel();
         selected.setBounds(600,610,400,30);
@@ -78,10 +58,10 @@ public class SettingsPanel extends MyPanel implements ActionListener {
     private void setSkin(){
         skin = new MyPanel(null,true,new FlowLayout(),this);
         skin.setBounds(300,100,850,500);
-        BlushRoom = new MyButton("BlushRoom","BlushRoomCardBack.png",skin,this,150,207);
-        CakeoftheDead = new MyButton("Cake of the Dead","CakeoftheDeadCardBack.png",skin,this,150,207);
-        BansheeQueen = new MyButton("Banshee Queen","BansheeQueenCardBack.png",skin,this,150,207);
-        BlizzardEvents2018 = new MyButton("Blizzard Events2018 CardBack","BlizzardEvents2018CardBack.png",skin,this,150,207);
+        BlushRoom = new MyButton("BlushRoom","BlushRoomCardBack.png",skin,this,150,207,150,207);
+        CakeoftheDead = new MyButton("Cake of the Dead","CakeoftheDeadCardBack.png",skin,this,150,207,150,207);
+        BansheeQueen = new MyButton("Banshee Queen","BansheeQueenCardBack.png",skin,this,150,207,150,207);
+        BlizzardEvents2018 = new MyButton("Blizzard Events2018 CardBack","BlizzardEvents2018CardBack.png",skin,this,150,207,150,207);
     }
 
     private void setTheme(){
@@ -92,49 +72,37 @@ public class SettingsPanel extends MyPanel implements ActionListener {
         theme.setVisible(false);
     }
 
-    private void setPlayerInfo(){
-        playerInfo = new MyPanel(null,true,null,this);
-        playerInfo.setBounds(300,100,850,600);
-        info = new JLabel(playerController.getFriendlyPlayersInfo());
-        info.setBounds(25,50,800,300);
-        playerInfo.add(info);
-        deleteWarning = new JLabel("delete your account?! \nIf you are sure of DELETING your account, enter your Password : ");
-        deleteWarning.setBounds(25,400,800,100);
-        playerInfo.add(deleteWarning);
-
-        delete = new MyButton("delete player","blueCrystal100.png", playerInfo,this);
-
-//        delete.setBounds();
-        playerInfo.setVisible(false);
-    }
+//    private void setPlayerInfo(){
+//        playerInfo = new MyPanel(null,true,null,this);
+//        playerInfo.setBounds(300,100,850,600);
+//        info = new JLabel(playerController.getFriendlyPlayersInfo());
+//        info.setBounds(25,50,800,300);
+//        playerInfo.add(info);
+//        deleteWarning = new MyJLabel("delete your account?! \nIf you are sure of DELETING your account, enter your Password : ",Color.BLUE,15,playerInfo,25,400,800,100);
+//        playerInfo.setVisible(false);
+//    }
 
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         if(actionEvent.getSource()==skinCard){
             theme.setVisible(false);
-            deleteAccount.setVisible(false);
             skin.setVisible(true);
         }
         if(actionEvent.getSource()==Theme){
             skin.setVisible(false);
-            deleteAccount.setVisible(false);
             theme.setVisible(true);
         }
-        if(actionEvent.getSource()==deleteAccount){
-            try {
-                Controller.getInstance().getPlayerController().deleteThePlayer();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+//        if(actionEvent.getSource()==deleteAccount){
+//            try {
+//                Controller.getInstance().getPlayerController().deleteThePlayer();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
         if(actionEvent.getSource()==mute){
-            if(muteUnmute%2==0){
-                audioPlayer.stopSound();
-            }
-            else {
-                audioPlayer.startSound();
-            }
+            if(muteUnmute%2==0) audioPlayer.stopSound();
+            else audioPlayer.startSound();
             muteUnmute++;
         }
         if(actionEvent.getSource()==increase){
@@ -143,16 +111,16 @@ public class SettingsPanel extends MyPanel implements ActionListener {
         if(actionEvent.getSource()==decrease){
             audioPlayer.decreaseSound();
         }
-        if(actionEvent.getSource()==BlushRoom||actionEvent.getSource()==CakeoftheDead||actionEvent.getSource()==BansheeQueen||actionEvent.getSource()==BlizzardEvents2018){
-            setSkinFileName(((MyButton) actionEvent.getSource()).getIconFile());
-            Controller.getInstance().getMainPlayer().setCardSkin(((MyButton) actionEvent.getSource()).getIconFile());
-            selected.setText(((MyButton) actionEvent.getSource()).getName() + " is selected");
-        }
-        if(actionEvent.getSource()==HA_BG||actionEvent.getSource()==HSplayBoard){
-            setBgFileName(((MyButton) actionEvent.getSource()).getIconFile());
-            Controller.getInstance().getMainPlayer().setPlayBackGround(((MyButton) actionEvent.getSource()).getIconFile());
-            selected.setText(((MyButton) actionEvent.getSource()).getName() + " is selected");
-        }
+//        if(actionEvent.getSource()==BlushRoom||actionEvent.getSource()==CakeoftheDead||actionEvent.getSource()==BansheeQueen||actionEvent.getSource()==BlizzardEvents2018){
+//            setSkinFileName(((MyButton) actionEvent.getSource()).getIconFile());
+//            Controller.getInstance().getMainPlayer().setCardSkin(((MyButton) actionEvent.getSource()).getIconFile());
+//            selected.setText(((MyButton) actionEvent.getSource()).getName() + " is selected");
+//        }
+//        if(actionEvent.getSource()==HA_BG||actionEvent.getSource()==HSplayBoard){
+//            setBgFileName(((MyButton) actionEvent.getSource()).getIconFile());
+//            Controller.getInstance().getMainPlayer().setPlayBackGround(((MyButton) actionEvent.getSource()).getIconFile());
+//            selected.setText(((MyButton) actionEvent.getSource()).getName() + " is selected");
+//        }
     }
 
     public void setSkinFileName(String skinFileName) {

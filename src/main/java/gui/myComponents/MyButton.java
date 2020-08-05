@@ -35,8 +35,13 @@ public class MyButton extends JButton {
         if(actionListener!= null) this.addActionListener(actionListener);
     }
 
-    public MyButton(String name, String IconFile, Container container, ActionListener actionListener, int width, int height){
+    public MyButton(String name, String IconFile, Container container, ActionListener actionListener, int x, int y){
         this(name,IconFile,container,actionListener);
+        setBounds(x,y,getWidth(),getHeight());
+    }
+
+    public MyButton(String name, String IconFile, Container container, ActionListener actionListener, int x, int y, int width, int height){
+        this(name,IconFile,container,actionListener,x,y);
         this.setIcon(new ImageIcon(imageLoader.loadImage(IconFile).getScaledInstance(width,height,Image.SCALE_SMOOTH)));
         this.setSize(width,height);
         this.setPreferredSize(new Dimension(width,height));
