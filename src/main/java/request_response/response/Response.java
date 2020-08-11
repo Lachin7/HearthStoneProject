@@ -1,7 +1,7 @@
 package request_response.response;
 
-import client.Client;
+import client.ClientGui;
 
 public abstract class Response {
-    public abstract void execute(Client client);
+    public abstract void execute(ClientGui clientGui);
 }

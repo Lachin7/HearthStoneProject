@@ -1,6 +1,6 @@
 package request_response.response;
 
-import client.Client;
+import client.ClientGui;
 
 import javax.swing.*;
 
@@ -10,7 +10,7 @@ public class Message extends Response{
         this.message = message;
     }
     @Override
-    public void execute(Client client) {
+    public void execute(ClientGui clientGui) {
         JOptionPane.showMessageDialog(null,message);
     }
 }

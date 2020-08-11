@@ -10,6 +10,6 @@ public class PlayTargetedPower extends Request {
 
     @Override
     public void execute(ClientHandler clientHandler) {
-        clientHandler.getBoardController().playTargetetPower(id);
+        clientHandler.getBoardController().playTargetedPower(id);
     }
 }

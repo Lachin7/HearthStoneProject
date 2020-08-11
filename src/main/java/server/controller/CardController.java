@@ -1,51 +1,46 @@
 package server.controller;
 
-import models.Cards.Card;
-import models.Deck;
-import models.Player;
+import lombok.Getter;
+import server.models.Cards.Card;
+import server.models.Deck;
+import server.models.Player;
+import resLoader.database.DataBase;
 import server.ClientHandler;
 
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-
-import static JSON.jsonForCards.jsonForCards.creatCardFromjson;
+import java.util.Arrays;
+import java.util.List;
 
 public class CardController {
 
-
-    private ArrayList<Card> AllCardsInGame, LockedCards, allCardsProduced;
+    @Getter
+    private List<Card> AllCardsInGame;
     private ClientHandler clientHandler;
+    private DataBase dataBase;
 
     public CardController(ClientHandler clientHandler) {
         this.clientHandler = clientHandler;
-        AllCardsInGame = getALLCardsExistingInGame();
-        allCardsProduced = new ArrayList<>();
+        dataBase = clientHandler.getServer().getDataBase();
+        AllCardsInGame = fetchAllCards();
     }
 
-    public static ArrayList<Card> getALLCardsExistingInGame() {
-        ArrayList<Card> arrayList = new ArrayList<>();
-        File AllCards = new File("./src/main/java/JSON/jsonForCards/jsonFilesForCards");
-        File[] CardFiles = AllCards.listFiles();
-        for (File file : CardFiles) {
-            String fileName = file.getName();
-            fileName = fileName.substring(0, fileName.length() - 5);
-            arrayList.add(creatCardFromjson(fileName));
-        }
-        return arrayList;
+    private List<Card> fetchAllCards() {
+        List<Card> cards = dataBase.fetchAll(Card.class);
+        clientHandler.getServer().getAllProducedCards().addAll(cards);
+        return cards;
     }
 
     public ArrayList<Card> getHeroCardsInGame(Card.HeroClass heroClass) {
+//        dataBase.fetchWithCondition(Card.class, "Card.HeroClass",heroClass);
         ArrayList<Card> result = new ArrayList<>();
-        for (Card card : AllCardsInGame) {
-            if (card.getHeroClass() == heroClass) result.add(card);
-        }
+        for (Card card : AllCardsInGame) if (card.getHeroClass() == heroClass) result.add(card);
         return result;
     }
 
 
     public Boolean isLocked(Card card) {
-        return !clientHandler.getMainPlayer().getAllCards().contains(card);
+        for (Card card1 : clientHandler.getMainPlayer().getAllCards())if (card1.getName().equals(card.getName())) return false;
+        return true;
     }
 
     public ArrayList<Card> getLockedCards() {
@@ -54,9 +49,9 @@ public class CardController {
         return result;
     }
 
-    private Boolean isInDecks(Card card) {
+    private boolean isInDecks(Card card) {
         for (Deck deck : clientHandler.getMainPlayer().getDecks())
-            if (deck.getCards().contains(card)) return true;
+            for (Card c : deck.getCards()) if (card.getName().equals(c.getName()))return true;
         return false;
     }
 
@@ -68,19 +63,23 @@ public class CardController {
 
     public ArrayList<Card> getCardsForSell() {
         ArrayList<Card> result = new ArrayList<>();
-        for (Card card : clientHandler.getMainPlayer().getAllCards()) if (!isInDecks(card)) result.add(card);
+        for (Card card : getAllCardsInGame()) if (!isInDecks(card)) result.add(card);
         return result;
     }
 
-    public Card creatCard(String name) {
-        Card card = creatCardFromjson(name);
-        allCardsProduced.add(card);
+    public Card createCard(String name) {
+        Card card = dataBase.fetch(Card.class,name);
+        clientHandler.getServer().getAllProducedCards().add(card);
         return card;
+    }
+
+    public List<Card> createDefaultDeck(){
+        return new ArrayList<Card>(Arrays.asList(createCard("BeamingSidekick"),createCard("BonechewerVanguard"),createCard("ConchguardWarlord"),createCard("Dragonrider"),createCard("BeamingSidekick"),createCard("DreadScale"),createCard("FrozenShadoweaver"),createCard("FungalBruiser"),createCard("BeamingSidekick"),createCard("GoblinBomb"),createCard("HighPriestAmet"),createCard("Lifedrinker"),createCard("Locust"),createCard("LostSpirit"),createCard("MagmaRager"),createCard("MurlocRaider"),createCard("Ratcatcher"),createCard("RocketAugmerchant"),createCard("Sathrovarr"),createCard("ScavengingShivarra")));
     }
 
 
     public Boolean canBuy(String cardName) {
-        Card card = creatCard(cardName);
+        Card card = createCard(cardName);
         if (!isLocked(card)) return false;
         return card.getPrice() <= clientHandler.getMainPlayer().getCoins();
     }
@@ -89,7 +88,6 @@ public class CardController {
         clientHandler.getMainPlayer().getAllCards().add(getCardWithId(id));
         clientHandler.getMainPlayer().setCoins(clientHandler.getMainPlayer().getCoins() - getCardWithId(id).getPrice());
     }
-
 
     public void sellCard(long id) {
         clientHandler.getMainPlayer().getAllCards().remove(getCardWithId(id));
@@ -116,9 +114,6 @@ public class CardController {
         }
     }
 
-    public ArrayList<Card> getAllCardsInGame() {
-        return AllCardsInGame;
-    }
 
     public Player getCurrentPlayer() {
         return clientHandler.getMainPlayer();
@@ -138,26 +133,15 @@ public class CardController {
         return true;
     }
 
-    public Card createCard(String name) {
-        Card card = creatCard(name);
-        try {
-            String className = card.getClass() + "";
-            className = className.substring(6);
-            card = (Card) Class.forName(className).getConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return card;
-    }
 
     public void addCardToDeck(String cardName, String deckName) {
-        getTheDeck(deckName).getCards().add(creatCard(cardName));
-        if (creatCard(cardName).getHeroClass() != Card.HeroClass.NEUTRAL)
-            getTheDeck(deckName).setHero(creatCard(cardName).getHeroClass());
+        getTheDeck(deckName).getCards().add(createCard(cardName));
+        if (createCard(cardName).getHeroClass() != Card.HeroClass.NEUTRAL)
+            getTheDeck(deckName).setHero(createCard(cardName).getHeroClass());
     }
 
     public void removeFromDeck(String cardName, String deckName) {
-        getTheDeck(deckName).getCards().remove(creatCard(cardName));
+        getTheDeck(deckName).getCards().remove(createCard(cardName));
     }
 
     public void removeDeck(String currentDeck) {
@@ -173,14 +157,14 @@ public class CardController {
     }
 
     public boolean wrongHeroClass(String name, String currentDeck) {
-        if (creatCard(name).getHeroClass() == Card.HeroClass.NEUTRAL) return false;
+        if (createCard(name).getHeroClass() == Card.HeroClass.NEUTRAL) return false;
         if (getTheDeck(currentDeck).getHero() == null) return false;
-        else return creatCard(name).getHeroClass() != getTheDeck(currentDeck).getHero();
+        else return createCard(name).getHeroClass() != getTheDeck(currentDeck).getHero();
     }
 
     public Card getCardWithId(long id) {
-        for (Card card : allCardsProduced) if (card.getId() == id) return card;
-        System.out.println("card id not found!!!!");
+        for (Card card : clientHandler.getServer().getAllProducedCards()) if (card.getId() == id) return card;
+        System.out.println("card id not found!!!!" );
         return null;
     }
 }

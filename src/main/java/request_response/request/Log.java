@@ -12,6 +12,6 @@ public class Log extends Request{
 
     @Override
     public void execute(ClientHandler clientHandler) {
-        clientHandler.getPlayerLOGGER().log(Level.FINE,message);
+        clientHandler.log(message);
     }
 }

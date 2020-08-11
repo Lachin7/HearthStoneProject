@@ -1,9 +1,11 @@
 package server.controller;
 
-import javafx.util.Pair;
 import lombok.Getter;
 import lombok.Setter;
-import models.board.Side;
+import lombok.SneakyThrows;
+import request_response.request.DrawInformationOnCard;
+import request_response.response.Message;
+import server.models.board.Side;
 import request_response.response.SetDiscoverPanel;
 import server.ClientHandler;
 import server.controller.actionVisitors.card.*;
@@ -11,32 +13,26 @@ import server.controller.actionVisitors.heroPower.*;
 import server.controller.actionVisitors.passive.*;
 import server.controller.util.QuestRewardMaker;
 
-import gui.myComponents.MyCardButton;
-import models.Character;
-import resLoader.MyAudioPlayer;
-import models.Cards.*;
-import models.Heroes.*;
-import models.Player;
+import client.gui.myComponents.MyCardButton;
+import server.models.Character;
+import server.models.Cards.*;
+import server.models.Heroes.*;
+import server.models.Player;
+import server.models.util.*;
 
-import javax.swing.*;
 import java.io.*;
 import java.util.*;
-import java.util.logging.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public abstract class BoardController {
 
-    @Getter
-    private File eventsLog;
+    @Getter private File eventsLog;
     private FileWriter fileWriter;
-    @Getter
-    @Setter
     protected Random random;
-    @Getter
-    protected CardController cardController;
-    @Getter
-    @Setter
-    protected int Mana, switchTimes = 0,turnCardDrawNum = 1;
-    protected MyAudioPlayer audioPlayer;
+    @Getter protected CardController cardController;
+    @Getter @Setter protected int Mana,manaLimit=10,handCardsLimit=12,fieldSizeLimit=7, switchTimes = 0,turnCardDrawNum = 1,timePerTurn=60000;
     protected InitialMoveCardVisitor initialMoveVisitor;
     protected InitialSetupsPassiveVisitor initialSetupsPassiveVisitor;
     protected InitialSetUpHeroPowerVisitor initialSetUpHeroPowerVisitor;
@@ -48,22 +44,27 @@ public abstract class BoardController {
     protected DrawACardVisitor drawACardVisitor;
     protected TakesDamageVisitor takesDamageVisitor;
     @Getter
-    protected Player friendlyPlayer, enemyPlayer;
+    protected Player friendlyPlayer;
+    @Getter
+    protected Player enemyPlayer;
     @Getter
     protected ArrayList<QuestRewardMaker> friendlyQuestRewards = new ArrayList<>(),questRewardMakers = new ArrayList<>(), enemyQuestRewards = new ArrayList<>();
     protected ClientHandler clientHandler;
+    protected boolean gameFinished = false;
+    @Setter @Getter
+    private String time ="";
+    @Getter
+    protected GameThread gameThread;
+    protected PlayerController playerController;
 
     public BoardController(ClientHandler clientHandler) {
         this.clientHandler = clientHandler;
         random = new Random();
-        cardController = new CardController(clientHandler);
+        cardController = clientHandler.getCardController();
         makeEvents();
-        audioPlayer = MyAudioPlayer.getInstance();
         initVisitors();
-
+        playerController = new PlayerController(clientHandler);
         setPlayers();
-        initialDeckToHand(friendlyPlayer);
-        initialDeckToHand(enemyPlayer);
     }
 
     private void initVisitors() {
@@ -82,25 +83,30 @@ public abstract class BoardController {
     protected void chooseMainAsFriend() {
         friendlyPlayer = clientHandler.getMainPlayer();
         resetPlayer(friendlyPlayer);
+        initialDeckToHand(friendlyPlayer);
     }
 
     protected void resetPlayer(Player player) {
+        reset(player);
+        for (Card card : player.getDeck().getCards()) player.getDeckCardsInGame().add(cardController.createCard(card.getName()));
+    }
+
+    protected void reset(Player player){
         player.setCurrentMana(0);
         player.setHandsCards(new ArrayList<>());
         player.setFieldCardsInGame(new ArrayList<>());
         player.setDeckCardsInGame(new ArrayList<>());
-        for (Card card : player.getDeck().getCards())
-            player.getDeckCardsInGame().add(cardController.createCard(card.getName()));
+        player.getChoosedHero().setHP(30);
     }
 
     protected void chooseMainAsEnemy() {
         enemyPlayer = new Player();
         enemyPlayer.setDeckCardsInGame(new ArrayList<>());
-        for (Card card : friendlyPlayer.getDeckCardsInGame())
-            enemyPlayer.getDeckCardsInGame().add(cardController.createCard(card.getName()));
-//            enemyPlayer.setDeckCardsInGame(new ArrayList<Card>(Arrays.asList(creatCardFromjson("SwarmOfLocusts"),creatCardFromjson("SwarmOfLocusts"),creatCardFromjson("PharaohsBlessing"),creatCardFromjson("BookOfSpecters"),creatCardFromjson("DreadScale"),creatCardFromjson("Starscryer"),creatCardFromjson("FungalBruiser"),creatCardFromjson("BeamingSidekick"),creatCardFromjson("SerratedTooth"),creatCardFromjson("BonechewerVanguard"),creatCardFromjson("CurioCollector"),creatCardFromjson("Sathrovarr"),creatCardFromjson("ScrapDeadlyShot"),creatCardFromjson("FriendlySmith"),creatCardFromjson("LostSpirit"),creatCardFromjson("HighPriestAmet"),creatCardFromjson("DreadScale"),creatCardFromjson("LearnDraconic"),creatCardFromjson("ScrapDeadlyShot"),creatCardFromjson("Starscryer"),creatCardFromjson("FrozenShadoweaver"),creatCardFromjson("CurioCollector"))));
+        for (Card card : friendlyPlayer.getDeckCardsInGame()) enemyPlayer.getDeckCardsInGame().add(cardController.createCard(card.getName()));
         enemyPlayer.setChoosedHero(new Mage());
         enemyPlayer.setName("enemy");
+        initialDeckToHand(enemyPlayer);
+        //todo reset??
     }
 
     protected abstract void setPlayers();
@@ -111,7 +117,27 @@ public abstract class BoardController {
     }
 
     protected void setUpPassives(Player player) {
-        player.getInfoPassive().accept(initialSetupsPassiveVisitor, player, this);
+        player.getInfoPassive().accept(initialSetupsPassiveVisitor, player, this);}
+
+    public void defineThread(){
+        gameThread = new GameThread(this,timePerTurn,40000);
+        gameThread.start();
+        ScheduledExecutorService ex = Executors.newSingleThreadScheduledExecutor();
+        ex.scheduleAtFixedRate(this::updateChanges,0,1, TimeUnit.SECONDS);
+    }
+
+    protected void updateChanges(){
+     clientHandler.sendResponse("DrawPlayChanges",new request_response.response.DrawPlayChanges(friendlyPlayer.getChoosedHero().getHP(),enemyPlayer.getChoosedHero().getHP(),friendlyPlayer.getDeckCardsInGame().size(),enemyPlayer.getDeckCardsInGame().size(),friendlyPlayer.getCurrentMana(),enemyPlayer.getCurrentMana(),time));
+//     for (Card card : getAllCards(friendlyPlayer))new DrawInformationOnCard(card.getId()).execute(clientHandler);
+//     for (Card card : getAllCards(enemyPlayer))new DrawInformationOnCard(card.getId()).execute(clientHandler);
+    }
+
+    private ArrayList<Card> getAllCards(Player player){
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.addAll(player.getDeckCardsInGame());
+        cards.addAll(player.getHandsCards());
+        cards.addAll(player.getFieldCardsInGame());
+        return  cards;
     }
 
     protected void initialDeckToHand(Player player) {
@@ -122,9 +148,9 @@ public abstract class BoardController {
         return (clientHandler.getMainPlayer().getMakeNewGame() == null || clientHandler.getMainPlayer().getMakeNewGame());
     }
 
-    public void getFirstChoices(ArrayList<String> replacedCard, Player player) {
-        for (String name : replacedCard) {
-            Card card = cardController.createCard(name);
+    public void getFirstChoices(ArrayList<Long> replacedCard, Player player) {
+        for (Long name : replacedCard) {
+            Card card = cardController.getCardWithId(name);
             player.getHandsCards().remove(card);
             if (player == friendlyPlayer) draw();
             if (player == enemyPlayer) {
@@ -154,12 +180,10 @@ public abstract class BoardController {
             }
         } else if (name.equals("Warlock")) player.getChoosedHero().setHP(35);
         else if (name.equals("Hunter")) {
-            for (Card card : player.getDeckCardsInGame())
-                if (card instanceof Minion) ((Minion) card).setCanAttack(true);
+            for (Card card : player.getDeckCardsInGame()) if (card instanceof Minion) ((Minion) card).setCanAttack(true);
         } else if (name.equals("Priest")) {
             for (Card card : player.getDeckCardsInGame()) {
-                if (card instanceof Spell && ((Spell) card).getCanRestore())
-                    ((Spell) card).setRestoreAmount(((Spell) card).getRestoreAmount() * 2);
+                if (card instanceof Spell && ((Spell) card).getCanRestore()) ((Spell) card).setRestoreAmount(((Spell) card).getRestoreAmount() * 2);
             }
         }
     }
@@ -179,22 +203,16 @@ public abstract class BoardController {
         }
     }
 
+    @SneakyThrows
     public void makeEvents() {
         eventsLog = new File("./src/main/java/logs/events/eventsLog");
-        try {
-            fileWriter = new FileWriter(eventsLog);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        fileWriter = new FileWriter(eventsLog);
     }
 
+    @SneakyThrows
     private void logGameEvent(String message) {
-        try {
-            fileWriter.append(message);
-            fileWriter.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        fileWriter.append(message);
+        fileWriter.flush();
     }
 
     /**
@@ -208,19 +226,15 @@ public abstract class BoardController {
 
     private boolean canDraw() {
         if (getCurrentPlayer().getDeckCardsInGame().size() == 0) {
-            JOptionPane.showMessageDialog(null, "you don't have any cards in your deck\n your hero will lose a health:(");
+            clientHandler.sendResponse("Message",new Message("you don't have any cards in your deck\n your hero will lose a health:("));
             getCurrentPlayer().getChoosedHero().setHP(getCurrentPlayer().getChoosedHero().getHP() - 1);
             return false;
         } else if (getCurrentPlayer().getHandsCards().size() == getHandCardsLimit()) {
-            JOptionPane.showMessageDialog(null, "maximum number of hand cards for a play is 12 , unfortunately you lost the coming card");
+            clientHandler.sendResponse("Message",new Message("maximum number of hand cards for a play is 12 , unfortunately you lost the coming card"));
             return false;
         }
         return true;
     }
-
-     protected int getHandCardsLimit(){
-        return 12;
-     }
 
     public void draw() {
         if (canDraw()) draw(shuffleAndGetCard());
@@ -248,18 +262,16 @@ public abstract class BoardController {
         getCurrentPlayer().getHandsCards().add(card);
         getCurrentPlayer().getDeckCardsInGame().remove(card);
         for (Minion minion : getCurrentPlayer().getFieldCardsInGame()) minion.accept(drawACardVisitor, null, this);
-        logGameEvent("draw card " + getCurrentPlayer().getDeckCardsInGame().get(0).getName() + " from deck to hand cards\n");
-        getPlayerLogger().log(Level.INFO, "draw card - PlayPanel\n");
+        if (getCurrentPlayer().getDeckCardsInGame().size()!=0)logGameEvent("draw card " + getCurrentPlayer().getDeckCardsInGame().get(0).getName() + " from deck to hand cards\n");
+        clientHandler.log( "draw card - PlayPanel\n");
     }
 
-    private void turnDraw() {
+    protected void turnDraw() {
         for (int i = 0; i < turnCardDrawNum; i++) draw();
     }
 
     public void draw(int times) {
-        for (int i = 0; i < times; i++) {
-            draw();
-        }
+        for (int i = 0; i < times; i++) draw();
     }
 
     /**
@@ -269,13 +281,12 @@ public abstract class BoardController {
         applyManaCostForCard(card);
         getCurrentPlayer().getHandsCards().remove(card);
         if (card instanceof Minion) playMinion((Minion) card);
-        if (card instanceof Spell) playSpell(card);
-        if (card instanceof Weapon) playWeapon(card);
+        if (card instanceof Weapon) getCurrentPlayer().getChoosedHero().setWeapon((Weapon) card);
         checkIfMinionsAreDead(friendlyPlayer);
         checkIfMinionsAreDead(enemyPlayer);
         if (!card.getHasInitialMoveTarget()) card.accept(initialMoveVisitor, null, this);
         logGameEvent("Player " + getCurrentPlayer().getID() + " played a " + card.getType() + " card : " + card.getName() + "\n");
-        getPlayerLogger().log(Level.INFO, "played card - PlayPanel");
+        clientHandler.log( "played card - PlayPanel");
     }
 
     public void playTarget(Card card, long id) {
@@ -285,22 +296,11 @@ public abstract class BoardController {
         checkIfMinionsAreDead(friendlyPlayer);
         checkIfMinionsAreDead(enemyPlayer);
         logGameEvent("Player " + getCurrentPlayer().getID() + "-  selected the target : " + target.getName() + " for :  " + card.getName());
-        getPlayerLogger().log(Level.INFO, "-  selected the target : \"+ target.getName()+ \" for :  \"+ card.getName()");
-    }
-
-    private void playWeapon(Card card) {
-        getCurrentPlayer().getChoosedHero().setWeapon((Weapon) card);
-    }
-
-    private void playSpell(Card card) {
-        audioPlayer.playQuick("spell.wav");
+        clientHandler.log("-  selected the target : \"+ target.getName()+ \" for :  \"+ card.getName()");
     }
 
     private void playMinion(Minion card) {
-        audioPlayer.playQuick("Whip Crack-SoundBible.com-330576409.wav");
-        Card newCard = cardController.createCard(card.getName());
-        newCard.setId(card.getId());
-        getCurrentPlayer().getFieldCardsInGame().add((Minion) newCard);
+        getCurrentPlayer().getFieldCardsInGame().add(card);
         for (Minion minion : getOpponentPlayer().getFieldCardsInGame())
             minion.accept(enemyPlaysCardVisitor, card, this);
         getOpponentPlayer().getChoosedHero().getHeroPower().accept(enemyPlayesHeroPowerVisitor, card, this);
@@ -316,7 +316,6 @@ public abstract class BoardController {
         getCurrentPlayer().setCurrentMana(getCurrentPlayer().getCurrentMana() - cost);
     }
 
-
     public void makeQuestReward(int manaToSpend, Card.type type, String cardToSummon, String name) {
         QuestRewardMaker qrm = new QuestRewardMaker(manaToSpend, type, cardToSummon, this, name);
         questRewardMakers.add(qrm);
@@ -327,7 +326,7 @@ public abstract class BoardController {
     public void discover(Card.type Type) {
         ArrayList<Card> cards = new ArrayList<>();
         moveRandomCards(cardController.getTypeCards(Type), cards, 3, false);
-        clientHandler.sendResponse("SetDiscoverPanel",new SetDiscoverPanel(new Pair<>(cards.get(0).getId(),cards.get(0).getName()),new Pair<Long,String>(cards.get(1).getId(),cards.get(1).getName()),new Pair<Long,String>(cards.get(2).getId(),cards.get(2).getName())));
+        clientHandler.sendResponse("SetDiscoverPanel",new SetDiscoverPanel(new MyPair<>(cards.get(0).getId(),cards.get(0).getName()),new MyPair<Long,String>(cards.get(1).getId(),cards.get(1).getName()),new MyPair<Long,String>(cards.get(2).getId(),cards.get(2).getName())));
     }
 
     public void restoreHp(Character character) {
@@ -346,27 +345,16 @@ public abstract class BoardController {
         }
     }
 
-    public synchronized void endTurn() {
-        for (Card card : getCurrentPlayer().getFieldCardsInGame()) card.accept(endTurnCardVisitor, null, this);
-        getCurrentPlayer().getInfoPassive().accept(endTurnPassiveVisitor, getCurrentPlayer(), this);
-         changeManaForTurn();
-        switchTimes++;
-        playAI();
-        for (Minion minion : getCurrentPlayer().getFieldCardsInGame()) minion.setCanAttack(true);
-        turnDraw();
-    }
+    public abstract void endTurn();
 
-    protected void changeManaForTurn(){
+    protected void changeManaForTurn(Player player){
         if (Mana < getManaLimit()) Mana++;
-        if (Mana + getCurrentPlayer().getInitialMana() <= getManaLimit())
-            getCurrentPlayer().setCurrentMana(Mana + getCurrentPlayer().getInitialMana());
+        if (Mana + player.getInitialMana() <= getManaLimit())
+            player.setCurrentMana(Mana +player.getInitialMana());
     }
 
-    protected int getManaLimit(){
-        return 10;
-    }
-
-    protected void playAI() {
+    protected void restartThread(){
+        gameThread.restart();
     }
 
     protected void checkIfMinionsAreDead(Player player) {
@@ -381,10 +369,10 @@ public abstract class BoardController {
     public Character getCharacterOfTarget(long name) {
 //        if(name.equals("hero1")) return getCurrentPlayer().getPlayersChoosedHero();
 //        if(name.equals("hero2")) return getOpponentPlayer().getPlayersChoosedHero();
-        return getTheCardWithID(name);
+        return getMinionWithID(name);
     }
 
-    public Minion getTheCardWithID(long Id) {
+    public Minion getMinionWithID(long Id) {
         for (Minion minion : getCurrentPlayer().getFieldCardsInGame()) if (minion.getId() == Id) return minion;
         for (Minion minion : getOpponentPlayer().getFieldCardsInGame()) if (minion.getId() == Id) return minion;
         return null;
@@ -398,7 +386,7 @@ public abstract class BoardController {
                 for (Minion minion : getCurrentPlayer().getFieldCardsInGame())
                     minion.accept(summonCardVisitor, card, this);
                 logGameEvent("Player " + getCurrentPlayer().getID() + "-  summoned the card : " + cardName);
-                getPlayerLogger().log(Level.INFO, "-  summoned the card : " + cardName);
+                clientHandler.log( "-  summoned the card : " + cardName);
             }
         }
     }
@@ -407,10 +395,7 @@ public abstract class BoardController {
         if (hpToAdd < 0 && minion.hasDivineShield()) minion.setHasDivineShield(false);
         else {
             minion.setHP(minion.getHP() + hpToAdd);
-            if (hpToAdd < 0) {
-                minion.accept(takesDamageVisitor, null, this);
-                audioPlayer.playQuick("attack.wav");
-            }
+            if (hpToAdd < 0) minion.accept(takesDamageVisitor, null, this);
         }
         minion.setAttack(minion.getAttack() + attackToAdd);
     }
@@ -426,20 +411,7 @@ public abstract class BoardController {
 
     public void syncEnemyFieldComponents(ArrayList<Long> buttons) {
         syncButtonsWithCards(getEnemyFieldCards(),buttons);
-        getEnemyPlayer().setFieldCardsInGame(syncCardsWithButtons(getEnemyFieldCards(),buttons));
-    }
-
-    private ArrayList<Minion> syncTheOrder(ArrayList<Minion> minions, ArrayList<MyCardButton> buttons) {
-        ArrayList<Minion> result = new ArrayList<>();
-        for (MyCardButton myCardButton : buttons) {
-            for (Minion minion : minions) {
-                if (minion.getId() == (myCardButton.getId()) && minion.getHP() > 0) {
-                    result.add(minion);
-                    break;
-                }
-            }
-        }
-        return result;
+        enemyPlayer.setFieldCardsInGame(syncCardsWithButtons(getEnemyFieldCards(),buttons));
     }
 
     private ArrayList<Minion> syncCardsWithButtons(List<Minion> minions, List<Long> buttons) {
@@ -474,7 +446,10 @@ public abstract class BoardController {
     public void changeHero(Hero hero, int hpToAdd, int attackToAdd) {
         hero.setHP(hero.getHP() + hpToAdd);
         hero.setAttack(hero.getAttack() + attackToAdd);
+        checkGameFinished();
     }
+
+    protected abstract void checkGameFinished();
 
     public void giveMinionTaunt(Minion minion) {
         minion.setHasTaunt(true);
@@ -503,8 +478,8 @@ public abstract class BoardController {
             getCurrentPlayer().getChoosedHero().getHeroPower().accept(initialSetUpHeroPowerVisitor, null, this);
     }
 
-    public void playTargetetPower(long id) {
-        getCurrentPlayer().getChoosedHero().getHeroPower().accept(initialSetUpHeroPowerVisitor, getTheCardWithID(id), this);
+    public void playTargetedPower(long id) {
+        getCurrentPlayer().getChoosedHero().getHeroPower().accept(initialSetUpHeroPowerVisitor, getMinionWithID(id), this);
     }
 
     public boolean hasManaForPower() {
@@ -521,10 +496,6 @@ public abstract class BoardController {
         else return friendlyPlayer;
     }
 
-    public Logger getPlayerLogger() {
-        return clientHandler.getPlayerController().getPlayerLOGGER();
-    }
-
     public List<Minion> getFriendlyFieldCards() {
         return getFriendlyPlayer().getFieldCardsInGame();
     }
@@ -537,22 +508,16 @@ public abstract class BoardController {
         getCurrentPlayer().getChoosedHero().setWeapon((Weapon) cardController.createCard(name));
     }
 
-//    public boolean enemyHasTaunt() {
-//        ArrayList<Minion> cards = getOpponentPlayer().getFieldCardsInGame();
-//        for (Card card : cards) if (((Minion) card).hasTaunt()) return true;
-//        return false;
-//    }
-
     public void checkGameOver() {
         //todo
         if (enemyPlayer.getChoosedHero().getHP() <= 0) {
             clientHandler.getMainPlayer().getDeck().setAllGamesPlayed(clientHandler.getMainPlayer().getDeck().getAllGamesPlayed() + 1);
             clientHandler.getMainPlayer().getDeck().setWinGamesPlayed(clientHandler.getMainPlayer().getDeck().getWinGamesPlayed() + 1);
         }
-        if (friendlyPlayer.getChoosedHero().getHP() <= 0) {
+        if (friendlyPlayer.getChoosedHero().getHP() <= 0)
            clientHandler.getMainPlayer().getDeck().setAllGamesPlayed(clientHandler.getMainPlayer().getDeck().getAllGamesPlayed() + 1);
-        }
     }
+
 
     private void transformWeapon(Weapon weapon, int durability, int attack) {
         weapon.setAttack(attack);
@@ -573,6 +538,11 @@ public abstract class BoardController {
         if (switchTimes%2==0)return Side.FRIENDLY;
         return Side.ENEMY;
     }
+
+    public abstract void exitPlay(boolean youExited);
+
+    public abstract boolean getCardBackVisible(Side side);
+
 
     //    private void selectFirstCards() {
 //        firstDrawCards = new MyCardButton[3];
@@ -619,6 +589,22 @@ public abstract class BoardController {
 //            if(i==3) break;
 //            result[i] = card;
 //            i++;
+//        }
+//        return result;
+//    }
+//    private void playSpell(Card card) {
+//        audioPlayer.playQuick("spell.wav");
+//    }
+
+//    private ArrayList<Minion> syncTheOrder(ArrayList<Minion> minions, ArrayList<MyCardButton> buttons) {
+//        ArrayList<Minion> result = new ArrayList<>();
+//        for (MyCardButton myCardButton : buttons) {
+//            for (Minion minion : minions) {
+//                if (minion.getId() == (myCardButton.getId()) && minion.getHP() > 0) {
+//                    result.add(minion);
+//                    break;
+//                }
+//            }
 //        }
 //        return result;
 //    }

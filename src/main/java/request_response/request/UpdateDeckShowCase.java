@@ -20,6 +20,7 @@ public class UpdateDeckShowCase extends Request{
         clientHandler.getMainPlayer().getDecks().forEach(deck -> deckNames.add(deck.getName()));
         if (deckName==null) deckName = clientHandler.getMainPlayer().getDecks().get(0).getName();
         clientHandler.getCardController().getTheDeck(deckName).getCards().forEach(card -> cards.put(card.getId(),card.getName()));
-        clientHandler.sendResponse("UpdateDeckShowCase", new UpdateDeckCollection(cards,clientHandler.getCardController().getTheDeck(deckName).getHero().toString(),deckNames));
+//        Card.HeroClass heroClass = clientHandler.getCardController().getTheDeck(deckName).getHero();
+        clientHandler.sendResponse("UpdateDeckCollection", new UpdateDeckCollection(cards,clientHandler.getCardController().getTheDeck(deckName).getHero().toString(),deckNames));
     }
 }

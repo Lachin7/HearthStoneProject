@@ -1,9 +1,7 @@
 package server.controller.modes;
 
-import models.Cards.Minion;
-import models.board.Side;
+import server.models.Cards.Minion;
 import server.ClientHandler;
-import server.controller.BoardController;
 
 public class OneShot extends Online {
     public OneShot(ClientHandler clientHandler) {

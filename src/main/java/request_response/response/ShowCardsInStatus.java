@@ -1,8 +1,8 @@
 package request_response.response;
 
-import client.Client;
+import client.ClientGui;
+import request_response.request.DrawInformationOnCard;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ShowCardsInStatus extends Response{
@@ -13,7 +13,9 @@ public class ShowCardsInStatus extends Response{
     }
 
     @Override
-    public void execute(Client client) {
-        client.getStatusPanel().updateCardsPanel(cards);
+    public void execute(ClientGui clientGui) {
+        clientGui.getStatusPanel().updateCardsPanel(cards);
+        for (Long id : clientGui.getCardButtons().keySet())clientGui.getActionController().drawInformationOnCard(id);
+
     }
 }

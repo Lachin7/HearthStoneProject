@@ -1,7 +1,6 @@
 package server.controller.util;
 
-import models.Deck;
-import models.Player;
+import server.models.Player;
 
 import java.util.Comparator;
 

@@ -10,6 +10,7 @@ public class InitialPlay extends Request {
 
     @Override
     public void execute(ClientHandler clientHandler) {
-        clientHandler.sendResponse("InitialPlay",new request_response.response.InitialPlay());
+        clientHandler.getBoardController().initialPlay(clientHandler.getCardController().getCardWithId(id));
+//        clientHandler.sendResponse("InitialPlay",new request_response.response.InitialPlay());
     }
 }

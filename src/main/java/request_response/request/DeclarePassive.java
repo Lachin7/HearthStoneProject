@@ -1,8 +1,7 @@
 package request_response.request;
 
-import models.board.InfoPassive;
+import server.models.board.InfoPassive;
 import server.ClientHandler;
-import server.controller.modes.Practice;
 
 public class DeclarePassive extends Request{
     private InfoPassive passive;

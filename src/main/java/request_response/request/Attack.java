@@ -1,7 +1,6 @@
 package request_response.request;
 
 import server.ClientHandler;
-import server.controller.BoardController;
 
 public class Attack extends Request {
     private long attacker, target;
@@ -13,6 +12,6 @@ public class Attack extends Request {
 
     @Override
     public void execute(ClientHandler clientHandler) {
-        clientHandler.getBoardController().attack(clientHandler.getBoardController().getTheCardWithID(attacker), clientHandler.getBoardController().getTheCardWithID(target));
+        clientHandler.getBoardController().attack(clientHandler.getBoardController().getMinionWithID(attacker), clientHandler.getBoardController().getMinionWithID(target));
     }
 }

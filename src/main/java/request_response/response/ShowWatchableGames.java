@@ -1,6 +1,6 @@
 package request_response.response;
 
-import client.Client;
+import client.ClientGui;
 
 import java.util.HashMap;
 
@@ -12,7 +12,7 @@ public class ShowWatchableGames extends Response{
     }
 
     @Override
-    public void execute(Client client) {
-        client.getRunningGamesList().setLabels(games);
+    public void execute(ClientGui clientGui) {
+        clientGui.getPrePlayPanel().setWatchableGamesList(games);
     }
 }

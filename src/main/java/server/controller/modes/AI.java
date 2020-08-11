@@ -1,17 +1,18 @@
 package server.controller.modes;
 
-import models.board.Side;
+import request_response.response.EndTurn;
+import request_response.response.GoToPanel;
+import request_response.response.Message;
+import server.models.board.Side;
 import request_response.request.UpdateFieldCards;
 import request_response.request.UpdateHandCards;
-import request_response.response.Response;
 import server.ClientHandler;
 import server.controller.BoardController;
-import gui.myComponents.MyCardButton;
-import models.Cards.Card;
-import models.Cards.Minion;
-import models.Cards.Target;
-import models.Character;
-import models.board.InfoPassive;
+import server.models.Cards.Card;
+import server.models.Cards.Minion;
+import server.models.Cards.Target;
+import server.models.Character;
+import server.models.board.InfoPassive;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,7 +20,6 @@ import java.util.Collections;
 public class AI extends BoardController {
 
     private final int heroPowerUses = 0;
-
 
     public AI(ClientHandler clientHandler) {
         super(clientHandler);
@@ -29,11 +29,38 @@ public class AI extends BoardController {
     protected void setPlayers() {
       chooseMainAsFriend();
       chooseMainAsEnemy();
+//      if (enemyPlayer!=null)initialDeckToHand(enemyPlayer);
       enemyPlayer.setInfoPassive(InfoPassive.getRandomPassives(1).get(0));
       setUpPassives(enemyPlayer);
+      defineThread();
     }
 
     @Override
+    public void endTurn() {
+        restartThread();
+        for (Card card : getCurrentPlayer().getFieldCardsInGame()) card.accept(endTurnCardVisitor, null, this);
+        getCurrentPlayer().getInfoPassive().accept(endTurnPassiveVisitor, getCurrentPlayer(), this);
+        changeManaForTurn(friendlyPlayer);
+        changeManaForTurn(enemyPlayer);
+        switchTimes++;
+        playAI();
+        for (Minion minion : getCurrentPlayer().getFieldCardsInGame()) minion.setCanAttack(true);
+        turnDraw();
+        clientHandler.sendResponse("EndTurn",new EndTurn());
+    }
+
+    @Override
+    protected void checkGameFinished() {
+        if(friendlyPlayer.getChoosedHero().getHP()<=0){
+            clientHandler.sendResponse("Message",new Message("you lost :(("));
+            clientHandler.sendResponse("GoToPanel",new GoToPanel("mainMenu"));
+        }
+        if(enemyPlayer.getChoosedHero().getHP()<=0){
+            clientHandler.sendResponse("Message",new Message("you won!!"));
+            clientHandler.sendResponse("GoToPanel",new GoToPanel("mainMenu"));
+        }
+    }
+
     protected void playAI() {
         if(switchTimes%2==1){
             while (canAffordAny()||AICanAttack()){
@@ -44,13 +71,22 @@ public class AI extends BoardController {
                 if (AICanAttack())AIAttack();
                 rest();
             }
-//       todo     mapper.endTurnPlay();
         }
     }
 
     @Override
     public boolean getAllowance(Side side) {
         return switchTimes == 0;
+    }
+
+    @Override
+    public void exitPlay(boolean you) {
+        if (!gameFinished)playerController.makePlayerLoser(clientHandler.getMainPlayer());
+    }
+
+    @Override
+    public boolean getCardBackVisible(Side side) {
+        return true;
     }
 
     private void chooseAffordableCard(){
@@ -81,8 +117,8 @@ public class AI extends BoardController {
         if(heroPowerUses<1){
             playHeroPower();
             if(enemyPlayer.getChoosedHero().getHeroPower().isHasTarget()){
-                if(getEnemyFieldCards().size()!=0)playTargetetPower(getEnemyFieldCards().get(0).getId());
-                if(getFriendlyFieldCards().size()!=0)playTargetetPower(getFriendlyFieldCards().get(0).getId());
+                if(getEnemyFieldCards().size()!=0) playTargetedPower(getEnemyFieldCards().get(0).getId());
+                if(getFriendlyFieldCards().size()!=0) playTargetedPower(getFriendlyFieldCards().get(0).getId());
             }
         }
     }

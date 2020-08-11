@@ -1,20 +1,15 @@
 package request_response.request;
 
-import models.Cards.Card;
-import models.Deck;
-import models.Heroes.Mage;
-import models.Player;
+import server.models.Cards.Card;
+import server.models.Deck;
+import server.models.Heroes.Mage;
+import server.models.Player;
 import server.ClientHandler;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.FileHandler;
-import java.util.logging.LogManager;
-import java.util.logging.SimpleFormatter;
 
 
 public class SignUp extends Request {
@@ -38,8 +33,7 @@ public class SignUp extends Request {
             player.setCoins(50);
             player.setID(System.currentTimeMillis());
             player.setChoosedHero(new Mage());
-            List<Card> optionalMageDeck = null;
-            optionalMageDeck = clientHandler.getServer().getModelLoader().getDefaultCards();
+            List<Card> optionalMageDeck = clientHandler.getCardController().createDefaultDeck();
 //            optionalMageDeck = (new ArrayList<Card>(Arrays.asList(clientHandler.getCardController().createCard("LearnDraconic"),clientHandler.getCardController().createCard("LearnDraconic"),clientHandler.getCardController().createCard("LearnDraconic"),clientHandler.getCardController().createCard("LearnDraconic"),clientHandler.getCardController().createCard("PharaohsBlessing"),clientHandler.getCardController().createCard("PharaohsBlessing"),clientHandler.getCardController().createCard("PharaohsBlessing"),clientHandler.getCardController().createCard("PharaohsBlessing"),clientHandler.getCardController().createCard("SecurityRover"),clientHandler.getCardController().createCard("SecurityRover"),clientHandler.getCardController().createCard("SwampKingDred"),clientHandler.getCardController().createCard("HighPriestAmet"),clientHandler.getCardController().createCard("HighPriestAmet"),clientHandler.getCardController().createCard("HighPriestAmet"),clientHandler.getCardController().createCard("HighPriestAmet"),clientHandler.getCardController().createCard("HighPriestAmet"),clientHandler.getCardController().createCard("HighPriestAmet"),clientHandler.getCardController().createCard("HighPriestAmet"),clientHandler.getCardController().createCard("HighPriestAmet"),clientHandler.getCardController().createCard("RocketAugmerchant"),clientHandler.getCardController().createCard("PsycheSplit"),clientHandler.getCardController().createCard("CurioCollector"))));
 
             Deck deck = new Deck("optional Mage deck",optionalMageDeck);
@@ -53,17 +47,17 @@ public class SignUp extends Request {
             player.getPlayersUnlockedHeroes().add(new Mage());
             clientHandler.getServer().getDataBase().save(player);
             clientHandler.setMainPlayer(player);
-            LogManager.getLogManager().reset();
-            FileHandler fileHandler = null;
-            try {
-                fileHandler = new FileHandler("./src/main/java/logs/"+ player.getName()+"-"+player.getID()+".log",true);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            fileHandler.setFormatter(new SimpleFormatter());
-            clientHandler.getPlayerLOGGER().addHandler(fileHandler);
-            clientHandler.getPlayerLOGGER().info("USER  : " + player.getName() + "\nCREATED AT :" +
-                    new SimpleDateFormat(" yyyy/MM/dd HH:mm:ss").format(new Date()) + "\nPASSWORD : " + player.getPassword() + "\n");
+//            LogManager.getLogManager().reset();
+//            FileHandler fileHandler = null;
+//            try {
+//                fileHandler = new FileHandler("./src/main/java/logs/"+ player.getName()+"-"+player.getID()+".log",true);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            fileHandler.setFormatter(new SimpleFormatter());
+//            clientHandler.getPlayerLOGGER().addHandler(fileHandler);
+//            clientHandler.getPlayerLOGGER().info("USER  : " + player.getName() + "\nCREATED AT :" + new SimpleDateFormat(" yyyy/MM/dd HH:mm:ss").format(new Date()) + "\nPASSWORD : " + player.getPassword() + "\n");
+            clientHandler.log("USER  : " + player.getName() + "\nCREATED AT :" + new SimpleDateFormat(" yyyy/MM/dd HH:mm:ss").format(new Date()) + "\nPASSWORD : " + player.getPassword() + "\n");
             message = "you are signed up successfully! BEGIN YOUR JOURNEY IN HEARTH STONE!!";
         }
         clientHandler.sendResponse("SignUp",new request_response.response.SignUp(message));

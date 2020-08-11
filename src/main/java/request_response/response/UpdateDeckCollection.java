@@ -1,6 +1,7 @@
 package request_response.response;
 
-import client.Client;
+import client.ClientGui;
+import request_response.request.DrawInformationOnCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,8 +16,10 @@ public class UpdateDeckCollection extends Response{
         this.hero = hero;
     }
     @Override
-    public void execute(Client client) {
-        if (cards.size()!=0)client.getCollectionPanel().updateDeckCards(hero,cards);
-        if (deckNames.size()!=0)client.getCollectionPanel().updateDecksBar(deckNames);
+    public void execute(ClientGui clientGui) {
+        if (cards.size()!=0) clientGui.getCollectionPanel().updateDeckCards(hero,cards);
+        if (deckNames.size()!=0) clientGui.getCollectionPanel().updateDecksBar(deckNames);
+        for (Long id : clientGui.getCardButtons().keySet())clientGui.getActionController().drawInformationOnCard(id);
+
     }
 }

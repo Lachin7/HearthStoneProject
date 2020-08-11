@@ -1,8 +1,7 @@
 package request_response.response;
 
-import client.Client;
+import client.ClientGui;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class ShowTopTen extends Response{
@@ -13,7 +12,7 @@ public class ShowTopTen extends Response{
     }
 
     @Override
-    public void execute(Client client) {
-        client.getRankPanel().showTopTen(players);
+    public void execute(ClientGui clientGui) {
+        clientGui.getRankPanel().showTopTen(players);
     }
 }

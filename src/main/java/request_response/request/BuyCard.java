@@ -22,7 +22,7 @@ public class BuyCard extends Request {
         else {
             clientHandler.sendResponse("Message",new Message("bought card " + name + " successfully"));
             clientHandler.getCardController().buyCard(id);
-            clientHandler.getPlayerLOGGER().log(Level.INFO, "button clicked to buy a card - Shop - " + " bought card " + name + " successfully");
+            clientHandler.log("button clicked to buy a card - Shop - " + " bought card " + name + " successfully");
         }
     }
 }

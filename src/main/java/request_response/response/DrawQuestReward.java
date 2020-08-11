@@ -1,19 +1,18 @@
 package request_response.response;
 
-import client.Client;
+import client.ClientGui;
 
 import java.util.HashMap;
 
 public class DrawQuestReward extends Response{
-    HashMap<String,Integer> friendlyQR,enemyQR;
+    HashMap<String,Integer> QR;
 
-    public DrawQuestReward(HashMap<String, Integer> friendlyQR, HashMap<String, Integer> enemyQR) {
-        this.friendlyQR = friendlyQR;
-        this.enemyQR = enemyQR;
+    public DrawQuestReward(HashMap<String, Integer> QR) {
+        this.QR = QR;
     }
 
     @Override
-    public void execute(Client client) {
-        client.getPlayPanel().drawQuestReward(friendlyQR,enemyQR);
+    public void execute(ClientGui clientGui) {
+        clientGui.getPlayPanel().showQuestReward(QR);
     }
 }

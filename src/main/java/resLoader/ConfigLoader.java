@@ -1,10 +1,7 @@
 package resLoader;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -45,18 +42,6 @@ public class ConfigLoader {
 
     public int readInteger(String name){
         return Integer.parseInt(properties.getProperty(name));
-    }
-
-    public boolean readBoolean (String name){
-        return Boolean.parseBoolean(properties.getProperty(name));
-    }
-
-    public List<Integer> readIntegerList(String name){
-        List<Integer> list = new ArrayList<>();
-        for(String string: readStringList(name)){
-            list.add(Integer.parseInt(string));
-        }
-        return list;
     }
 
     public List<String> readStringList(String name){

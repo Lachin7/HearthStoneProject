@@ -1,14 +1,14 @@
 package server.controller.actionVisitors.card;
 
 import server.controller.BoardController;
-import models.Cards.minions.*;
-import models.Cards.spells.*;
-import models.Cards.spells.questAndReward.LearnDraconic;
-import models.Cards.spells.questAndReward.StrengthInNumbers;
-import models.Cards.weapons.FieryWarAxe;
-import models.Cards.weapons.LightsJustice;
-import models.Cards.weapons.SerratedTooth;
-import models.Character;
+import server.models.Cards.minions.*;
+import server.models.Cards.spells.*;
+import server.models.Cards.spells.questAndReward.LearnDraconic;
+import server.models.Cards.spells.questAndReward.StrengthInNumbers;
+import server.models.Cards.weapons.FieryWarAxe;
+import server.models.Cards.weapons.LightsJustice;
+import server.models.Cards.weapons.SerratedTooth;
+import server.models.Character;
 
 public interface CardVisitor {
     void visitSprint(Sprint sprint, Character target, BoardController boardController);
@@ -41,8 +41,6 @@ public interface CardVisitor {
     void visitTombWarden(TombWarden tombWarden, Character target, BoardController boardController);
     void visitCurioCollector(CurioCollector curioCollector, Character target, BoardController boardController);
     void visitDreadScale(DreadScale dreadScale, Character target, BoardController boardController);
-//    void visitMalygossExplosion(MalygossExplosion malygossExplosion, Character target, BoardController boardController);
-//    void visitMalygossNova(MalygossNova malygossNova, Character target, BoardController boardController);
     void visitLifedrinker(Lifedrinker lifedrinker, Character target, BoardController boardController);
     void visitScrapDeadlyShot(ScrapDeadlyShot scrapDeadlyShot, Character target, BoardController boardController);
     void visitPsycheSplit(PsycheSplit psycheSplit, Character target, BoardController boardController);
@@ -50,4 +48,5 @@ public interface CardVisitor {
     void visitLightsJustice(LightsJustice lightsJustice, Character target, BoardController boardController);
     void visitSerratedTooth(SerratedTooth serratedTooth, Character target, BoardController boardController);
     void visitSheep(Sheep sheep, Character target, BoardController boardController);
+
 }

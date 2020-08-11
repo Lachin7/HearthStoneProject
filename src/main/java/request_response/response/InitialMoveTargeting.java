@@ -1,7 +1,7 @@
 package request_response.response;
 
-import client.Client;
-import models.Cards.Target;
+import client.ClientGui;
+import server.models.Cards.Target;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ public class InitialMoveTargeting extends Response{
     }
 
     @Override
-    public void execute(Client client) {
-        client.getPlayPanel().initialMoveTargeting(targets,id);
+    public void execute(ClientGui clientGui) {
+        clientGui.getPlayPanel().initialMoveTargeting(targets,id);
     }
 }

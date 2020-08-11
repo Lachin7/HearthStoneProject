@@ -1,6 +1,6 @@
 package request_response.response;
 
-import client.Client;
+import client.ClientGui;
 
 public class SetSelectedCardInShop extends Response {
     private long id, coins;
@@ -14,7 +14,9 @@ public class SetSelectedCardInShop extends Response {
     }
 
     @Override
-    public void execute(Client client) {
-        client.getShopPanel().setSelectedCard(id,name,coins,price);
+    public void execute(ClientGui clientGui) {
+        clientGui.getShopPanel().setSelectedCard(id,name,coins,price);
+        for (Long id : clientGui.getCardButtons().keySet())clientGui.getActionController().drawInformationOnCard(id);
+
     }
 }

@@ -1,32 +1,40 @@
 package client.actionController;
 
-import client.Client;
-import gui.myComponents.MyCardButton;
+import client.ClientGui;
 import request_response.request.DrawInformationOnCard;
-import request_response.request.SignIn;
-import request_response.request.SignUp;
+import request_response.request.ExitPlay;
+import request_response.response.GoToPanel;
 
 public class ActionController {
 
-    protected Client client;
-    public ActionController(Client client){
-        this.client = client;
+    protected ClientGui clientGui;
+    public ActionController(ClientGui clientGui){
+        this.clientGui = clientGui;
     }
 
     public void log(String message){
-        client.log(message);
+        clientGui.log(message);
     }
 
-    public Client getClient() {
-        return client;
+    public ClientGui getClientGui() {
+        return clientGui;
     }
 
-    public void drawInformationOnCard(MyCardButton card ,long id) {
-        client.sendRequest("DrawInformationOnCard",new DrawInformationOnCard(card,id));
+    public void drawInformationOnCard(Long id) {
+        clientGui.sendRequest("DrawInformationOnCard",new DrawInformationOnCard(id));
     }
 
-    public void backToMenu() {
-        //todo override it for play
-        client.goToPanel(client.getMainMenu());
+    public void goToPanel(String name){
+        clientGui.executeResponse(new GoToPanel(name));
     }
+
+    public void back(){
+        goToPanel("mainMenu");
+    }
+
+    public void exit(){
+        clientGui.sendRequest("ExitPlay",new ExitPlay());
+        System.exit(0);
+    }
+
 }

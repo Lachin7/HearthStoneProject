@@ -1,10 +1,10 @@
 package client;
 
-import gui.panels.PlayPanel;
+import resLoader.ImageLoader;
 
 public class ClientMain {
     public static void main(String[] args) {
-        Client client = new Client();
-        client.goToPanel(client.getConnectionPanel());
+        ImageLoader.getInstance().loadCardImages();
+        new ClientGui().goToPanel("connection");
     }
 }

@@ -1,15 +1,9 @@
 package request_response.request;
 
-import models.Cards.Card;
-import request_response.response.ChoosePassive;
 import request_response.response.GoToPanel;
-import request_response.response.StartOnlineGame;
+import request_response.response.Message;
 import server.ClientHandler;
 import server.controller.modes.*;
-
-import javax.swing.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class DeclareGameMode extends Request {
     private String gameMode;
@@ -23,15 +17,15 @@ public class DeclareGameMode extends Request {
         /** check necessary items before starting */
         if (!gameMode.equalsIgnoreCase("Deck Reader") && !gameMode.equalsIgnoreCase("Watch Games")) {
             if (clientHandler.getMainPlayer().getDeck() == null) {
-                JOptionPane.showMessageDialog(null, "you don't have a current deck\n let's go to status and choose you deck");
+                clientHandler.sendResponse("Message", new Message("you don't have a current deck\n let's go to status and choose you deck"));
                 clientHandler.sendResponse("GoToPanel", new GoToPanel("status"));
             }
             if (clientHandler.getMainPlayer().getDeck().getHero() == null) {
-                JOptionPane.showMessageDialog(null, "you don't have a choosed hero for your deck\n let's go to collections and choose a hero! ");
+                clientHandler.sendResponse("Message", new Message("you don't have a choosed hero for your deck\n let's go to collections and choose a hero! "));
                 clientHandler.sendResponse("GoToPanel", new GoToPanel("collection"));
             }
             if (clientHandler.getMainPlayer().getDeck().getCards().size() < 10) {
-                JOptionPane.showMessageDialog(null, "you don't have a enough number of cards in your deck\n let's go to collections and have at least 10 cards in your deck \n also you can change your deck in status");
+                clientHandler.sendResponse("Message", new Message("you don't have a enough number of cards in your deck\n let's go to collections and have at least 10 cards in your deck \n also you can change your deck in status"));
                 clientHandler.sendResponse("GoToPanel", new GoToPanel("collection"));
             } else {
                 /** if player was ok with those items , then initials it and ask for new game or if not choose the passive */
@@ -48,11 +42,11 @@ public class DeclareGameMode extends Request {
                     clientHandler.setBoardController(new TavernBrawl(clientHandler));
 
                 if (gameMode.equalsIgnoreCase("AI") || gameMode.equalsIgnoreCase("Practice"))
-                    new ChooseGameSetUps(clientHandler.getBoardController());
+                    new ChooseGameSetUps(clientHandler.getBoardController()).execute(clientHandler);
                 else clientHandler.getServer().requestOnlineGame(clientHandler);
             }
         } else if (gameMode.equalsIgnoreCase("Deck Reader")) {
-            clientHandler.setBoardController(new DeckReader(clientHandler, clientHandler.getServer().getClients(clientHandler).getKey().getBoardController().getFriendlyPlayer(), clientHandler.getServer().getClients(clientHandler).getValue().getBoardController().getFriendlyPlayer()));
+            clientHandler.setBoardController(new DeckReader(clientHandler));
             clientHandler.getServer().requestOnlineGame(clientHandler);
         }
 

@@ -1,7 +1,8 @@
 package request_response.response;
 
-import client.Client;
-import models.board.Side;
+import client.ClientGui;
+import request_response.request.DrawInformationOnCard;
+import server.models.board.Side;
 
 import java.util.HashMap;
 
@@ -18,7 +19,9 @@ public class UpdateFieldCards extends Response{
     }
 
     @Override
-    public void execute(Client client) {
-        client.getPlayPanel().updateFieldCards(side,cards,allowance,tauntExist);
+    public void execute(ClientGui clientGui) {
+        clientGui.getPlayPanel().updateFieldCards(side,cards,allowance,tauntExist);
+        for (Long id : clientGui.getCardButtons().keySet())clientGui.getActionController().drawInformationOnCard(id);
+
     }
 }

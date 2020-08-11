@@ -1,6 +1,6 @@
 package request_response.response;
 
-import client.Client;
+import client.ClientGui;
 
 public class SignUp extends Response{
     private String message;
@@ -8,7 +8,7 @@ public class SignUp extends Response{
         this.message = message;
     }
     @Override
-    public void execute(Client client) {
-        client.signUp(message);
+    public void execute(ClientGui clientGui) {
+        clientGui.signUp(message);
     }
 }

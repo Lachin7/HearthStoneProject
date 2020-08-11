@@ -1,34 +1,39 @@
 package client.actionController;
 
-import client.Client;
+import client.ClientGui;
 import request_response.request.*;
 
 public class StatusActionController extends ActionController{
-    public StatusActionController(Client client) {
-        super(client);
+    public StatusActionController(ClientGui clientGui) {
+        super(clientGui);
     }
 
     public void setDeckAsCurrent(String selectedDeck) {
-        client.sendRequest("SetDeckAsCurrent",new SetDeckAsCurrent(selectedDeck));
+        clientGui.sendRequest("SetDeckAsCurrent",new SetDeckAsCurrent(selectedDeck));
     }
 
     public void showDecksInStatus() {
-        client.sendRequest("ShowDecksInStatus",new ShowDecksInStatus());
+        clientGui.sendRequest("ShowDecksInStatus",new ShowDecksInStatus());
     }
 
     public void showCardsInStatus(String deck) {
-        client.sendRequest("ShowCardsInStatus",new ShowCardsInStatus(deck));
+        clientGui.sendRequest("ShowCardsInStatus",new ShowCardsInStatus(deck));
     }
 
-    public void showTopTen() {
-        client.sendRequest("ShowTopTen",new ShowTopTen());
-    }
-
-    public void showMyRank() {
-        client.sendRequest("ShowMyRank",new ShowMyRank());
-    }
+//    public void showTopTen() {
+//        clientGui.sendRequest("ShowTopTen",new ShowTopTen());
+//    }
+//
+//    public void showMyRank() {
+//        clientGui.sendRequest("ShowMyRank",new ShowMyRank());
+//    }
 
     public void drawDeckInfo(String selectedDeck) {
-        client.sendRequest("DrawDeckInfo",new DrawDeckInfo(selectedDeck));
+        clientGui.sendRequest("DrawDeckInfo",new DrawDeckInfo(selectedDeck));
     }
+
+    public void showRanks() {
+        clientGui.sendRequest("ShowRanks",new ShowRanks());
+    }
+
 }

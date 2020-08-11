@@ -1,6 +1,6 @@
 package request_response.response;
 
-import client.Client;
+import client.ClientGui;
 
 public class SetHeroes extends Response{
     private String friendly, enemy;
@@ -10,7 +10,7 @@ public class SetHeroes extends Response{
     }
 
     @Override
-    public void execute(Client client) {
-        client.getPlayPanel().setHeroes(friendly,enemy);
+    public void execute(ClientGui clientGui) {
+        clientGui.getPlayPanel().setHeroes(friendly,enemy);
     }
 }

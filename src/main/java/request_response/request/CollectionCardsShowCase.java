@@ -1,11 +1,9 @@
 package request_response.request;
 
-import javafx.util.Pair;
-import models.Cards.Card;
+import server.models.Cards.Card;
 import server.ClientHandler;
 import server.controller.CardController;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CollectionCardsShowCase extends Request{

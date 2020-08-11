@@ -1,8 +1,8 @@
 package server.controller.actionVisitors.passive;
 
 import server.controller.BoardController;
-import models.Cards.Minion;
-import models.Player;
+import server.models.Cards.Minion;
+import server.models.Player;
 
 import java.util.ArrayList;
 import java.util.Random;

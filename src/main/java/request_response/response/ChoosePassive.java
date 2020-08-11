@@ -1,10 +1,10 @@
 package request_response.response;
 
-import client.Client;
+import client.ClientGui;
 
 public class ChoosePassive extends Response{
     @Override
-    public void execute(Client client) {
-        client.getPrePlayPanel().choosePassive();
+    public void execute(ClientGui clientGui) {
+        clientGui.getPrePlayPanel().choosePassive();
     }
 }

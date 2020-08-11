@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-import static JSON.jsonForCards.jsonForCards.creatCardFromjson;
 
 public class ImageLoader {
 
@@ -18,7 +17,7 @@ public class ImageLoader {
         cardsImages = new HashMap<>();
     }
 
-    private final HashMap<String,BufferedImage> cardsImages;
+    private HashMap<String,BufferedImage> cardsImages;
 
 
     public void loadCardImages(){

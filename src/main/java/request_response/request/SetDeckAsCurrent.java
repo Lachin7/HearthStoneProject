@@ -14,6 +14,6 @@ public class SetDeckAsCurrent extends Request {
     public void execute(ClientHandler clientHandler) {
         clientHandler.getMainPlayer().setDeck(clientHandler.getCardController().getTheDeck(selectedDeck));
         if(clientHandler.getCardController().getTheDeck(selectedDeck).getHero()!=null) clientHandler.getMainPlayer().setPlayersChoosedHero(clientHandler.getCardController().getTheDeck(selectedDeck).getHero());
-        clientHandler.getPlayerLOGGER().log(Level.FINE," button clicked - Status - changed current deck to : " + selectedDeck);
+        clientHandler.log(" button clicked - Status - changed current deck to : " + selectedDeck);
     }
 }

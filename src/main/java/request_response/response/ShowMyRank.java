@@ -1,6 +1,6 @@
 package request_response.response;
 
-import client.Client;
+import client.ClientGui;
 import javafx.util.Pair;
 
 import java.util.LinkedHashMap;
@@ -13,7 +13,7 @@ public class ShowMyRank extends Response{
     }
 
     @Override
-    public void execute(Client client) {
-        client.getRankPanel().showMyRank(players);
+    public void execute(ClientGui clientGui) {
+        clientGui.getRankPanel().showMyRank(players);
     }
 }

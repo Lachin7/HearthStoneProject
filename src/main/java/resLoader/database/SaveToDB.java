@@ -1,14 +1,14 @@
 package resLoader.database;
 
-import models.Cards.minions.*;
-import models.Cards.spells.*;
-import models.Cards.spells.questAndReward.LearnDraconic;
-import models.Cards.spells.questAndReward.StrengthInNumbers;
-import models.Cards.weapons.FieryWarAxe;
-import models.Cards.weapons.LightsJustice;
-import models.Cards.weapons.SerratedTooth;
-import models.Heroes.*;
-import models.Player;
+import server.models.Cards.minions.*;
+import server.models.Cards.spells.*;
+import server.models.Cards.spells.questAndReward.LearnDraconic;
+import server.models.Cards.spells.questAndReward.StrengthInNumbers;
+import server.models.Cards.weapons.FieryWarAxe;
+import server.models.Cards.weapons.LightsJustice;
+import server.models.Cards.weapons.SerratedTooth;
+import server.models.Heroes.*;
+import server.models.Player;
 
 public class SaveToDB {
     private static DataBase dataBase = new DataBase();
@@ -39,7 +39,6 @@ public class SaveToDB {
         dataBase.save(new MagmaRager());
         dataBase.save(new MurlocRaider());
         dataBase.save(new Ratcatcher());
-        dataBase.save(new RiverCrocolisk());
         dataBase.save(new RocketAugmerchant());
         dataBase.save(new Sathrovarr());
         dataBase.save(new ScavengingShivarra());
@@ -52,8 +51,6 @@ public class SaveToDB {
         dataBase.save(new StrengthInNumbers());
         dataBase.save(new BookOfSpecters());
         dataBase.save(new FriendlySmith());
-        dataBase.save(new MalygossExplosion());
-        dataBase.save(new MalygossNova());
         dataBase.save(new Polymorph());
         dataBase.save(new PsycheSplit());
         dataBase.save(new ScrapDeadlyShot());

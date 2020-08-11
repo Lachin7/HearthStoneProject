@@ -1,6 +1,6 @@
 package request_response.response;
 
-import client.Client;
+import client.ClientGui;
 
 public class DrawDeckInfo extends Response{
     private String name , hero,moseUsedCard;
@@ -21,7 +21,7 @@ public class DrawDeckInfo extends Response{
     }
 
     @Override
-    public void execute(Client client) {
-        client.getStatusPanel().drawDeckInfo(name,cups,wins,totalGames,winsToAll,avePrice,hero,moseUsedCard,currentDeck);
+    public void execute(ClientGui clientGui) {
+        clientGui.getStatusPanel().drawDeckInfo(name,cups,wins,totalGames,winsToAll,avePrice,hero,moseUsedCard,currentDeck);
     }
 }

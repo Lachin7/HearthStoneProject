@@ -1,14 +1,14 @@
 package server.controller.actionVisitors.card;
 
 import server.controller.BoardController;
-import models.Cards.minions.*;
-import models.Cards.spells.*;
-import models.Cards.spells.questAndReward.LearnDraconic;
-import models.Cards.spells.questAndReward.StrengthInNumbers;
-import models.Cards.weapons.FieryWarAxe;
-import models.Cards.weapons.LightsJustice;
-import models.Cards.weapons.SerratedTooth;
-import models.Character;
+import server.models.Cards.minions.*;
+import server.models.Cards.spells.*;
+import server.models.Cards.spells.questAndReward.LearnDraconic;
+import server.models.Cards.spells.questAndReward.StrengthInNumbers;
+import server.models.Cards.weapons.FieryWarAxe;
+import server.models.Cards.weapons.LightsJustice;
+import server.models.Cards.weapons.SerratedTooth;
+import server.models.Character;
 
 public class TakesDamageVisitor implements CardVisitor{
     @Override

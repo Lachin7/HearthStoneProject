@@ -1,8 +1,8 @@
 package server.controller.util;
 
 import server.controller.BoardController;
-import models.Cards.Card;
-import models.Player;
+import server.models.Cards.Card;
+import server.models.Player;
 
 public class QuestRewardMaker {
 

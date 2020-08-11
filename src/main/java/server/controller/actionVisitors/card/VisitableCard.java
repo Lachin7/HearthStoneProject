@@ -1,7 +1,7 @@
 package server.controller.actionVisitors.card;
 
 import server.controller.BoardController;
-import models.Character;
+import server.models.Character;
 
 
 public interface VisitableCard {

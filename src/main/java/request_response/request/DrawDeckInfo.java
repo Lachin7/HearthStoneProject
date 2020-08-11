@@ -1,6 +1,6 @@
 package request_response.request;
 
-import models.Deck;
+import server.models.Deck;
 import server.ClientHandler;
 
 public class DrawDeckInfo extends Request {

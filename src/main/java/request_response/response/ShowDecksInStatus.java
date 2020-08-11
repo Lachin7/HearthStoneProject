@@ -1,6 +1,6 @@
 package request_response.response;
 
-import client.Client;
+import client.ClientGui;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ public class ShowDecksInStatus extends Response{
     }
 
     @Override
-    public void execute(Client client) {
-        client.getStatusPanel().showDecks(decks);
+    public void execute(ClientGui clientGui) {
+        clientGui.getStatusPanel().showDecks(decks);
     }
 }

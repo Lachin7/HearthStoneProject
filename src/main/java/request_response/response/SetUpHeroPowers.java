@@ -1,7 +1,7 @@
 package request_response.response;
 
-import client.Client;
-import models.board.Side;
+import client.ClientGui;
+import server.models.board.Side;
 
 public class SetUpHeroPowers extends Response{
     private Side side;
@@ -15,7 +15,7 @@ public class SetUpHeroPowers extends Response{
     }
 
     @Override
-    public void execute(Client client) {
-        client.getPlayPanel().setUpHeroPowers(side,allowance,hasEnoughMana,hasTarget);
+    public void execute(ClientGui clientGui) {
+        clientGui.getPlayPanel().setUpHeroPowers(side,allowance,hasEnoughMana,hasTarget);
     }
 }

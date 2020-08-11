@@ -1,15 +1,15 @@
 package server.controller.actionVisitors.card;
 
 import server.controller.BoardController;
-import models.Cards.Minion;
-import models.Cards.minions.*;
-import models.Cards.spells.*;
-import models.Cards.spells.questAndReward.LearnDraconic;
-import models.Cards.spells.questAndReward.StrengthInNumbers;
-import models.Cards.weapons.FieryWarAxe;
-import models.Cards.weapons.LightsJustice;
-import models.Cards.weapons.SerratedTooth;
-import models.Character;
+import server.models.Cards.Minion;
+import server.models.Cards.minions.*;
+import server.models.Cards.spells.*;
+import server.models.Cards.spells.questAndReward.LearnDraconic;
+import server.models.Cards.spells.questAndReward.StrengthInNumbers;
+import server.models.Cards.weapons.FieryWarAxe;
+import server.models.Cards.weapons.LightsJustice;
+import server.models.Cards.weapons.SerratedTooth;
+import server.models.Character;
 
 public class EndTurnCardVisitor implements CardVisitor{
     @Override
@@ -158,7 +158,7 @@ public class EndTurnCardVisitor implements CardVisitor{
     }
 
     @Override
-    public void visitDreadScale(DreadScale dreadScale, Character target, BoardController boardController) {
+    public synchronized void visitDreadScale(DreadScale dreadScale, Character target, BoardController boardController) {
         for(Minion minion : boardController.getEnemyFieldCards()){
             boardController.changeMinion(minion,-1,0);
             boardController.checkIfMinionIsDead(boardController.getOpponentPlayer(),minion);

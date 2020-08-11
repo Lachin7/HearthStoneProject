@@ -1,8 +1,8 @@
 package server.controller.actionVisitors.heroPower;
 
 import server.controller.BoardController;
-import models.Cards.Minion;
-import models.Character;
+import server.models.Cards.Minion;
+import server.models.Character;
 
 public class EnemyPlayesHeroPowerVisitor implements HeroPowerVisitor{
     @Override

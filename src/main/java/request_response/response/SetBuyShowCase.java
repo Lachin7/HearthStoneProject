@@ -1,21 +1,23 @@
 package request_response.response;
 
-import client.Client;
-import javafx.util.Pair;
+import client.ClientGui;
+import server.models.util.MyPair;
 
 import java.util.HashMap;
 
 public class SetBuyShowCase extends Response{
-    private HashMap<Pair<Long,String>,Integer>  cards;
+    private HashMap<MyPair<Long,String>,Integer>  cards;
     private long coins;
 
-    public SetBuyShowCase(HashMap<Pair<Long, String>, Integer> cards, long coins) {
+    public SetBuyShowCase(HashMap<MyPair<Long, String>, Integer> cards, long coins) {
         this.cards = cards;
         this.coins = coins;
     }
 
     @Override
-    public void execute(Client client) {
-        client.getShopPanel().setBuyShowCase(cards,coins);
+    public void execute(ClientGui clientGui) {
+        clientGui.setBuyShowCase(cards,coins);
+        for (Long id : clientGui.getCardButtons().keySet())clientGui.getActionController().drawInformationOnCard(id);
+
     }
 }

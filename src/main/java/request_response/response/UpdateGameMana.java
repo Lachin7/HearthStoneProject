@@ -1,6 +1,6 @@
 package request_response.response;
 
-import client.Client;
+import client.ClientGui;
 
 public class UpdateGameMana extends Response{
     private int friendlyMana, enemyMana;
@@ -11,7 +11,7 @@ public class UpdateGameMana extends Response{
     }
 
     @Override
-    public void execute(Client client) {
-        client.getPlayPanel().updateMana(friendlyMana,enemyMana);
+    public void execute(ClientGui clientGui) {
+        clientGui.getPlayPanel().updateMana();
     }
 }

@@ -1,8 +1,7 @@
 package request_response.response;
 
-import client.Client;
+import client.ClientGui;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CollectionCardsShowCase extends Response {
@@ -15,7 +14,9 @@ public class CollectionCardsShowCase extends Response {
     }
 
     @Override
-    public void execute(Client client) {
-        client.getCollectionPanel().updateCardsShowCase(hasClassBar, cards);
+    public void execute(ClientGui clientGui) {
+        clientGui.getCollectionPanel().updateCardsShowCase(hasClassBar, cards);
+        for (Long id : clientGui.getCardButtons().keySet())clientGui.getActionController().drawInformationOnCard(id);
+
     }
 }

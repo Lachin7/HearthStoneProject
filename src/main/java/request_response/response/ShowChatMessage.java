@@ -1,6 +1,6 @@
 package request_response.response;
 
-import client.Client;
+import client.ClientGui;
 
 import java.awt.*;
 
@@ -12,7 +12,7 @@ public class ShowChatMessage extends Response {
     }
 
     @Override
-    public void execute(Client client) {
-        client.getPlayPanel().getChatPanel().newChatMessage(new Color(165, 10, 136),name,text);
+    public void execute(ClientGui clientGui) {
+        clientGui.getPlayPanel().getChatPanel().newChatMessage(new Color(165, 10, 136),name,text);
     }
 }

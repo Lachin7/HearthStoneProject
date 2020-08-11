@@ -1,16 +1,16 @@
 package request_response.response;
 
-import client.Client;
-import gui.myComponents.MyCardButton;
-import models.Cards.Card;
+import client.ClientGui;
+import client.gui.myComponents.MyCardButton;
+import server.models.Cards.Card;
 
 public class DrawInformationOnCard extends Response{
     private int mana, hp, attack,  durability;
-    private boolean locked, hasShield, hasTaunt, isInGame, canAttack;
-    private MyCardButton card;
+    private boolean locked, hasShield, hasTaunt, canAttack;
     private Card.type type;
+    private Long id;
 
-    public DrawInformationOnCard(MyCardButton card,int mana, int hp, int attack, int durability, boolean locked, boolean hasShield, boolean hasTaunt,boolean canAttack, Card.type type) {
+    public DrawInformationOnCard(Long id,int mana, int hp, int attack, int durability, boolean locked, boolean hasShield, boolean hasTaunt,boolean canAttack, Card.type type) {
         this.mana = mana;
         this.hp = hp;
         this.attack = attack;
@@ -19,12 +19,15 @@ public class DrawInformationOnCard extends Response{
         this.hasShield = hasShield;
         this.hasTaunt = hasTaunt;
         this.canAttack = canAttack;
-//        this.isInGame = isInGame;
-        this.card = card;
+        this.type =type;
+        this.id = id;
     }
 
     @Override
-    public void execute(Client client) {
-        card.drawInformationOnCard(mana,hp,attack,durability,locked,hasShield,hasTaunt,canAttack,type);
+    public void execute(ClientGui clientGui) {
+        for (MyCardButton cardButton : clientGui.getCardButtons().values())if (cardButton.getId()==id)
+            cardButton.drawInformationOnCard(mana,hp,attack,durability,locked,hasShield,hasTaunt,canAttack,type);
+
+
     }
 }

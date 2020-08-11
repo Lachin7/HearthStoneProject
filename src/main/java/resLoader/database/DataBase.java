@@ -1,11 +1,13 @@
 package resLoader.database;
 
 import lombok.Getter;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
+import server.Server;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -21,6 +23,7 @@ public class DataBase {
 
     @Getter
     private SessionFactory sessionFactory = buildSessionFactory();
+    private Server server;
 
     private static SessionFactory buildSessionFactory() {
         PrintStream err = System.err;
@@ -36,22 +39,35 @@ public class DataBase {
         return sessionFactory;
     }
 
+    public DataBase(){
+    }
+    public DataBase(Server server){
+       this.server= server;
+    }
     public synchronized void save(Object o) {
-        Session session = sessionFactory.openSession();
+        try {
+            Session session = sessionFactory.openSession();
 //        session.clear();
-        session.beginTransaction();
-        session.save(o);
-        session.flush();
-        session.getTransaction().commit();
-        session.clear();
-        session.close();
+            session.beginTransaction();
+            session.saveOrUpdate(o);
+            session.getTransaction().commit();
+            session.clear();
+            session.close();
+        } catch (Exception e) {
+            server.handleHibernateException();
+        }
     }
 
     public  <T> T fetch(Class<T> tClass, Serializable id) {
-        Session session = sessionFactory.openSession();
-        T t = session.get(tClass, id);
-        session.close();
-        return t;
+        try{
+            Session session = sessionFactory.openSession();
+            T t = session.get(tClass, id);
+            session.close();
+            return t;
+        } catch (Exception e) {
+            server.handleHibernateException();
+        }
+        return null;
     }
 
     public  void update(Object o) {
@@ -63,18 +79,27 @@ public class DataBase {
     }
 
     public  void delete(Object o) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.delete(o);
-        session.getTransaction().commit();
-        session.close();
+        try {
+            Session session = sessionFactory.openSession();
+            session.beginTransaction();
+            session.delete(o);
+            session.getTransaction().commit();
+            session.close();
+        } catch (Exception e) {
+            server.handleHibernateException();
+        }
     }
 
     public  <E> List<E> fetchAll(Class<E> entity) {
-        Session session = sessionFactory.openSession();
-        List<E> list = session.createQuery("from " + entity.getName(), entity).getResultList();
-        session.close();
-        return list;
+        try {
+            Session session = sessionFactory.openSession();
+            List<E> list = session.createQuery("from " + entity.getName(), entity).getResultList();
+            session.close();
+            return list;
+        } catch (HibernateException e) {
+            server.handleHibernateException();
+        }
+        return null;
     }
 
     public <E> List<E> fetchWithCondition(Class<E> entity, String fieldName, Object value) {

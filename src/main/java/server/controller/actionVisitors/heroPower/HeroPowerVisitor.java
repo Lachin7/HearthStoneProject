@@ -1,7 +1,7 @@
 package server.controller.actionVisitors.heroPower;
 
 import server.controller.BoardController;
-import models.Character;
+import server.models.Character;
 
 public interface HeroPowerVisitor {
     void visitMageHeroPower(Character target , BoardController boardController);

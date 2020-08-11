@@ -15,6 +15,6 @@ public class SellCard extends Request {
     @Override
     public void execute(ClientHandler clientHandler) {
         clientHandler.getCardController().sellCard(id);
-        clientHandler.getPlayerLOGGER().log(Level.INFO, "button clicked to sell a card - Shop - " + " sold card " + name + " successfully");
+        clientHandler.log("button clicked to sell a card - Shop - " + " sold card " + name + " successfully");
     }
 }
