@@ -22,9 +22,6 @@ import java.util.concurrent.TimeUnit;
 
 public class ClientGui extends Thread {
 
-    private LinkedList<Response> responses;
-    private final LinkedList<Response> tempResponseList;
-    private boolean isRunning;
 
     private GameFrame frame;
     @Getter
@@ -54,6 +51,8 @@ public class ClientGui extends Thread {
     @Getter
     private MyAudioPlayer audioPlayer;
     private ClientNetwork clientNetwork;
+    private LinkedList<Response> responses;
+    private final LinkedList<Response> tempResponseList;
     @Getter
     private HashMap<Long,MyCardButton> cardButtons;
     @Getter
@@ -123,7 +122,10 @@ public class ClientGui extends Thread {
             goToPanel(settingsPanel = new SettingsPanel(new SettingsActionController(this)));
         else if (panelName.contains("shop")) goToPanel(shopPanel = new ShopPanel(new ShopActionController(this)));
         else if (panelName.contains("signIn")) goToPanel(signInPanel = new SignInPanel(new InitialSetUp(this)));
-        else if (panelName.contains("mainMenu")) goToPanel(mainMenu = new MainMenu(new InitialSetUp(this)));
+        else if (panelName.contains("mainMenu")) {
+            goToPanel(mainMenu = new MainMenu(new InitialSetUp(this)));
+            audioPlayer.playMainMusic("melodyloops-light-of-hope.wav");
+        }
         else if (panelName.contains("rank")) goToPanel(rankPanel = new RankPanel(new StatusActionController(this)));
         else if (panelName.contains("wait")) goToPanel(waitingPanel = new WaitingPanel());
 
@@ -135,6 +137,7 @@ public class ClientGui extends Thread {
         goToPanel(playPanel = new PlayPanel(actionController));
         actionController.setUpPlayForPlayer();
         actionController.drawPlayChanges();
+        audioPlayer.playMainMusic("PlayGound.wav");
         playPanel.updateHands();
         playPanel.updateBothFields();
     }

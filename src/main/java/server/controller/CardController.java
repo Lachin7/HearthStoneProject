@@ -1,7 +1,10 @@
 package server.controller;
 
+import client.gui.myComponents.GuiCard;
 import lombok.Getter;
 import server.models.Cards.Card;
+import server.models.Cards.Minion;
+import server.models.Cards.Weapon;
 import server.models.Deck;
 import server.models.Player;
 import resLoader.database.DataBase;
@@ -166,5 +169,22 @@ public class CardController {
         for (Card card : clientHandler.getServer().getAllProducedCards()) if (card.getId() == id) return card;
         System.out.println("card id not found!!!!" );
         return null;
+    }
+
+    public GuiCard creatGuiCard(Card card) {
+        int hp = -30,attack = -30,durability = -30;
+        boolean hasShield = false, hasTaunt = false, canAttack = false;
+        if (card instanceof Minion) {
+            hp = ((Minion) card).getHP();
+            attack = ((Minion) card).getAttack();
+            hasShield = ((Minion) card).hasDivineShield();
+            hasTaunt = ((Minion) card).hasTaunt();
+            canAttack = ((Minion) card).canAttack();
+        }
+        if (card instanceof Weapon){
+            attack = ((Weapon) card).getAttack();
+            durability = ((Weapon) card).getDurability();
+        }
+       return new GuiCard(card.getName(),card.getId(),card.getManaCost(),hp,attack,durability,card.getType(),canAttack,hasTaunt,isLocked(card),hasShield);
     }
 }

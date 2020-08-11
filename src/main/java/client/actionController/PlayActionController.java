@@ -7,6 +7,7 @@ import server.models.board.Side;
 import request_response.request.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class PlayActionController extends ActionController{
     public PlayActionController(ClientGui clientGui) {
@@ -41,7 +42,7 @@ public class PlayActionController extends ActionController{
     }
 
     public void updateFieldCards(Side side, ArrayList<MyCardButton> fieldComponents) {
-        ArrayList<Long> ids = new ArrayList<>();
+        LinkedList<Long> ids = new LinkedList<>();
         for (MyCardButton cardButton : fieldComponents)ids.add(cardButton.getId());
         clientGui.sendRequest("UpdateFieldCards",new UpdateFieldCards(side,ids));
     }
@@ -54,7 +55,7 @@ public class PlayActionController extends ActionController{
         clientGui.sendRequest("PlayTarget",new PlayTarget(attacker,target));
     }
 
-    public void attack(long attacker, long target) {
+    public void attack(long attacker, Long target) {
         clientGui.sendRequest("Attack",new Attack(attacker,target));
     }
 

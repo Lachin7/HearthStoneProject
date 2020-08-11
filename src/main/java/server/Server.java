@@ -1,38 +1,39 @@
 package server;
 
-import javafx.util.Pair;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import request_response.request.ChooseGameSetUps;
 import request_response.response.AskForPermissionToWatch;
 import request_response.response.Message;
 import request_response.response.ShowChatMessage;
 import resLoader.ConfigLoader;
 import resLoader.database.DataBase;
+import server.controller.modes.*;
 import server.models.Cards.Card;
 import server.models.Player;
 import server.models.util.MyPair;
 
-import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Server extends Thread {
 
     private int port;
-//    private String host;
+    //    private String host;
     private ConfigLoader configLoader;
     private ServerSocket serverSocket;
     @Getter
-    private ArrayList<ClientHandler> waitingList;
+    private ArrayList<ClientHandler> onlineWaitList, deckReaderWaitList, goldenTimeWaitList, oneShotWaitList, tavernBrawlWaitList;
     @Getter
     private HashMap<MyPair<ClientHandler, ClientHandler>, HashMap<ClientHandler, Integer>> runningGames;
     @Getter
-    private HashMap<MyPair<ClientHandler, ClientHandler>,Integer> waitingForLaunch;
+    private HashMap<MyPair<ClientHandler, ClientHandler>, Integer> waitingForLaunch;
     private ArrayList<ClientHandler> allClientHandlers;
     @Getter
     private ArrayList<Card> allProducedCards;
@@ -46,25 +47,40 @@ public class Server extends Thread {
         port = configLoader.readInteger("port");
 //        host = configLoader.readString("host");
 
-        waitingList = new ArrayList<>();
+
         runningGames = new HashMap<>();
         waitingForLaunch = new HashMap<>();
         allProducedCards = new ArrayList<>();
         allClientHandlers = new ArrayList<>();
+
+        onlineWaitList = new ArrayList<>();
+        deckReaderWaitList = new ArrayList<>();
+        goldenTimeWaitList = new ArrayList<>();
+        oneShotWaitList = new ArrayList<>();
+        tavernBrawlWaitList = new ArrayList<>();
         dataBase = new DataBase(this);
+
+        ScheduledExecutorService ex = Executors.newSingleThreadScheduledExecutor();
+        ex.scheduleAtFixedRate(() -> {
+            setUpSuitAbles(onlineWaitList);
+            setUpSuitAbles(deckReaderWaitList);
+            setUpSuitAbles(onlineWaitList);
+            setUpSuitAbles(tavernBrawlWaitList);
+            setUpSuitAbles(goldenTimeWaitList);
+        }, 10, 20, TimeUnit.SECONDS);
     }
 
     @Override
     public void run() {
         while (isRunning) {
-            try{
+            try {
                 serverSocket = new ServerSocket(port);
-                while(isRunning){
+                while (isRunning) {
                     Socket socket = serverSocket.accept();
                     ClientHandler clientHandler = new ClientHandler(this, socket);
                     clientHandler.start();
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -72,32 +88,37 @@ public class Server extends Thread {
 
     @SneakyThrows
     public void requestOnlineGame(ClientHandler clientHandler) {
-        waitingList.add(clientHandler);
-        System.out.println(waitingList.size());
-        if (waitingList.size() > 1) {
-//            waitingList.sort(ClientHandler::compareTo);
-//            ClientHandler c1 = waitingList.get(0),c2 = waitingList.get(1);
-            MyPair<ClientHandler,ClientHandler> pair = new MyPair<>(waitingList.get(0),waitingList.get(1));
-            waitingForLaunch.put(pair,0);
-            waitingList.get(0).startOnlineGame(waitingList.get(1));
-            waitingList.get(1).startOnlineGame(waitingList.get(0));
-            runningGames.put(pair,new HashMap<>());
-            waitingList.remove(0);
-            waitingList.remove(0);
-        }
+        if (clientHandler.getBoardController().getClass() == Online.class) onlineWaitList.add(clientHandler);
+        else if (clientHandler.getBoardController().getClass() == DeckReader.class) deckReaderWaitList.add(clientHandler);
+        else if (clientHandler.getBoardController().getClass() == OneShot.class) oneShotWaitList.add(clientHandler);
+        else if (clientHandler.getBoardController().getClass() == TavernBrawl.class) tavernBrawlWaitList.add(clientHandler);
+        else if (clientHandler.getBoardController().getClass() == GoldenTime.class) goldenTimeWaitList.add(clientHandler);
+
+//        System.out.println(waitingList.size());
+//        if (waitingList.size() > 1) {
+////            waitingList.sort(ClientHandler::compareTo);
+////            ClientHandler c1 = waitingList.get(0),c2 = waitingList.get(1);
+//            MyPair<ClientHandler, ClientHandler> pair = new MyPair<>(waitingList.get(0), waitingList.get(1));
+//            waitingForLaunch.put(pair, 0);
+//            runningGames.put(pair, new HashMap<>());
+//            waitingList.get(0).startOnlineGame(waitingList.get(1));
+//            waitingList.get(1).startOnlineGame(waitingList.get(0));
+//            waitingList.remove(0);
+//            waitingList.remove(0);
+//        }
     }
 
-    private void setUpSuitAbles(){
+    private void setUpSuitAbles(ArrayList<ClientHandler> waitingList) {
         if (waitingList.size() > 1) {
             waitingList.sort(ClientHandler::compareTo);
-            MyPair<ClientHandler,ClientHandler> pair = new MyPair<>(waitingList.get(0),waitingList.get(1));
-            waitingForLaunch.put(pair,0);
+            MyPair<ClientHandler, ClientHandler> pair = new MyPair<>(waitingList.get(0), waitingList.get(1));
+            waitingForLaunch.put(pair, 0);
+            runningGames.put(pair, new HashMap<>());
             waitingList.get(0).startOnlineGame(waitingList.get(1));
             waitingList.get(1).startOnlineGame(waitingList.get(0));
-            runningGames.put(pair,new HashMap<>());
             waitingList.remove(0);
             waitingList.remove(0);
-            if(waitingList.size()>1)setUpSuitAbles();
+            if (waitingList.size() > 1) setUpSuitAbles(waitingList);
         }
     }
 
@@ -135,7 +156,7 @@ public class Server extends Thread {
                     if (v.getKey().getMainPlayer().getName().equals(viewer)) {
                         entry.getValue().put(v.getKey(), v.getValue() + 1);
                         runningGames.put(entry.getKey(), entry.getValue());
-                        if (v.getValue()  % 2 == 0) {
+                        if (v.getValue() % 2 == 0) {
                             v.getKey().setUpWatch(entry.getKey().getKey(), entry.getKey().getValue());
                             entry.getKey().getKey().addViewer(v.getKey().getMainPlayer().getName());
                             entry.getKey().getValue().addViewer(v.getKey().getMainPlayer().getName());
@@ -161,6 +182,7 @@ public class Server extends Thread {
 
     public void handleHibernateException() {
         System.out.println("hibernate exception");
-        for(ClientHandler clientHandler: allClientHandlers) clientHandler.sendResponse("Message",new Message("connection to data base failed"));
+        for (ClientHandler clientHandler : allClientHandlers)
+            clientHandler.sendResponse("Message", new Message("connection to data base failed"));
     }
 }

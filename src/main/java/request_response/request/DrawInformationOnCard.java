@@ -14,6 +14,7 @@ public class DrawInformationOnCard extends Request {
 
     @Override
     public void execute(ClientHandler clientHandler) {
+
         Card card = clientHandler.getCardController().getCardWithId(id);
         int hp = -30,attack = -30,durability = -30;
         boolean hasShield = false, hasTaunt = false, canAttack = false;
@@ -28,7 +29,7 @@ public class DrawInformationOnCard extends Request {
             attack = ((Weapon) card).getAttack();
             durability = ((Weapon) card).getDurability();
         }
-        clientHandler.sendResponse("DrawInformationOnCard", new request_response.response.DrawInformationOnCard(id,card.getManaCost(),hp,attack,durability,clientHandler.getCardController().isLocked(card),hasShield,hasTaunt,canAttack,card.getType()));
+        clientHandler.sendResponse("DrawInformationOnCard", new request_response.response.DrawInformationOnCard(id,clientHandler.getCardController().creatGuiCard(clientHandler.getCardController().getCardWithId(id))));
 
     }
 

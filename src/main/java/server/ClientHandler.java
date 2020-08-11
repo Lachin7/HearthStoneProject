@@ -1,5 +1,6 @@
 package server;
 
+import client.gui.myComponents.GuiCard;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
@@ -18,6 +19,9 @@ import server.controller.modes.DeckReader;
 import server.controller.modes.Online;
 import server.controller.modes.WatchGame;
 import server.controller.util.PlayerComparator;
+import server.models.Cards.Card;
+import server.models.Cards.Minion;
+import server.models.Cards.Weapon;
 import server.models.Player;
 import server.models.util.Log;
 
@@ -146,4 +150,6 @@ public class ClientHandler extends Thread implements Comparable<ClientHandler> {
     public void addViewer(String name) {
         sendResponse("AddViewer", new AddViewer(name));
     }
+
+
 }

@@ -4,7 +4,8 @@ import client.actionController.StatusActionController;
 import client.gui.myComponents.MyButton;
 import client.gui.myComponents.MyJLabel;
 import client.gui.myComponents.MyPanel;
-import javafx.util.Pair;
+import server.models.util.MyPair;
+
 
 import java.awt.*;
 import java.util.LinkedHashMap;
@@ -44,9 +45,9 @@ public class RankPanel extends MyPanel {
         }
     }
 
-    public void showMyRank(LinkedHashMap<Pair<String , Integer>,Integer> players){
+    public void showMyRank(LinkedHashMap<MyPair<String , Integer>,Integer> players){
         int i = 1;
-        for (Map.Entry<Pair<String, Integer>, Integer> entry : players.entrySet()){
+        for (Map.Entry<MyPair<String, Integer>, Integer> entry : players.entrySet()){
             new MyJLabel("   "+entry.getKey().getValue(),color,20,me,0,(i-1)*25,100,25);
             new MyJLabel("   "+entry.getKey().getKey(),color,20,me,100,(i-1)*25,200,25);
             new MyJLabel("   "+entry.getValue(),color,20,me,300,(i-1)*25,100,25);

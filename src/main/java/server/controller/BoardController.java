@@ -120,7 +120,7 @@ public abstract class BoardController {
         player.getInfoPassive().accept(initialSetupsPassiveVisitor, player, this);}
 
     public void defineThread(){
-        gameThread = new GameThread(this,timePerTurn,40000);
+        gameThread = new GameThread(this,getTimePerTurn(),40000);
         gameThread.start();
         ScheduledExecutorService ex = Executors.newSingleThreadScheduledExecutor();
         ex.scheduleAtFixedRate(this::updateChanges,0,1, TimeUnit.SECONDS);
@@ -400,21 +400,21 @@ public abstract class BoardController {
         minion.setAttack(minion.getAttack() + attackToAdd);
     }
 
-    private void syncButtonsWithCards(List<Minion> cards , List<Long> buttons){
+    private void syncButtonsWithCards(List<Minion> cards , LinkedList<Long> buttons){
         for (Minion card : cards)if (!buttons.contains(card.getId())) buttons.add(card.getId());
     }
 
-    public void syncFriendlyFieldComponents(ArrayList<Long> buttons) {
+    public void syncFriendlyFieldComponents(LinkedList<Long> buttons) {
         syncButtonsWithCards( getFriendlyFieldCards(),buttons);
         getFriendlyPlayer().setFieldCardsInGame(syncCardsWithButtons(getFriendlyFieldCards(),buttons));
     }
 
-    public void syncEnemyFieldComponents(ArrayList<Long> buttons) {
+    public void syncEnemyFieldComponents(LinkedList<Long> buttons) {
         syncButtonsWithCards(getEnemyFieldCards(),buttons);
         enemyPlayer.setFieldCardsInGame(syncCardsWithButtons(getEnemyFieldCards(),buttons));
     }
 
-    private ArrayList<Minion> syncCardsWithButtons(List<Minion> minions, List<Long> buttons) {
+    private ArrayList<Minion> syncCardsWithButtons(List<Minion> minions, LinkedList<Long> buttons) {
         ArrayList<Minion> result = new ArrayList<>();
         for (Long id : buttons) {
             for (Minion minion : minions) {

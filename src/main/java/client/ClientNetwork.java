@@ -49,7 +49,8 @@ public class ClientNetwork extends Thread {
                     clientGui.executeResponse(response);
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
+            System.out.println("cant connect");
             JOptionPane.showMessageDialog(null, "connection is lost");
         }
     }

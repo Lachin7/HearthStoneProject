@@ -1,17 +1,19 @@
 package request_response.response;
 
 import client.ClientGui;
+import client.gui.myComponents.GuiCard;
 import request_response.request.DrawInformationOnCard;
 import server.models.board.Side;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class UpdateFieldCards extends Response{
     private Side side;
     private boolean allowance, tauntExist;
-    private HashMap<Long,String> cards;
+    private ArrayList<GuiCard> cards;
 
-    public UpdateFieldCards(Side side, boolean allowance, HashMap<Long, String> cards,boolean tauntExist) {
+    public UpdateFieldCards(Side side, boolean allowance, ArrayList<GuiCard> cards, boolean tauntExist) {
         this.side = side;
         this.allowance = allowance;
         this.cards = cards;

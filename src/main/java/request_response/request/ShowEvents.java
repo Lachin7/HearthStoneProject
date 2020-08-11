@@ -4,7 +4,6 @@ import lombok.SneakyThrows;
 import request_response.response.Message;
 import server.ClientHandler;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 

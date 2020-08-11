@@ -1,17 +1,19 @@
 package request_response.request;
 
+import client.gui.myComponents.GuiCard;
 import server.controller.modes.Online;
 import server.models.board.Side;
 import server.ClientHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class UpdateFieldCards extends Request {
     private Side side;
-    ArrayList<Long> ids;
+    LinkedList<Long> ids;
 
-    public UpdateFieldCards(Side side, ArrayList<Long> ids) {
+    public UpdateFieldCards(Side side, LinkedList<Long> ids) {
         this.side = side;
         this.ids = ids;
     }
@@ -19,13 +21,13 @@ public class UpdateFieldCards extends Request {
     @Override
     public void execute(ClientHandler clientHandler) {
         System.out.println("execute update field req");
-        HashMap<Long, String> cards = new HashMap<>();
+        ArrayList<GuiCard> cards = new ArrayList<>();
         if (side == Side.FRIENDLY) {
             clientHandler.getBoardController().syncFriendlyFieldComponents(ids);
-            clientHandler.getBoardController().getFriendlyPlayer().getFieldCardsInGame().forEach(card -> cards.put(card.getId(), card.getName()));
+            clientHandler.getBoardController().getFriendlyPlayer().getFieldCardsInGame().forEach(card -> cards.add(clientHandler.getCardController().creatGuiCard(card)));
         } else {
             clientHandler.getBoardController().syncEnemyFieldComponents(ids);
-            clientHandler.getBoardController().getEnemyPlayer().getFieldCardsInGame().forEach(card -> cards.put(card.getId(), card.getName()));
+            clientHandler.getBoardController().getEnemyPlayer().getFieldCardsInGame().forEach(card -> cards.add(clientHandler.getCardController().creatGuiCard(card)));
         }
         clientHandler.sendResponse("UpdateFieldCards", new request_response.response.UpdateFieldCards(side, clientHandler.getBoardController().getAllowance(side), cards,clientHandler.getBoardController().tauntExist()));
         System.out.println("update field req by : "+ clientHandler.getMainPlayer().getName());

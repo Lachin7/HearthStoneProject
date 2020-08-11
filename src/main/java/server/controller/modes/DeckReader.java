@@ -13,6 +13,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class DeckReader extends Online {
@@ -25,20 +27,23 @@ public class DeckReader extends Online {
     }
 
     public void setAsFirst(){
-        resetPlayer(friendlyPlayer);
+        friendlyPlayer = new Player();
         friendlyPlayer.setChoosedHero(new Mage());
-        friendlyPlayer.setDeckCardsInGame(getCards(configLoader.readStringList("friend")));
+        friendlyPlayer.setDeckCardsInGame(getCards(configLoader.readStringList("friendly")));
+        initialDeckToHand(friendlyPlayer);
     }
 
     public void setAsSecond(){
-        resetPlayer(friendlyPlayer);
+        friendlyPlayer = new Player();
         friendlyPlayer.setChoosedHero(new Mage());
         friendlyPlayer.setDeckCardsInGame(getCards(configLoader.readStringList("enemy")));
+        initialDeckToHand(friendlyPlayer);
     }
 
     public ArrayList<Card> getCards(List<String> list) {
         ArrayList<Card> result = new ArrayList<>();
         for (String name : list) result.add(cardController.createCard(name));
+        System.out.println(Collections.singletonList(result));
         return result;
     }
 

@@ -16,6 +16,7 @@ import server.models.board.InfoPassive;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 
 public class AI extends BoardController {
 
@@ -194,10 +195,10 @@ public class AI extends BoardController {
     }
 
     private void updateFields(){
-        ArrayList<Long> arrayList = new ArrayList<>();
+        LinkedList<Long> arrayList = new LinkedList<>();
         for (Card card : friendlyPlayer.getFieldCardsInGame())arrayList.add(card.getId());
         new UpdateFieldCards(Side.FRIENDLY,arrayList).execute(clientHandler);
-        arrayList = new ArrayList<>();
+        arrayList = new LinkedList<>();
         for (Card card : enemyPlayer.getFieldCardsInGame())arrayList.add(card.getId());
         new UpdateFieldCards(Side.ENEMY,arrayList).execute(clientHandler);
     }

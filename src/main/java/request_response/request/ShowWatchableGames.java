@@ -1,11 +1,9 @@
 package request_response.request;
 
-import javafx.util.Pair;
 import server.ClientHandler;
 import server.models.util.MyPair;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class ShowWatchableGames extends Request {
     @Override

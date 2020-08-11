@@ -28,6 +28,7 @@ public class MyCardButton extends JButton implements Comparable<JButton> {
     private Card.type type;
     private ActionController actionController;
     private boolean isInGame=false,canAttack=false,hasTaunt=false,locked=false,hasShield=false;
+    private GuiCard guiCard;
 
     public MyCardButton(ActionController actionController, long id, String cardName, int width, Container container, ActionListener actionListener, boolean isInGame) {
         imageLoader = ImageLoader.getInstance();
@@ -51,6 +52,42 @@ public class MyCardButton extends JButton implements Comparable<JButton> {
         if (container != null) container.add(this);
         if (actionListener != null) addActionListener(actionListener);
 
+    }
+
+    public MyCardButton(ActionController actionController,GuiCard guiCard,int width, Container container, ActionListener actionListener, boolean isInGame,int x ,int y){
+        imageLoader = ImageLoader.getInstance();
+        this.actionController = actionController;
+        this.isInGame = isInGame;
+        if (guiCard!=null) {
+            setThisAsGui(guiCard);
+            this.setIcon(new ImageIcon(imageLoader.getCardsImages().get(cardName).getScaledInstance(width, width * 136 / 100, Image.SCALE_SMOOTH)));
+            actionController.getClientGui().getCardButtons().put(id,this);
+            actionController.drawInformationOnCard(id);
+        }else setIcon(new ImageIcon(imageLoader.loadImage("BlushRoomCardBack.png").getScaledInstance(width, width * 136 / 100, Image.SCALE_SMOOTH)));
+        setSize(width, width * 136 / 100);
+        setOpaque(false);
+        setContentAreaFilled(false);
+        setBorder(null);
+        this.width = width;
+        this.height = width * 136 / 100;
+        if (container != null) container.add(this);
+        if (actionListener != null) addActionListener(actionListener);
+        setBounds(x,y,width,height);
+    }
+
+    private void setThisAsGui(GuiCard guiCard){
+        this.id = guiCard.getId();
+        this.guiCard = guiCard;
+        this.mana = guiCard.getMana();
+        this.cardName = guiCard.getCardName();
+        this.hp = guiCard.getHp();
+        this.attack = guiCard.getHp();
+        this.durability = guiCard.getDurability();
+        this.locked = guiCard.isLocked();
+        this.hasShield = guiCard.isHasShield();
+        this.type = guiCard.getType();
+        this.canAttack = guiCard.isCanAttack();
+        this.hasTaunt = guiCard.isHasTaunt();
     }
 
     public MyCardButton(ActionController actionController, long id, String cardName, int width, Container container, ActionListener actionListener, boolean isInGame,int x ,int y) {
@@ -85,16 +122,8 @@ public class MyCardButton extends JButton implements Comparable<JButton> {
         if (hasTaunt && isInGame) g.drawString("Taunt", width / 3, height / 3);
     }
 
-    public void drawInformationOnCard(int mana, int hp, int attack, int durability, boolean locked, boolean hasShield, boolean hasTaunt,boolean canAttack, Card.type type) {
-        this.mana = mana;
-        this.hp = hp ;
-        this.attack = attack;
-        this.durability = durability;
-        this.locked  = locked;
-        this.hasShield = hasShield;
-        this.type = type;
-        this.canAttack = canAttack;
-        this.hasTaunt = hasTaunt;
+    public void drawInformationOnCard(GuiCard guiCard) {
+        setThisAsGui(guiCard);
         repaint();
         revalidate();
     }

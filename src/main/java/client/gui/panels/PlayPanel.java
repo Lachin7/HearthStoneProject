@@ -2,20 +2,27 @@ package client.gui.panels;
 
 import client.actionController.PlayActionController;
 import client.gui.animation.SimpleMove;
-import client.gui.myComponents.*;
-import client.gui.panels.subPanels.*;
+import client.gui.myComponents.GuiCard;
+import client.gui.myComponents.MyButton;
+import client.gui.myComponents.MyCardButton;
+import client.gui.myComponents.MyPanel;
+import client.gui.panels.subPanels.ChatPanel;
+import client.gui.panels.subPanels.WatchListPanel;
 import lombok.Getter;
 import lombok.Setter;
+import resLoader.MyAudioPlayer;
 import server.models.Cards.Card;
 import server.models.Cards.Target;
 import server.models.board.Side;
-import resLoader.MyAudioPlayer;
 import server.models.util.MyPair;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,14 +34,19 @@ public class PlayPanel extends MyPanel {
     private MyButton endTurn, events, newGame, hero1, hero2, power1, power2, questRewardsFriendly, questRewardsEnemy;
     private MyCardButton selectedCard, weapon1, weapon2;
     private JLabel[] friendlyManas, enemyManas;
-    private MyPanel mainPlayGround,discoverPanel;
+    private MyPanel mainPlayGround, discoverPanel;
     private int switchTimes = 0;
     private final MyAudioPlayer audioPlayer;
-    @Getter @Setter private ChatPanel chatPanel;
-    @Getter@Setter private WatchListPanel watchListPanel;
-    private int friendlyFieldY, enemyFieldY, friendlyHandY, enemyHandY,friendlyHeroHp=30, enemyHeroHp=30,  friendlyDeckSize=12,  enemyDeckSize=12, friendlyMana=0, enemyMana=0;
+    @Getter
+    @Setter
+    private ChatPanel chatPanel;
+    @Getter
+    @Setter
+    private WatchListPanel watchListPanel;
+    private int friendlyFieldY, enemyFieldY, friendlyHandY, enemyHandY, friendlyHeroHp = 30, enemyHeroHp = 30, friendlyDeckSize = 12, enemyDeckSize = 12, friendlyMana = 0, enemyMana = 0;
     private volatile int screenX = 0, screenY = 0, myX = 0, myY = 0, currentMana = 0;
-    @Getter private PlayActionController actionController;
+    @Getter
+    private PlayActionController actionController;
     private String time = "";
     private SimpleMove simpleMove;
     private final BufferedImage rope = imageLoader.loadImage("purpleRope.png");
@@ -57,8 +69,8 @@ public class PlayPanel extends MyPanel {
         endTurn = new MyButton("", "endTurn.png", this, actionEvent -> actionController.endTurn(), 953, 304);
         questRewardsEnemy = new MyButton("QuestRewards", "pinkCrystal100.png", this, actionEvent -> actionController.showQuestReward(Side.FRIENDLY), 25, 20);
         questRewardsFriendly = new MyButton("QuestRewards", "pinkCrystal100.png", this, actionEvent -> actionController.showQuestReward(Side.ENEMY), 25, 640);
-        new MyButton("back to Menu", "pinkCrystal100.png", this, actionEvent -> actionController.back(),25, 582);
-        new MyButton("exit", "pinkCrystal100.png", this, actionEvent -> actionController.exit(),25, 530);
+        new MyButton("back to Menu", "pinkCrystal100.png", this, actionEvent -> actionController.back(), 25, 582);
+        new MyButton("exit", "pinkCrystal100.png", this, actionEvent -> actionController.exit(), 25, 530);
         selectedCard = new MyCardButton(actionController, 150, "", 150, this, null, true);
         selectedCard.setBounds(1050, 475, 150, 207);
     }
@@ -115,14 +127,16 @@ public class PlayPanel extends MyPanel {
         g2d.drawString(enemyDeckSize + "", 1020, 300);
         g2d.drawString(friendlyMana + "", 780, 654);
         g2d.drawString(enemyMana + "", 780, 50);
-        if (!time.equals("")) for (int i = 0; i < Integer.parseInt(time)-40; i++) g2d.drawImage(rope,245+(i*33),310,null);
+        if (!time.equals(""))
+            for (int i = 0; i < Integer.parseInt(time) - 40; i++) g2d.drawImage(rope, 245 + (i * 33), 310, null);
         updateMana();
     }
 
     public void showQuestReward(HashMap<String, Integer> QR) {
         String message = "";
-        for (Map.Entry<String,Integer> entry : QR.entrySet())message+=entry.getKey()+"  :  "+entry.getValue()+"\n";
-        JOptionPane.showMessageDialog(null,message,"your quest and rewards",JOptionPane.INFORMATION_MESSAGE);
+        for (Map.Entry<String, Integer> entry : QR.entrySet())
+            message += entry.getKey() + "  :  " + entry.getValue() + "\n";
+        JOptionPane.showMessageDialog(null, message, "your quest and rewards", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private boolean haveEnoughMana(int cost) {
@@ -142,7 +156,7 @@ public class PlayPanel extends MyPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 deleteFromPanel(selectedCard);
-                selectedCard = new MyCardButton(actionController, id, name, 150, null, null, true,1050, 475);
+                selectedCard = new MyCardButton(actionController, id, name, 150, null, null, true, 1050, 475);
                 addToPanel(selectedCard);
             }
         });
@@ -167,9 +181,9 @@ public class PlayPanel extends MyPanel {
             actionController.setDiscovery(((MyCardButton) actionEvent.getSource()).getName());
             discoverPanel.setVisible(false);
         };
-        new MyCardButton(actionController, c1.getKey(), c1.getValue(), 100, discoverPanel, actionListener, true,25, 50);
-        new MyCardButton(actionController, c2.getKey(), c2.getValue(), 100, discoverPanel, actionListener, true,175, 50);
-        new MyCardButton(actionController, c3.getKey(), c3.getValue(), 100, discoverPanel, actionListener, true,300, 50);
+        new MyCardButton(actionController, c1.getKey(), c1.getValue(), 100, discoverPanel, actionListener, true, 25, 50);
+        new MyCardButton(actionController, c2.getKey(), c2.getValue(), 100, discoverPanel, actionListener, true, 175, 50);
+        new MyCardButton(actionController, c3.getKey(), c3.getValue(), 100, discoverPanel, actionListener, true, 300, 50);
     }
 
     public void initialMoveTargeting(ArrayList<Target> targets, long id) {
@@ -196,27 +210,27 @@ public class PlayPanel extends MyPanel {
         return null;
     }
 
-    public void updateHandCards(Side side, HashMap<Long, String> cards, boolean allowance, boolean cardBacksVisible) {
+    public void updateHandCards(Side side, ArrayList<GuiCard> cards, boolean allowance, boolean cardBacksVisible) {
         int fieldHeight = getFieldHeight(side);
         int handHeight;
         if (side == Side.FRIENDLY) handHeight = friendlyHandY;
         else handHeight = enemyHandY;
 
-        for (Component component : getFieldComponents(handHeight)){
+        for (Component component : getFieldComponents(handHeight)) {
             mainPlayGround.remove(component);
             actionController.getClientGui().getCardButtons().remove(component);
         }
         int num = 0;
-        for (Map.Entry<Long, String> entry : cards.entrySet()) {
-            MyCardButton cardButton ;
-            if (!cardBacksVisible){
-                cardButton = new MyCardButton(actionController, entry.getKey(), entry.getValue(), 50, mainPlayGround, null, true,140 + num * 50, handHeight);
-                actionController.drawInformationOnCard(entry.getKey());
-                addSelectedCardListener(cardButton, entry.getKey(), entry.getValue());
-            }
-            else  cardButton = new MyCardButton(actionController,entry.getKey(),"",50,mainPlayGround,null,true,140 + num * 50, handHeight);
+        for (GuiCard guiCard : cards) {
+            MyCardButton cardButton;
+            if (!cardBacksVisible) {
+                cardButton = new MyCardButton(actionController, guiCard, 50, mainPlayGround, null, true, 140 + num * 50, handHeight);
+                actionController.drawInformationOnCard(guiCard.getId());
+                addSelectedCardListener(cardButton, guiCard.getId(), guiCard.getCardName());
+            } else
+                cardButton = new MyCardButton(actionController, null, 50, mainPlayGround, null, true, 140 + num * 50, handHeight);
             num++;
-            if (allowance) {
+            if (allowance && haveEnoughMana(cardButton.getMana())) {
                 cardButton.addClickListener(currentMana);
                 ArrayList<MyCardButton> fieldComponents = getFieldComponents(fieldHeight);
                 Rectangle bounds1 = cardButton.getBounds();
@@ -235,8 +249,8 @@ public class PlayPanel extends MyPanel {
                 cardButton.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseReleased(MouseEvent e) {
-                        if (Math.abs(cardButton.getY() - handHeight) >= 10 && haveEnoughMana(cardButton.getMana())) {
-                            if (cardButton.getType() == Card.type.SPELL){
+                        if (Math.abs(cardButton.getY() - handHeight) >= 10) {
+                            if (cardButton.getType() == Card.type.SPELL) {
                                 mainPlayGround.remove(cardButton);
                                 audioPlayer.playQuick("spell.wav");
                             }
@@ -251,7 +265,8 @@ public class PlayPanel extends MyPanel {
                                         cardButton.setBounds(fieldComponents.size() * 100 + 140, fieldHeight, 100, 138);
                                     } else {
                                         for (Component component : fieldComponents) {
-                                            if(component.getX() >= x) {
+                                            System.out.println(component.getX());
+                                            if (component.getX() >= x) {
 
 
                                                 final Rectangle bounds = component.getBounds();
@@ -281,7 +296,7 @@ public class PlayPanel extends MyPanel {
                                 }
                                 fieldComponents.add(cardButton);
                             }
-                            afterHandToField(entry.getKey());
+                            afterHandToField(guiCard.getId());
                         } else {
                             cardButton.setCardSize(50);
                             cardButton.setBounds(bounds1);
@@ -309,6 +324,7 @@ public class PlayPanel extends MyPanel {
         actionController.drawPlayChanges();
         actionController.initialMoveTargeting(id);
         updateHands();
+        updateBothFields();
     }
 
     public void updateHands() {
@@ -318,42 +334,37 @@ public class PlayPanel extends MyPanel {
 
     }
 
-    public void updateFieldCards(Side side, HashMap<Long, String> cards, boolean allowance, boolean tauntExist) {
+    public void updateFieldCards(Side side, ArrayList<GuiCard> cards, boolean allowance, boolean tauntExist) {
         int fieldHeight = getFieldHeight(side);
-        for (Component component : getFieldComponents(fieldHeight)){
+        for (Component component : getFieldComponents(fieldHeight)) {
             mainPlayGround.remove(component);
             actionController.getClientGui().getCardButtons().remove(component);
         }
         int i = 0;
-        for (Map.Entry<Long, String> entry : cards.entrySet()) {
-            MyCardButton cardButton = new MyCardButton(actionController, entry.getKey(), entry.getValue(), 100, mainPlayGround, null, true,140 + i * 100, fieldHeight);
-            actionController.drawInformationOnCard(entry.getKey());
+        for (GuiCard guiCard : cards) {
+            MyCardButton cardButton = new MyCardButton(actionController, guiCard, 100, mainPlayGround, null, true, 140 + i * 100, fieldHeight);
+            actionController.drawInformationOnCard(guiCard.getId());
             i++;
-            addSelectedCardListener(cardButton, entry.getKey(), entry.getValue());
+            addSelectedCardListener(cardButton, guiCard.getId(), guiCard.getCardName());
             if (allowance) {
-                cardButton.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseEntered(MouseEvent eb) {
-                        if (cardButton.canAttack() && getFieldComponents(getOppositeFieldY(fieldHeight)).size() != 0) {
-                            cardButton.setBorder(BorderFactory.createBevelBorder(1, Color.ORANGE, Color.LIGHT_GRAY));
-                            cardButton.addActionListener(e -> {
-                                for (MyCardButton enemyCardButton : getFieldComponents(getOppositeFieldY(fieldHeight))) {
-                                    if (!tauntExist || cardButton.isTaunt()) {
-                                        enemyCardButton.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.BLACK));
-                                        enemyCardButton.addActionListener(actionEvent -> {
-                                            actionController.attack(entry.getKey(), enemyCardButton.getId());
-                                            audioPlayer.playQuick("attack.wav");
-                                            resetButton(hero2);
-                                            resetButton(hero1);
-                                            updateBothFields();
-                                        });
-                                        if (!tauntExist) setHeroAsTarget(side, cardButton);
-                                    }
-                                }
-                            });
+                if (cardButton.canAttack() && getFieldComponents(getOppositeFieldY(fieldHeight)).size() != 0) {
+                    cardButton.setBorder(BorderFactory.createBevelBorder(1, Color.ORANGE, Color.LIGHT_GRAY));
+                    cardButton.addActionListener(e -> {
+                        for (MyCardButton enemyCardButton : getFieldComponents(getOppositeFieldY(fieldHeight))) {
+                            if (!tauntExist || enemyCardButton.isTaunt()) {
+                                enemyCardButton.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.BLACK));
+                                enemyCardButton.addActionListener(actionEvent -> {
+                                    actionController.attack(guiCard.getId(), enemyCardButton.getId());
+                                    audioPlayer.playQuick("attack.wav");
+                                    resetButton(hero2);
+                                    resetButton(hero1);
+                                    updateBothFields();
+                                });
+                                if (!tauntExist) setHeroAsTarget(side, cardButton);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         }
         for (Component component : mainPlayGround.getComponents()) component.repaint();
@@ -382,18 +393,21 @@ public class PlayPanel extends MyPanel {
     private void setHeroAsTarget(Side side, MyCardButton cardButton) {
         if (side == Side.ENEMY) {
             resetButton(hero2);
+            hero1.setBorderPainted(true);
             hero1.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.BLACK));
             hero1.addActionListener(actionEvent -> {
                 //todo
-//                actionController.attack(cardButton.getId(),null);
+                actionController.attack(cardButton.getId(),null);
                 resetButton(cardButton);
                 resetButton(hero1);
             });
         } else {
             resetButton(hero1);
+            hero2.setBorderPainted(true);
             hero2.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.BLACK));
             hero2.addActionListener(actionEvent -> {
                 //todo
+                actionController.attack(cardButton.getId(),null);
 //                boardController.attack(attacker, boardController.getEnemyPlayer().getPlayersChoosedHero());
                 resetButton(cardButton);
                 resetButton(hero2);
@@ -433,7 +447,7 @@ public class PlayPanel extends MyPanel {
         for (int j = i; j < labels.length; j++) labels[j].setVisible(false);
     }
 
-    public void setChanges(int friendlyHeroHp, int enemyHeroHp, int friendlyDeckSize, int enemyDeckSize, int friendlyMana, int enemyMana,String time) {
+    public void setChanges(int friendlyHeroHp, int enemyHeroHp, int friendlyDeckSize, int enemyDeckSize, int friendlyMana, int enemyMana, String time) {
         this.friendlyHeroHp = friendlyHeroHp;
         this.enemyHeroHp = enemyHeroHp;
         this.friendlyDeckSize = friendlyDeckSize;
@@ -481,19 +495,19 @@ public class PlayPanel extends MyPanel {
             }
         };
         if (allowance && hasEnoughMana && side == Side.FRIENDLY) {
-            power2.setBorderPainted(false);
+            resetButton(power2);
             power1.setBorderPainted(true);
             power1.setBorder(BorderFactory.createBevelBorder(1, Color.MAGENTA, Color.GRAY));
             power1.addActionListener(powerListener);
         } else if (allowance && hasEnoughMana && side == Side.ENEMY) {
-            power1.setBorderPainted(false);
+            resetButton(power1);
             power2.setBorderPainted(true);
             power2.setBorder(BorderFactory.createBevelBorder(1, Color.MAGENTA, Color.GRAY));
             power2.addActionListener(powerListener);
         }
     }
 
-    public void addSwitch(){
+    public void addSwitch() {
         switchTimes++;
     }
 

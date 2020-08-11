@@ -1,14 +1,15 @@
 package request_response.response;
 
 import client.ClientGui;
-import javafx.util.Pair;
+import server.models.util.MyPair;
+
 
 import java.util.LinkedHashMap;
 
 public class ShowMyRank extends Response{
-    LinkedHashMap<Pair<String , Integer>,Integer> players;
+    LinkedHashMap<MyPair<String , Integer>,Integer> players;
 
-    public ShowMyRank(LinkedHashMap<Pair<String, Integer>, Integer> players) {
+    public ShowMyRank(LinkedHashMap<MyPair<String, Integer>, Integer> players) {
         this.players = players;
     }
 
