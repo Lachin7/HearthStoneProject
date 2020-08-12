@@ -1,6 +1,6 @@
 package server.models.board;
 
-import server.controller.BoardController;
+import server.controller.Board.BoardController;
 import server.controller.actionVisitors.passive.PassiveVisitor;
 import server.controller.actionVisitors.passive.VisitablePassive;
 import server.models.Player;

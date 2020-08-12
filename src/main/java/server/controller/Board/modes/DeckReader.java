@@ -1,41 +1,44 @@
-package server.controller.modes;
+package server.controller.Board.modes;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import lombok.SneakyThrows;
 import resLoader.ConfigLoader;
 import server.ClientHandler;
 import server.models.Cards.Card;
 import server.models.Heroes.Mage;
 import server.models.Player;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class DeckReader extends Online {
 
     private ConfigLoader configLoader;
+    private Player first, second;
 
     public DeckReader(ClientHandler clientHandler) {
         super(clientHandler);
         configLoader = new ConfigLoader("deckReaderConfig");
+//        first = new Player();
+//        second = new Player();
+//        setPlayer(first,"friendly");
+//        setPlayer(second,"enemy");
     }
 
+//    private void setPlayer(Player player, String deck) {
+//        player.setChoosedHero(new Mage());
+//        player.setDeckCardsInGame(getCards(configLoader.readStringList(deck)));
+//        initialDeckToHand(player);
+//    }
+
     public void setAsFirst(){
-        friendlyPlayer = new Player();
-        friendlyPlayer.setChoosedHero(new Mage());
+        friendlyPlayer = clientHandler.getMainPlayer();
+        reset(friendlyPlayer);
         friendlyPlayer.setDeckCardsInGame(getCards(configLoader.readStringList("friendly")));
         initialDeckToHand(friendlyPlayer);
     }
 
     public void setAsSecond(){
-        friendlyPlayer = new Player();
-        friendlyPlayer.setChoosedHero(new Mage());
+        friendlyPlayer = clientHandler.getMainPlayer();
+        reset(friendlyPlayer);
         friendlyPlayer.setDeckCardsInGame(getCards(configLoader.readStringList("enemy")));
         initialDeckToHand(friendlyPlayer);
     }
@@ -43,16 +46,11 @@ public class DeckReader extends Online {
     public ArrayList<Card> getCards(List<String> list) {
         ArrayList<Card> result = new ArrayList<>();
         for (String name : list) result.add(cardController.createCard(name));
-        System.out.println(Collections.singletonList(result));
         return result;
     }
 
     @Override
-    protected void setPlayers() {
-    }
-
-    @Override
-    protected void initialDeckToHand(Player player) {
+    public void initialDeckToHand(Player player) {
         for (int i = 0; i < 3; i++) {
             player.getHandsCards().add(player.getDeckCardsInGame().get(0));
             player.getDeckCardsInGame().remove(0);
@@ -60,8 +58,18 @@ public class DeckReader extends Online {
     }
 
     @Override
+    public void defineThread() {
+        super.defineThread();
+    }
+
+    @Override
+    public void setPlayers() {
+        friendlyPlayer = clientHandler.getMainPlayer();
+
+    }
+    @Override
     protected Card shuffleAndGetCard() {
-        return getCurrentPlayer().getHandsCards().get(0);
+        return getCurrentPlayer().getDeckCardsInGame().get(0);
     }
 
 //    @SneakyThrows

@@ -1,7 +1,7 @@
 package server.controller.actionVisitors.card;
 
-import server.controller.BoardController;
-import server.controller.modes.DeckReader;
+import server.controller.Board.BoardController;
+import server.controller.Board.modes.DeckReader;
 import server.models.Cards.Card;
 import server.models.Cards.Minion;
 import server.models.Cards.minions.*;

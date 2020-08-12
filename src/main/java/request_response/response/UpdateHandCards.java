@@ -12,18 +12,20 @@ public class UpdateHandCards extends Response{
     private Side side;
     private boolean allowance, cardBacksVisible;
     private ArrayList<GuiCard> cards;
+    private int maxFieldSize;
 
-    public UpdateHandCards(Side side, boolean allowance, ArrayList<GuiCard>  cards,boolean cardBacksVisible ) {
+    public UpdateHandCards(Side side, boolean allowance, ArrayList<GuiCard>  cards,boolean cardBacksVisible,int maxFieldSize ) {
         this.side = side;
         this.cardBacksVisible = cardBacksVisible;
         this.allowance = allowance;
         this.cards = cards;
+        this.maxFieldSize = maxFieldSize;
     }
 
     @Override
     public void execute(ClientGui clientGui) {
 
-        clientGui.getPlayPanel().updateHandCards(side,cards,allowance,cardBacksVisible);
+        clientGui.getPlayPanel().updateHandCards(side,cards,allowance,cardBacksVisible,maxFieldSize);
         for (Long id : clientGui.getCardButtons().keySet())clientGui.getActionController().drawInformationOnCard(id);
 
     }

@@ -34,7 +34,6 @@ public class JsonResponseMaker {
         responses.put("ExitPlay", ExitPlay.class);
         responses.put("GoToPanel", GoToPanel.class);
         responses.put("InitialMoveTargeting", InitialMoveTargeting.class);
-//        responses.put("InitialPlay", InitialPlay.class);
         responses.put("Message", Message.class);
         responses.put("SetBattleGroundPic", SetBattleGroundPic.class);
         responses.put("SetBuyShowCase", SetBuyShowCase.class);
@@ -61,8 +60,6 @@ public class JsonResponseMaker {
     }
 
     public Response makeResponse(String responseName, String json) {
-//        System.out.println("res : "+responseName);
-//        System.out.println("json : "+json);
         return gson.fromJson(json, (Type) responses.get(responseName));
     }
 }

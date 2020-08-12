@@ -47,11 +47,9 @@ public class DataBase {
     public synchronized void save(Object o) {
         try {
             Session session = sessionFactory.openSession();
-//        session.clear();
             session.beginTransaction();
             session.saveOrUpdate(o);
             session.getTransaction().commit();
-            session.clear();
             session.close();
         } catch (Exception e) {
             server.handleHibernateException();
@@ -68,14 +66,6 @@ public class DataBase {
             server.handleHibernateException();
         }
         return null;
-    }
-
-    public  void update(Object o) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.update(o);
-        session.getTransaction().commit();
-        session.close();
     }
 
     public  void delete(Object o) {
@@ -97,6 +87,7 @@ public class DataBase {
             session.close();
             return list;
         } catch (HibernateException e) {
+            e.printStackTrace();
             server.handleHibernateException();
         }
         return null;

@@ -1,6 +1,6 @@
 package server.controller.actionVisitors.card;
 
-import server.controller.BoardController;
+import server.controller.Board.BoardController;
 import server.models.Cards.minions.*;
 import server.models.Cards.spells.*;
 import server.models.Cards.spells.questAndReward.LearnDraconic;

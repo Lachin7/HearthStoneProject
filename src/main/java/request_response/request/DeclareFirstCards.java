@@ -2,7 +2,7 @@ package request_response.request;
 
 import request_response.response.GoToPanel;
 import server.ClientHandler;
-import server.controller.modes.Online;
+import server.controller.Board.modes.Online;
 
 import java.util.ArrayList;
 

@@ -3,8 +3,8 @@ package request_response.request;
 import server.models.Cards.Card;
 import request_response.response.ChoosePassive;
 import server.ClientHandler;
-import server.controller.BoardController;
-import server.controller.modes.Practice;
+import server.controller.Board.BoardController;
+import server.controller.Board.modes.Practice;
 
 import java.util.HashMap;
 
@@ -23,12 +23,12 @@ public class ChooseGameSetUps extends Request {
         HashMap<Long,String> result = new HashMap<>();
         for (Card card : clientHandler.getBoardController().getCurrentPlayer().getHandsCards())result.put(card.getId(),card.getName());
         if (boardController instanceof Practice){
+            clientHandler.sendResponse("ChoosePassive",new ChoosePassive());
             clientHandler.sendResponse("ChooseFirstCards",new request_response.response.ChooseFirstCards(result));
             clientHandler.getBoardController().addSwitch();
-            clientHandler.sendResponse("ChoosePassive",new ChoosePassive());
             result = new HashMap<>();
             for (Card card : clientHandler.getBoardController().getCurrentPlayer().getHandsCards())result.put(card.getId(),card.getName());
-            clientHandler.getBoardController().addSwitch();
+
         }
         clientHandler.sendResponse("ChooseFirstCards",new request_response.response.ChooseFirstCards(result));
 

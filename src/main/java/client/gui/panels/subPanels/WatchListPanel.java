@@ -42,6 +42,7 @@ public class WatchListPanel extends MyPanel {
     public void deleteMember(String name) {
        remove( viewers.get(name));
        this.removeAll();
+       viewers.remove(name);
        for (MyJLabel label: viewers.values()) this.add(label);
        this.repaint();
        revalidate();

@@ -17,7 +17,6 @@ public class Deck {
     @Getter
     private long id;
     @ManyToMany
-//    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @Column
     private List<Card> cards;
     @Column
@@ -36,10 +35,6 @@ public class Deck {
     @Setter
     @Column
     private double winToAll;
-//    @JoinColumn(name = "most used card")
-//    @OneToOne
-//    @Getter
-//    @Setter
     @Transient
     private Card mostUsedCard;
 

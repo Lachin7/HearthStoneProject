@@ -5,8 +5,6 @@ import javax.swing.*;
 
 public class GameFrame extends JFrame {
 
-    private Boolean firstGame = true;
-
     private static  GameFrame myGameFrame = null;
     public static GameFrame getInstance(){
         if(myGameFrame == null) myGameFrame = new GameFrame();
@@ -23,7 +21,4 @@ public class GameFrame extends JFrame {
         this.setLayout(null);
     }
 
-    public void setFirstGame(Boolean firstGame) {
-        this.firstGame = firstGame;
-    }
 }

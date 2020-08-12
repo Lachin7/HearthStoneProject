@@ -1,6 +1,6 @@
 package server.controller.actionVisitors.passive;
 
-import server.controller.BoardController;
+import server.controller.Board.BoardController;
 import server.models.Player;
 
 public class MinionDiesPassiveVisitor implements PassiveVisitor{

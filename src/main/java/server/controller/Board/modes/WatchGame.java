@@ -1,14 +1,11 @@
-package server.controller.modes;
+package server.controller.Board.modes;
 
 import request_response.response.GoToPanel;
 import request_response.response.Message;
-import resLoader.MyAudioPlayer;
 import server.models.Player;
 import server.models.board.Side;
 import server.ClientHandler;
-import server.controller.BoardController;
-
-import java.util.Random;
+import server.controller.Board.BoardController;
 
 public class WatchGame extends BoardController {
 
@@ -19,7 +16,7 @@ public class WatchGame extends BoardController {
     }
 
     @Override
-    protected void setPlayers() {
+    public void setPlayers() {
 
     }
 
@@ -40,7 +37,7 @@ public class WatchGame extends BoardController {
 
 
     @Override
-    protected void initialDeckToHand(Player player) {
+    public void initialDeckToHand(Player player) {
 
     }
 
@@ -50,7 +47,7 @@ public class WatchGame extends BoardController {
     }
 
     @Override
-    protected void checkGameFinished() {
+    public void checkGameFinished() {
         clientHandler.sendResponse("Message",new Message("game finished "));
         clientHandler.sendResponse("GoToPanel",new GoToPanel("mainMenu"));
     }

@@ -1,13 +1,11 @@
 package request_response.request;
 
-import request_response.response.Response;
 import request_response.response.SetUpChatAndWatch;
 import request_response.response.Switch;
 import server.ClientHandler;
-import server.controller.BoardController;
-import server.controller.modes.AI;
-import server.controller.modes.Online;
-import server.controller.modes.Practice;
+import server.controller.Board.modes.AI;
+import server.controller.Board.modes.Online;
+import server.controller.Board.modes.Practice;
 
 public class SetUpPlayForPlayer extends Request {
     @Override

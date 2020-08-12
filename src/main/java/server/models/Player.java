@@ -110,7 +110,6 @@ public class Player {
         DeckCardsInGame = new ArrayList<>();
         FieldCardsInGame = new ArrayList<>();
         winLoseHistory = new LinkedList<>();
-
     }
 
 

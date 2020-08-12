@@ -86,6 +86,5 @@ public class StatusPanel extends MyPanel {
         new MyJLabel("most used card  : " + moseUsedCard, color1, 15, this, 240, 170, 400, 20);
         if (currentDeck) new MyJLabel("this is selected as your current deck", color2, 15, this, 240, 187, 400, 20);
         new MyJLabel("click on an another deck to change your current deck", color2, 15, this, 240, 202, 400, 20);
-        //todo u can have the labels out of the method
     }
 }

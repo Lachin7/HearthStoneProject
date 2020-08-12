@@ -1,6 +1,6 @@
 package server.models.Cards.minions;
 
-import server.controller.BoardController;
+import server.controller.Board.BoardController;
 import server.controller.actionVisitors.card.CardVisitor;
 import server.models.Cards.Card;
 import server.models.Cards.Minion;

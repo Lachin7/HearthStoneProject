@@ -1,15 +1,13 @@
-package server.controller.modes;
+package server.controller.Board.modes;
 
-import lombok.Setter;
 import request_response.response.EndTurn;
 import request_response.response.GoToPanel;
 import request_response.response.Message;
 import server.models.Cards.Card;
 import server.models.Cards.Minion;
-import server.models.Player;
 import server.models.board.Side;
 import server.ClientHandler;
-import server.controller.BoardController;
+import server.controller.Board.BoardController;
 
 public class Online extends BoardController {
 
@@ -18,13 +16,12 @@ public class Online extends BoardController {
     }
 
     @Override
-    protected void setPlayers() {
+    public void setPlayers() {
         chooseMainAsFriend();
     }
 
     @Override
-    public void endTurn() {
-        System.out.println("turn ended");
+    public synchronized void endTurn() {
         restartThread();
         if (switchTimes%2==0) {
             for (Card card : friendlyPlayer.getFieldCardsInGame()) card.accept(endTurnCardVisitor, null, this);
@@ -39,7 +36,7 @@ public class Online extends BoardController {
     }
 
     @Override
-    protected void checkGameFinished() {
+    public void checkGameFinished() {
         if (friendlyPlayer.getChoosedHero().getHP()<=0){
             clientHandler.sendResponse("Message",new Message("you Lost the game :("));
             playerController.makePlayerLoser(clientHandler.getMainPlayer());
@@ -72,11 +69,11 @@ public class Online extends BoardController {
         return side == Side.ENEMY;
     }
 
-    public void initializeEnemy(Player enemyPlayer) {
-        this.enemyPlayer = enemyPlayer;
-//        resetPlayer(enemyPlayer);
-//        initialDeckToHand(enemyPlayer);
-    }
+//    public void initializeEnemy(Player enemyPlayer) {
+//        this.enemyPlayer = enemyPlayer;
+////        resetPlayer(enemyPlayer);
+////        initialDeckToHand(enemyPlayer);
+//    }
 
 
     //    @Override

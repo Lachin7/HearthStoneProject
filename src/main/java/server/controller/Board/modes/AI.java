@@ -1,5 +1,6 @@
-package server.controller.modes;
+package server.controller.Board.modes;
 
+import lombok.SneakyThrows;
 import request_response.response.EndTurn;
 import request_response.response.GoToPanel;
 import request_response.response.Message;
@@ -7,7 +8,7 @@ import server.models.board.Side;
 import request_response.request.UpdateFieldCards;
 import request_response.request.UpdateHandCards;
 import server.ClientHandler;
-import server.controller.BoardController;
+import server.controller.Board.BoardController;
 import server.models.Cards.Card;
 import server.models.Cards.Minion;
 import server.models.Cards.Target;
@@ -27,13 +28,11 @@ public class AI extends BoardController {
     }
 
     @Override
-    protected void setPlayers() {
+    public void setPlayers() {
       chooseMainAsFriend();
       chooseMainAsEnemy();
-//      if (enemyPlayer!=null)initialDeckToHand(enemyPlayer);
       enemyPlayer.setInfoPassive(InfoPassive.getRandomPassives(1).get(0));
       setUpPassives(enemyPlayer);
-      defineThread();
     }
 
     @Override
@@ -51,7 +50,7 @@ public class AI extends BoardController {
     }
 
     @Override
-    protected void checkGameFinished() {
+    public void checkGameFinished() {
         if(friendlyPlayer.getChoosedHero().getHP()<=0){
             clientHandler.sendResponse("Message",new Message("you lost :(("));
             clientHandler.sendResponse("GoToPanel",new GoToPanel("mainMenu"));
@@ -77,7 +76,7 @@ public class AI extends BoardController {
 
     @Override
     public boolean getAllowance(Side side) {
-        return switchTimes == 0;
+        return side==Side.FRIENDLY && switchTimes%2==0;
     }
 
     @Override
@@ -87,7 +86,7 @@ public class AI extends BoardController {
 
     @Override
     public boolean getCardBackVisible(Side side) {
-        return true;
+        return side==Side.ENEMY;
     }
 
     private void chooseAffordableCard(){
@@ -124,29 +123,16 @@ public class AI extends BoardController {
         }
     }
 
-//    private boolean attackMinion(Minion minion){
-//        for (Minion minion1 : getFriendlyPlayer().getFieldCardsInGame()){
-//            if((!tauntExist(1))||minion1.hasTaunt())attack(minion,minion1);
-//        }
-//    }
-
+    @SneakyThrows
     private void rest(){
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Thread.sleep(1000);
     }
 
 
     private boolean checkIfHeroCanDie(){
         if(tauntExist())return false;
         int maxAttack = 0;
-        for (Minion minion : getEnemyFieldCards()){
-            if(minion.canAttack()){
-                maxAttack+=minion.getAttack();
-            }
-        }
+        for (Minion minion : getEnemyFieldCards()) if(minion.canAttack()) maxAttack+=minion.getAttack();
         return maxAttack >= getFriendlyPlayer().getChoosedHero().getHP();
     }
 
@@ -186,11 +172,7 @@ public class AI extends BoardController {
         }
     }
     private boolean AICanAttack(){
-        if(getFriendlyFieldCards().size()!=0) {
-            for (Minion minion : getFriendlyFieldCards()) {
-                if (minion.canAttack()) return true;
-            }
-        }
+        if(getFriendlyFieldCards().size()!=0) for (Minion minion : getFriendlyFieldCards()) if (minion.canAttack()) return true;
         return false;
     }
 

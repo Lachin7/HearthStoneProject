@@ -77,7 +77,7 @@ public class CardController {
     }
 
     public List<Card> createDefaultDeck(){
-        return new ArrayList<Card>(Arrays.asList(createCard("BeamingSidekick"),createCard("BonechewerVanguard"),createCard("ConchguardWarlord"),createCard("Dragonrider"),createCard("BeamingSidekick"),createCard("DreadScale"),createCard("FrozenShadoweaver"),createCard("FungalBruiser"),createCard("BeamingSidekick"),createCard("GoblinBomb"),createCard("HighPriestAmet"),createCard("Lifedrinker"),createCard("Locust"),createCard("LostSpirit"),createCard("MagmaRager"),createCard("MurlocRaider"),createCard("Ratcatcher"),createCard("RocketAugmerchant"),createCard("Sathrovarr"),createCard("ScavengingShivarra")));
+        return new ArrayList<>(Arrays.asList(createCard("BeamingSidekick"),createCard("BonechewerVanguard"),createCard("ConchguardWarlord"),createCard("Dragonrider"),createCard("BeamingSidekick"),createCard("DreadScale"),createCard("FrozenShadoweaver"),createCard("FungalBruiser"),createCard("BeamingSidekick"),createCard("GoblinBomb"),createCard("HighPriestAmet"),createCard("Lifedrinker"),createCard("Locust"),createCard("LostSpirit"),createCard("MagmaRager"),createCard("MurlocRaider"),createCard("Ratcatcher"),createCard("RocketAugmerchant"),createCard("Sathrovarr"),createCard("ScavengingShivarra")));
     }
 
 
@@ -166,7 +166,11 @@ public class CardController {
     }
 
     public Card getCardWithId(long id) {
-        for (Card card : clientHandler.getServer().getAllProducedCards()) if (card.getId() == id) return card;
+        for (Card card : clientHandler.getServer().getAllProducedCards()) {
+            if (card !=null && card.getId() == id) {
+                return card;
+            }
+        }
         System.out.println("card id not found!!!!" );
         return null;
     }

@@ -1,6 +1,6 @@
 package server.models.Heroes;
 
-import server.controller.BoardController;
+import server.controller.Board.BoardController;
 import server.controller.actionVisitors.heroPower.HeroPowerVisitor;
 import server.controller.actionVisitors.heroPower.VisitableHeroPower;
 import server.models.Character;

@@ -26,7 +26,4 @@ public class ShopActionController extends ActionController{
         clientGui.sendRequest("SellCard",new SellCard(id,name));
     }
 
-    public void setSelectedCardInShop(Long key, String value) {
-        clientGui.sendRequest("SetSelectedCardInShop",new SetSelectedCardInShop(key,value));
-    }
 }

@@ -100,8 +100,7 @@ public class MyCardButton extends JButton implements Comparable<JButton> {
         setPreferredSize(new Dimension(width, width * 136 / 100));
         this.width = width;
         this.height = width * 136 / 100;
-        setIcon(new ImageIcon(imageLoader.getCardsImages().get(cardName).getScaledInstance(width, width * 136 / 100, Image.SCALE_SMOOTH)));
-        //todo have the filed version of the cards
+      if(cardName!=null)  setIcon(new ImageIcon(imageLoader.getCardsImages().get(cardName).getScaledInstance(width, width * 136 / 100, Image.SCALE_SMOOTH)));
     }
 
     @Override
@@ -128,12 +127,12 @@ public class MyCardButton extends JButton implements Comparable<JButton> {
         revalidate();
     }
 
-    private static BufferedImage makeGrayImage(BufferedImage image) {
-        BufferedImage result = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        ColorConvertOp colorConvertOp = new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY), null);
-        colorConvertOp.filter(image, result);
-        return result;
-    }
+//    private static BufferedImage makeGrayImage(BufferedImage image) {
+//        BufferedImage result = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+//        ColorConvertOp colorConvertOp = new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY), null);
+//        colorConvertOp.filter(image, result);
+//        return result;
+//    }
 
     public void addClickListener(int total) {
 

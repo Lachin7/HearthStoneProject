@@ -21,10 +21,6 @@ public class PlayActionController extends ActionController{
         clientGui.sendRequest("DeclarePassive", new DeclarePassive(passive));
     }
 
-//    public void chooseFirstCards(boolean chooseForEnemy) {
-//        client.sendRequest("ChooseFirstCards",new ChooseFirstCards(chooseForEnemy));
-//    }
-
     public void declareFirstCardChoices(ArrayList<Long> replacedCard) {
         clientGui.sendRequest("DeclareFirstCards",new DeclareFirstCards(replacedCard));
     }
@@ -69,10 +65,6 @@ public class PlayActionController extends ActionController{
 
     public void showQuestReward(Side side) {
         clientGui.sendRequest("DrawQuestReward",new DrawQuestReward(side));
-    }
-
-    public void updateMana() {
-        clientGui.sendRequest("UpdateGameMana",new UpdateGameMana());
     }
 
     public void showEvents() {

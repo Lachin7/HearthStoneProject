@@ -2,8 +2,8 @@ package request_response.request;
 
 import request_response.response.Switch;
 import server.ClientHandler;
-import server.controller.modes.Online;
-import server.controller.modes.Practice;
+import server.controller.Board.modes.Online;
+import server.controller.Board.modes.Practice;
 import server.models.board.Side;
 
 public class EndTurn extends Request {

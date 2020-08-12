@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import server.controller.BoardController;
+import server.controller.Board.BoardController;
 import server.controller.actionVisitors.card.VisitableCard;
 import server.controller.actionVisitors.card.CardVisitor;
 import server.models.Character;

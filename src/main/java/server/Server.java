@@ -3,11 +3,12 @@ package server;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import request_response.response.AskForPermissionToWatch;
+import request_response.response.GoToPanel;
 import request_response.response.Message;
 import request_response.response.ShowChatMessage;
 import resLoader.ConfigLoader;
 import resLoader.database.DataBase;
-import server.controller.modes.*;
+import server.controller.Board.modes.*;
 import server.models.Cards.Card;
 import server.models.Player;
 import server.models.util.MyPair;
@@ -25,16 +26,14 @@ import java.util.concurrent.TimeUnit;
 public class Server extends Thread {
 
     private int port;
-    //    private String host;
     private ConfigLoader configLoader;
     private ServerSocket serverSocket;
     @Getter
-    private ArrayList<ClientHandler> onlineWaitList, deckReaderWaitList, goldenTimeWaitList, oneShotWaitList, tavernBrawlWaitList;
+    private ArrayList<ClientHandler> onlineWaitList, deckReaderWaitList, goldenTimeWaitList, oneShotWaitList, tavernBrawlWaitList, allClientHandlers;
     @Getter
     private HashMap<MyPair<ClientHandler, ClientHandler>, HashMap<ClientHandler, Integer>> runningGames;
     @Getter
     private HashMap<MyPair<ClientHandler, ClientHandler>, Integer> waitingForLaunch;
-    private ArrayList<ClientHandler> allClientHandlers;
     @Getter
     private ArrayList<Card> allProducedCards;
     @Getter
@@ -45,8 +44,6 @@ public class Server extends Thread {
     public Server() {
         configLoader = new ConfigLoader("serverConfig");
         port = configLoader.readInteger("port");
-//        host = configLoader.readString("host");
-
 
         runningGames = new HashMap<>();
         waitingForLaunch = new HashMap<>();
@@ -64,7 +61,7 @@ public class Server extends Thread {
         ex.scheduleAtFixedRate(() -> {
             setUpSuitAbles(onlineWaitList);
             setUpSuitAbles(deckReaderWaitList);
-            setUpSuitAbles(onlineWaitList);
+            setUpSuitAbles(oneShotWaitList);
             setUpSuitAbles(tavernBrawlWaitList);
             setUpSuitAbles(goldenTimeWaitList);
         }, 10, 20, TimeUnit.SECONDS);
@@ -79,6 +76,7 @@ public class Server extends Thread {
                     Socket socket = serverSocket.accept();
                     ClientHandler clientHandler = new ClientHandler(this, socket);
                     clientHandler.start();
+                    allClientHandlers.add(clientHandler);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -93,19 +91,6 @@ public class Server extends Thread {
         else if (clientHandler.getBoardController().getClass() == OneShot.class) oneShotWaitList.add(clientHandler);
         else if (clientHandler.getBoardController().getClass() == TavernBrawl.class) tavernBrawlWaitList.add(clientHandler);
         else if (clientHandler.getBoardController().getClass() == GoldenTime.class) goldenTimeWaitList.add(clientHandler);
-
-//        System.out.println(waitingList.size());
-//        if (waitingList.size() > 1) {
-////            waitingList.sort(ClientHandler::compareTo);
-////            ClientHandler c1 = waitingList.get(0),c2 = waitingList.get(1);
-//            MyPair<ClientHandler, ClientHandler> pair = new MyPair<>(waitingList.get(0), waitingList.get(1));
-//            waitingForLaunch.put(pair, 0);
-//            runningGames.put(pair, new HashMap<>());
-//            waitingList.get(0).startOnlineGame(waitingList.get(1));
-//            waitingList.get(1).startOnlineGame(waitingList.get(0));
-//            waitingList.remove(0);
-//            waitingList.remove(0);
-//        }
     }
 
     private void setUpSuitAbles(ArrayList<ClientHandler> waitingList) {
@@ -182,7 +167,9 @@ public class Server extends Thread {
 
     public void handleHibernateException() {
         System.out.println("hibernate exception");
-        for (ClientHandler clientHandler : allClientHandlers)
+        for (ClientHandler clientHandler : allClientHandlers) {
             clientHandler.sendResponse("Message", new Message("connection to data base failed"));
+            clientHandler.sendResponse("GoToPanel", new GoToPanel("mainMenu"));
+        }
     }
 }

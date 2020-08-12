@@ -19,7 +19,6 @@ public class MyPair<U,V> implements Serializable{
         return value;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -43,13 +42,6 @@ public class MyPair<U,V> implements Serializable{
     public String toString() {
         return key + ":" +value;
     }
-
-
-//    // Factory method for creating a Typed Pair immutable instance
-//    public static <U, V> MyPair<U, V> of(U a, V b) {
-//        // calls private constructor
-//        return new MyPair<>(a, b);
-//    }
 
 }
 

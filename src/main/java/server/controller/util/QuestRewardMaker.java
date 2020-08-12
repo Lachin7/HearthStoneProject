@@ -1,6 +1,6 @@
 package server.controller.util;
 
-import server.controller.BoardController;
+import server.controller.Board.BoardController;
 import server.models.Cards.Card;
 import server.models.Player;
 

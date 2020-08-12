@@ -127,8 +127,10 @@ public class PlayPanel extends MyPanel {
         g2d.drawString(enemyDeckSize + "", 1020, 300);
         g2d.drawString(friendlyMana + "", 780, 654);
         g2d.drawString(enemyMana + "", 780, 50);
-        if (!time.equals(""))
-            for (int i = 0; i < Integer.parseInt(time) - 40; i++) g2d.drawImage(rope, 245 + (i * 33), 310, null);
+        if (!time.equals("")){
+           if (Integer.parseInt(time)<=61)for (int i = 0; i < Integer.parseInt(time) - 40; i++) g2d.drawImage(rope, 245 + (i * 33), 310, null);
+           if (time.contains("t"))g2d.drawString(time,920,325);
+        }
         updateMana();
     }
 
@@ -210,7 +212,7 @@ public class PlayPanel extends MyPanel {
         return null;
     }
 
-    public void updateHandCards(Side side, ArrayList<GuiCard> cards, boolean allowance, boolean cardBacksVisible) {
+    public void updateHandCards(Side side, ArrayList<GuiCard> cards, boolean allowance, boolean cardBacksVisible, int maxFieldSize) {
         int fieldHeight = getFieldHeight(side);
         int handHeight;
         if (side == Side.FRIENDLY) handHeight = friendlyHandY;
@@ -237,8 +239,8 @@ public class PlayPanel extends MyPanel {
                 cardButton.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
-                        if (fieldComponents.size() == 7 && cardButton.getType() == Card.type.MINION)
-                            JOptionPane.showMessageDialog(null, "you can't have more than 7 minions in your field");
+                        if (fieldComponents.size() == maxFieldSize && cardButton.getType() == Card.type.MINION)
+                            JOptionPane.showMessageDialog(null, "you can't have more than "+maxFieldSize+" minions in your field");
                         cardButton.setCardSize(100);
                         screenX = e.getXOnScreen();
                         screenY = e.getYOnScreen();
@@ -265,10 +267,7 @@ public class PlayPanel extends MyPanel {
                                         cardButton.setBounds(fieldComponents.size() * 100 + 140, fieldHeight, 100, 138);
                                     } else {
                                         for (Component component : fieldComponents) {
-                                            System.out.println(component.getX());
                                             if (component.getX() >= x) {
-
-
                                                 final Rectangle bounds = component.getBounds();
                                                 cardButton.setBounds(bounds);
                                                 component.setBounds(component.getX() + 100, fieldHeight, 100, 138);
@@ -420,6 +419,7 @@ public class PlayPanel extends MyPanel {
         for (Component component : mainPlayGround.getComponents())
             if (component.getY() == height) result.add((MyCardButton) component);
         result.sort(MyCardButton::compareTo);
+        Collections.sort(result);
         return result;
     }
 

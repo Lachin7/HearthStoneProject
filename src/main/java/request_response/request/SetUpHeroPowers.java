@@ -1,7 +1,7 @@
 package request_response.request;
 
 import server.ClientHandler;
-import server.controller.BoardController;
+import server.controller.Board.BoardController;
 
 public class SetUpHeroPowers extends Request{
     @Override

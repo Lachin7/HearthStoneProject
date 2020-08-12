@@ -79,9 +79,6 @@ public class ClientGui extends Thread {
             frame.repaint();
             frame.revalidate();
         },0,16, TimeUnit.MILLISECONDS);
-
-//        loop = new Loop(60, this::updateFrame);
-//        loop.start();
     }
 
 

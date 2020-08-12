@@ -44,7 +44,7 @@ public class PrePlayPanel extends MyPanel {
             else {
 //                if (source!=AI && source!=practice)playActionController.goToPanel("wait");
                 playActionController.declareGameMode(source.getName());
-                new MyJLabel("Wait for Opponent to Join", Color.YELLOW, 40, this, 350, 400, 600, 50);
+               if (source!=practice&& source!=AI)new MyJLabel("Wait for Opponent to Join", Color.YELLOW, 40, this, 350, 400, 600, 50);
             }
         };
         deckReader = new MyButton("Deck Reader", "pinkCrystal150.png", this, actionListener, 25, 200, 200, 81);

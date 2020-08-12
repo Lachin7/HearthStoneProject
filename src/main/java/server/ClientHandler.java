@@ -1,6 +1,5 @@
 package server;
 
-import client.gui.myComponents.GuiCard;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
@@ -12,16 +11,13 @@ import request_response.request.LaunchGame;
 import request_response.response.AddViewer;
 import request_response.response.GoToPanel;
 import request_response.response.Response;
-import server.controller.BoardController;
+import server.controller.Board.BoardController;
 import server.controller.CardController;
 import server.controller.PlayerController;
-import server.controller.modes.DeckReader;
-import server.controller.modes.Online;
-import server.controller.modes.WatchGame;
+import server.controller.Board.modes.DeckReader;
+import server.controller.Board.modes.Online;
+import server.controller.Board.modes.WatchGame;
 import server.controller.util.PlayerComparator;
-import server.models.Cards.Card;
-import server.models.Cards.Minion;
-import server.models.Cards.Weapon;
 import server.models.Player;
 import server.models.util.Log;
 
@@ -29,9 +25,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class ClientHandler extends Thread implements Comparable<ClientHandler> {
 
@@ -117,7 +110,9 @@ public class ClientHandler extends Thread implements Comparable<ClientHandler> {
             else ((DeckReader) boardController).setAsSecond();
         }
         new ChooseGameSetUps(boardController).execute(this);
-        if (boardController instanceof Online) ((Online) boardController).initializeEnemy(enemy.getMainPlayer());
+        if (boardController instanceof Online) {
+            boardController.setEnemyPlayer(enemy.getMainPlayer());
+        }
         this.enemy = enemy;
     }
 
@@ -129,7 +124,7 @@ public class ClientHandler extends Thread implements Comparable<ClientHandler> {
 
     @Override
     public int compareTo(ClientHandler clientHandler) {
-        return new PlayerComparator().getPlayersSetUpComparator().compare(this.getMainPlayer(), clientHandler.getMainPlayer());
+        return new PlayerComparator().getPlayersSetUpComparator().compare( clientHandler.getMainPlayer(),this.getMainPlayer());
     }
 
     public void log(String log) {
@@ -141,8 +136,6 @@ public class ClientHandler extends Thread implements Comparable<ClientHandler> {
             boardController.addSwitch();
             new LaunchGame(true).execute(this);
             new LaunchGame(true).execute(enemy);
-            this.getBoardController().defineThread();
-            this.enemy.getBoardController().defineThread();
         } else
             server.getWaitingForLaunch().put(server.getClients(this), server.getWaitingForLaunch().get(server.getClients(this)) + 1);
     }

@@ -1,12 +1,11 @@
 package request_response.request;
 
 import client.gui.myComponents.GuiCard;
-import server.controller.modes.Online;
+import server.controller.Board.modes.Online;
 import server.models.board.Side;
 import server.ClientHandler;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 
 public class UpdateFieldCards extends Request {
@@ -20,7 +19,6 @@ public class UpdateFieldCards extends Request {
 
     @Override
     public void execute(ClientHandler clientHandler) {
-        System.out.println("execute update field req");
         ArrayList<GuiCard> cards = new ArrayList<>();
         if (side == Side.FRIENDLY) {
             clientHandler.getBoardController().syncFriendlyFieldComponents(ids);
@@ -30,13 +28,10 @@ public class UpdateFieldCards extends Request {
             clientHandler.getBoardController().getEnemyPlayer().getFieldCardsInGame().forEach(card -> cards.add(clientHandler.getCardController().creatGuiCard(card)));
         }
         clientHandler.sendResponse("UpdateFieldCards", new request_response.response.UpdateFieldCards(side, clientHandler.getBoardController().getAllowance(side), cards,clientHandler.getBoardController().tauntExist()));
-        System.out.println("update field req by : "+ clientHandler.getMainPlayer().getName());
 
         if (clientHandler.getBoardController() instanceof Online && clientHandler.getBoardController().getAllowance(side)) {
             clientHandler.getEnemy().sendResponse("UpdateFieldCards",new request_response.response.UpdateFieldCards(side.getOpposite(), clientHandler.getEnemy().getBoardController().getAllowance(side.getOpposite()), cards,clientHandler.getBoardController().tauntExist()));
-            System.out.println("update field req by : "+ clientHandler.getEnemy().getMainPlayer().getName());
         }
-
 
     }
 }

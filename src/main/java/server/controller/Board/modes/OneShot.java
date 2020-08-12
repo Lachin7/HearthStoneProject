@@ -1,4 +1,4 @@
-package server.controller.modes;
+package server.controller.Board.modes;
 
 import server.models.Cards.Minion;
 import server.ClientHandler;

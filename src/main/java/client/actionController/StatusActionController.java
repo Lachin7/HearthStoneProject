@@ -20,14 +20,6 @@ public class StatusActionController extends ActionController{
         clientGui.sendRequest("ShowCardsInStatus",new ShowCardsInStatus(deck));
     }
 
-//    public void showTopTen() {
-//        clientGui.sendRequest("ShowTopTen",new ShowTopTen());
-//    }
-//
-//    public void showMyRank() {
-//        clientGui.sendRequest("ShowMyRank",new ShowMyRank());
-//    }
-
     public void drawDeckInfo(String selectedDeck) {
         clientGui.sendRequest("DrawDeckInfo",new DrawDeckInfo(selectedDeck));
     }

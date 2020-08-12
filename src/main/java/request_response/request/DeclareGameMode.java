@@ -3,7 +3,7 @@ package request_response.request;
 import request_response.response.GoToPanel;
 import request_response.response.Message;
 import server.ClientHandler;
-import server.controller.modes.*;
+import server.controller.Board.modes.*;
 
 public class DeclareGameMode extends Request {
     private String gameMode;

@@ -1,6 +1,6 @@
 package server.models.Cards.spells.questAndReward;
 
-import server.controller.BoardController;
+import server.controller.Board.BoardController;
 import server.controller.actionVisitors.card.CardVisitor;
 import server.models.Cards.Card;
 import server.models.Character;

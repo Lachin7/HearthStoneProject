@@ -1,10 +1,10 @@
-package server.controller;
+package server.controller.Board;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.SneakyThrows;
-import request_response.request.DrawInformationOnCard;
 import request_response.response.Message;
+import server.controller.CardController;
+import server.controller.PlayerController;
 import server.models.board.Side;
 import request_response.response.SetDiscoverPanel;
 import server.ClientHandler;
@@ -20,19 +20,16 @@ import server.models.Heroes.*;
 import server.models.Player;
 import server.models.util.*;
 
-import java.io.*;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public abstract class BoardController {
+public abstract class BoardController implements Board{
 
-    @Getter private File eventsLog;
-    private FileWriter fileWriter;
     protected Random random;
     @Getter protected CardController cardController;
-    @Getter @Setter protected int Mana,manaLimit=10,handCardsLimit=12,fieldSizeLimit=7, switchTimes = 0,turnCardDrawNum = 1,timePerTurn=60000;
+    @Getter @Setter protected int Mana,manaLimit=10,handCardsLimit=12,fieldSizeLimit=7, switchTimes = 0,turnCardDrawNum = 1,timePerTurn=60000, manaPerTurn=1;
     protected InitialMoveCardVisitor initialMoveVisitor;
     protected InitialSetupsPassiveVisitor initialSetupsPassiveVisitor;
     protected InitialSetUpHeroPowerVisitor initialSetUpHeroPowerVisitor;
@@ -52,7 +49,7 @@ public abstract class BoardController {
     protected ClientHandler clientHandler;
     protected boolean gameFinished = false;
     @Setter @Getter
-    private String time ="";
+    private String time ="", events="";
     @Getter
     protected GameThread gameThread;
     protected PlayerController playerController;
@@ -61,7 +58,6 @@ public abstract class BoardController {
         this.clientHandler = clientHandler;
         random = new Random();
         cardController = clientHandler.getCardController();
-        makeEvents();
         initVisitors();
         playerController = new PlayerController(clientHandler);
         setPlayers();
@@ -91,6 +87,10 @@ public abstract class BoardController {
         for (Card card : player.getDeck().getCards()) player.getDeckCardsInGame().add(cardController.createCard(card.getName()));
     }
 
+    public abstract void exitPlay(boolean youExited);
+
+    public abstract boolean getCardBackVisible(Side side);
+
     protected void reset(Player player){
         player.setCurrentMana(0);
         player.setHandsCards(new ArrayList<>());
@@ -101,15 +101,14 @@ public abstract class BoardController {
 
     protected void chooseMainAsEnemy() {
         enemyPlayer = new Player();
-        enemyPlayer.setDeckCardsInGame(new ArrayList<>());
+        reset(enemyPlayer);
         for (Card card : friendlyPlayer.getDeckCardsInGame()) enemyPlayer.getDeckCardsInGame().add(cardController.createCard(card.getName()));
         enemyPlayer.setChoosedHero(new Mage());
         enemyPlayer.setName("enemy");
         initialDeckToHand(enemyPlayer);
-        //todo reset??
     }
 
-    protected abstract void setPlayers();
+    public abstract void setPlayers();
 
     public void initialGameSetUps(Player player) {
         setUpSpecialPowers(player);
@@ -128,19 +127,9 @@ public abstract class BoardController {
 
     protected void updateChanges(){
      clientHandler.sendResponse("DrawPlayChanges",new request_response.response.DrawPlayChanges(friendlyPlayer.getChoosedHero().getHP(),enemyPlayer.getChoosedHero().getHP(),friendlyPlayer.getDeckCardsInGame().size(),enemyPlayer.getDeckCardsInGame().size(),friendlyPlayer.getCurrentMana(),enemyPlayer.getCurrentMana(),time));
-//     for (Card card : getAllCards(friendlyPlayer))new DrawInformationOnCard(card.getId()).execute(clientHandler);
-//     for (Card card : getAllCards(enemyPlayer))new DrawInformationOnCard(card.getId()).execute(clientHandler);
     }
 
-    private ArrayList<Card> getAllCards(Player player){
-        ArrayList<Card> cards = new ArrayList<>();
-        cards.addAll(player.getDeckCardsInGame());
-        cards.addAll(player.getHandsCards());
-        cards.addAll(player.getFieldCardsInGame());
-        return  cards;
-    }
-
-    protected void initialDeckToHand(Player player) {
+    public void initialDeckToHand(Player player) {
         moveRandomCards(player.getDeckCardsInGame(), player.getHandsCards(), 3, true);
     }
 
@@ -203,18 +192,6 @@ public abstract class BoardController {
         }
     }
 
-    @SneakyThrows
-    public void makeEvents() {
-        eventsLog = new File("./src/main/java/logs/events/eventsLog");
-        fileWriter = new FileWriter(eventsLog);
-    }
-
-    @SneakyThrows
-    private void logGameEvent(String message) {
-        fileWriter.append(message);
-        fileWriter.flush();
-    }
-
     /**
      * methods for drawing a card from deck to hand
      */
@@ -266,6 +243,10 @@ public abstract class BoardController {
         clientHandler.log( "draw card - PlayPanel\n");
     }
 
+    protected void logGameEvent(String s){
+        events += s+"\n";
+    }
+
     protected void turnDraw() {
         for (int i = 0; i < turnCardDrawNum; i++) draw();
     }
@@ -291,7 +272,7 @@ public abstract class BoardController {
 
     public void playTarget(Card card, long id) {
         Character target = null;
-        if (id != -1) target = getCharacterOfTarget(id);
+        if (id != -1) target = getMinionWithID(id);
         card.accept(initialMoveVisitor, target, this);
         checkIfMinionsAreDead(friendlyPlayer);
         checkIfMinionsAreDead(enemyPlayer);
@@ -348,7 +329,7 @@ public abstract class BoardController {
     public abstract void endTurn();
 
     protected void changeManaForTurn(Player player){
-        if (Mana < getManaLimit()) Mana++;
+        if (Mana < getManaLimit()) Mana+= getManaPerTurn();
         if (Mana + player.getInitialMana() <= getManaLimit())
             player.setCurrentMana(Mana +player.getInitialMana());
     }
@@ -364,12 +345,6 @@ public abstract class BoardController {
     public void checkIfMinionIsDead(Player player, Minion minion) {
         if (player.getFieldCardsInGame().contains(minion) && minion.getHP() <= 0)
             player.getFieldCardsInGame().remove(minion);
-    }
-
-    public Character getCharacterOfTarget(long name) {
-//        if(name.equals("hero1")) return getCurrentPlayer().getPlayersChoosedHero();
-//        if(name.equals("hero2")) return getOpponentPlayer().getPlayersChoosedHero();
-        return getMinionWithID(name);
     }
 
     public Minion getMinionWithID(long Id) {
@@ -427,17 +402,6 @@ public abstract class BoardController {
         return result;
     }
 
-    private boolean cardIdExist(ArrayList<Minion> cards, MyCardButton button) {
-        checkIfMinionsAreDead(friendlyPlayer);
-        checkIfMinionsAreDead(enemyPlayer);
-        for (Card card : cards) if (card.getId() == button.getId()) return true;
-        return false;
-    }
-
-    protected void removeDeadOnes(ArrayList<Minion> cards, ArrayList<MyCardButton> buttons) {
-        buttons.removeIf(button -> !cardIdExist(cards, button));
-    }
-
     public void transformMinion(Minion minion, int hp, int attack) {
         minion.setHP(hp);
         minion.setAttack(attack);
@@ -449,7 +413,7 @@ public abstract class BoardController {
         checkGameFinished();
     }
 
-    protected abstract void checkGameFinished();
+    public abstract void checkGameFinished();
 
     public void giveMinionTaunt(Minion minion) {
         minion.setHasTaunt(true);
@@ -508,22 +472,6 @@ public abstract class BoardController {
         getCurrentPlayer().getChoosedHero().setWeapon((Weapon) cardController.createCard(name));
     }
 
-    public void checkGameOver() {
-        //todo
-        if (enemyPlayer.getChoosedHero().getHP() <= 0) {
-            clientHandler.getMainPlayer().getDeck().setAllGamesPlayed(clientHandler.getMainPlayer().getDeck().getAllGamesPlayed() + 1);
-            clientHandler.getMainPlayer().getDeck().setWinGamesPlayed(clientHandler.getMainPlayer().getDeck().getWinGamesPlayed() + 1);
-        }
-        if (friendlyPlayer.getChoosedHero().getHP() <= 0)
-           clientHandler.getMainPlayer().getDeck().setAllGamesPlayed(clientHandler.getMainPlayer().getDeck().getAllGamesPlayed() + 1);
-    }
-
-
-    private void transformWeapon(Weapon weapon, int durability, int attack) {
-        weapon.setAttack(attack);
-        weapon.setDurability(durability);
-    }
-
     public void setEnemyPlayer(Player enemyPlayer) {
         this.enemyPlayer = enemyPlayer;
     }
@@ -539,11 +487,28 @@ public abstract class BoardController {
         return Side.ENEMY;
     }
 
-    public abstract void exitPlay(boolean youExited);
 
-    public abstract boolean getCardBackVisible(Side side);
+//    private boolean cardIdExist(ArrayList<Minion> cards, MyCardButton button) {
+//        checkIfMinionsAreDead(friendlyPlayer);
+//        checkIfMinionsAreDead(enemyPlayer);
+//        for (Card card : cards) if (card.getId() == button.getId()) return true;
+//        return false;
+//    }
+//    protected void removeDeadOnes(ArrayList<Minion> cards, ArrayList<MyCardButton> buttons) {
+//        buttons.removeIf(button -> !cardIdExist(cards, button));
+//    }
+//    private void transformWeapon(Weapon weapon, int durability, int attack) {
+//        weapon.setAttack(attack);
+//        weapon.setDurability(durability);
+//    }
 
-
+//    private ArrayList<Card> getAllCards(Player player){
+//        ArrayList<Card> cards = new ArrayList<>();
+//        cards.addAll(player.getDeckCardsInGame());
+//        cards.addAll(player.getHandsCards());
+//        cards.addAll(player.getFieldCardsInGame());
+//        return  cards;
+//    }
     //    private void selectFirstCards() {
 //        firstDrawCards = new MyCardButton[3];
 //        JList list = new JList(firstDrawCards);

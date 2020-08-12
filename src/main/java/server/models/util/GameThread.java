@@ -1,18 +1,14 @@
 package server.models.util;
 
-import client.gui.panels.PlayPanel;
-import lombok.Setter;
-import server.controller.BoardController;
-import server.controller.modes.GoldenTime;
-
-import java.awt.*;
+import server.controller.Board.BoardController;
+import server.controller.Board.modes.GoldenTime;
 
 public class GameThread {
     private  long startTime;
     private volatile boolean isRunning = true, paused=false;
     private final Object pauseLock = new Object();
     private Thread thread, golden;
-    private int warningLimit, timePerTurn, goldenTime, timeSpend;
+    private int warningLimit, timePerTurn, goldenTime, timeSpend=0;
     private BoardController boardController;
     public GameThread(BoardController boardController,int timePerTurn, int warningLimit){
         this.boardController = boardController;
@@ -30,11 +26,7 @@ public class GameThread {
 
     public void run() {
         while (isRunning){
-            if(System.currentTimeMillis() - startTime >= warningLimit){
-                boardController.setTime((System.currentTimeMillis() - startTime)/1000+"");
-//                boardController.setTime("<html> <font color = rgb(255,0,0)>"+(System.currentTimeMillis() - startTime)/1000+"</font><html>");
-
-            }
+            if(System.currentTimeMillis() - startTime >= warningLimit) boardController.setTime((System.currentTimeMillis() - startTime)/1000+"");
             if(System.currentTimeMillis() - startTime >= timePerTurn){
                 boardController.endTurn();
                 startTime = System.currentTimeMillis();
@@ -49,13 +41,7 @@ public class GameThread {
                 if (paused) {
                     try {
                         synchronized (pauseLock) {
-                            pauseLock.wait(); // will cause this Thread to block until
-                            // another thread calls pauseLock.notifyAll()
-                            // Note that calling wait() will
-                            // relinquish the synchronized lock that this
-                            // thread holds on pauseLock so another thread
-                            // can acquire the lock to call notifyAll()
-                            // (link with explanation below this code)
+                            pauseLock.wait();
                         }
                     } catch (InterruptedException e) {
                         break;
@@ -63,20 +49,9 @@ public class GameThread {
                     if (!isRunning) break;
                 }
             }
-            if(timeSpend >=goldenTime)((GoldenTime)boardController).timesUp();
-
-            // Your code here
+            boardController.setTime("t"+(System.currentTimeMillis()-startTime+timeSpend)/1000);
+            if(System.currentTimeMillis()-startTime+timeSpend >=goldenTime)((GoldenTime)boardController).timesUp();
         }
-        while (isRunning){
-            if (boardController.getSwitchTimes()%2==0 && System.currentTimeMillis()-startTime>=goldenTime){
-//                boardController.TimeIsUp();
-                boardController.setTime((goldenTime-startTime)/1000+"");
-            }
-        }
-    }
-
-    public boolean isRunning() {
-        return isRunning;
     }
 
     public void setRunning(boolean running) {
@@ -95,10 +70,12 @@ public class GameThread {
     }
 
     public void pause() {
+        timeSpend += (System.currentTimeMillis()-startTime);
         paused = true;
     }
 
     public void resume() {
+        startTime =System.currentTimeMillis();
         synchronized (pauseLock) {
             paused = false;
             pauseLock.notifyAll();

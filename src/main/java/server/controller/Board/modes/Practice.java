@@ -1,4 +1,4 @@
-package server.controller.modes;
+package server.controller.Board.modes;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import server.models.Cards.Card;
 import server.models.Cards.Minion;
 import server.models.board.Side;
 import server.ClientHandler;
-import server.controller.BoardController;
+import server.controller.Board.BoardController;
 
 public class Practice extends BoardController {
 
@@ -19,16 +19,15 @@ public class Practice extends BoardController {
     private int launchReq = 0;
     public Practice(ClientHandler clientHandler) {
         super(clientHandler);
-        defineThread();
     }
 
     @Override
-    protected void setPlayers() {
+    public void setPlayers() {
         if(isANewGame()) {
             chooseMainAsFriend();
              //todo you can go and choose server.controller.getMainPlayer ... or create them here
             chooseMainAsEnemy();
-            if (enemyPlayer!=null)initialDeckToHand(enemyPlayer);
+//            if (enemyPlayer!=null)initialDeckToHand(enemyPlayer);
         }
     }
 
@@ -46,7 +45,7 @@ public class Practice extends BoardController {
     }
 
     @Override
-    protected void checkGameFinished() {
+    public void checkGameFinished() {
         if(friendlyPlayer.getChoosedHero().getHP()<=0){
             clientHandler.sendResponse("Message",new Message("friendly player lost and the enemy won"));
             clientHandler.sendResponse("GoToPanel",new GoToPanel("mainMenu"));
