@@ -8,7 +8,7 @@ It got completed in 4 phases during a 8 months period. It is a card game inspire
      - **Factory** to produce the cards
      - **Singleton** to have access to resource loaders and the main frame, 
      - **Visitor** to have an event-driven system which handled the events corresponding to card actions, passives and etc.
-- **SOLID and Clean code** : put so much effort in to having a clean code, separate the logic and models, use Dependency Inversion, have single responsibility and etc.   
+- **SOLID and Clean code** : separated the logic and models, used Dependency Inversion, single responsibility and etc.   
 - **Hibernate**   
 
 ## Other features ##
